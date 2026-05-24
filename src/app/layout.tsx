@@ -11,13 +11,14 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "IoT & Embedded Systems Portfolio | محفظة مشاريع إنترنت الأشياء",
+  title: "مشاريع للأنظمة الذكية | Smart Systems Lab — IoT Engineering Team from Palestine",
   description:
-    "Professional portfolio showcasing production-ready IoT ecosystems, smart building automation, embedded systems engineering, and cloud-connected applications.",
+    "IoT engineering team from Palestine building real smart systems — smart building automation, security systems, sensor networks, and event automation. From microcontrollers to the cloud.",
   keywords: [
     "IoT", "Embedded Systems", "Arduino", "ESP32", "Smart Building",
-    "Portfolio", "Firebase", "Microcontroller", "Automation",
-    "إنترنت الأشياء", "أنظمة مدمجة", "أردوينو", "مشاريع إلكترونية",
+    "Smart Systems Lab", "Firebase", "Microcontroller", "Automation",
+    "Palestine", "فلسطين", "إنترنت الأشياء", "أنظمة مدمجة", "أردوينو",
+    "مشاريع إلكترونية", "متحكمات", "أتمتة",
   ],
   icons: { icon: "/images/logo.png" },
 };
