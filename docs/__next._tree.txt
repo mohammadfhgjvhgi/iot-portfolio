@@ -1,5 +1,5 @@
 :HL["/iot-portfolio/_next/static/chunks/55fa930f1cde2b3c.css","style"]
-:HL["/iot-portfolio/_next/static/chunks/fa28a40d8619a581.css","style"]
+:HL["/iot-portfolio/_next/static/chunks/8d3a48fd8704be0f.css","style"]
 :HL["/iot-portfolio/_next/static/media/280fac012b00b901-s.p.9709d1fd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/iot-portfolio/_next/static/media/3347fc7792f0b5ea-s.p.4e0b272c.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/iot-portfolio/_next/static/media/441492499fc86682-s.p.b0de9e14.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -10,4 +10,4 @@
 :HL["/iot-portfolio/_next/static/media/c412b9dae757a56d-s.p.a7353df5.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/iot-portfolio/_next/static/media/c9a0d344f313d307-s.p.2e3b0be0.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/iot-portfolio/_next/static/media/ceec3e50f42c26e3-s.p.d48d1167.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"buildId":"hz_lc9norUyDf1CMZYBW_","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"ucL1Mf9cZBZ6ey2yqD1bN","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
