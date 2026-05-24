@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  output: "export",
+  basePath: "/iot-portfolio",
   images: {
     unoptimized: true,
   },
@@ -10,6 +11,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  trailingSlash: true,
 };
 
 export default nextConfig;

@@ -486,24 +486,14 @@ function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
-        setSent(true);
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setSent(false), 3000);
-      }
-    } catch {
-      setSent(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setSent(false), 3000);
-    } finally {
-      setSending(false);
-    }
+    // Simulate sending — redirect to Telegram for actual contact
+    await new Promise((r) => setTimeout(r, 800));
+    const msg = encodeURIComponent(`🔔 New message from portfolio\n\nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`);
+    window.open(`https://t.me/Mashari3_AI_Arduino?text=${msg}`, "_blank");
+    setSent(true);
+    setFormData({ name: "", email: "", message: "" });
+    setTimeout(() => setSent(false), 3000);
+    setSending(false);
   };
 
   const contacts = [
@@ -652,8 +642,11 @@ function ContactSection() {
                   ? t("جاري الإرسال...", "Sending...")
                   : sent
                     ? t("تم الإرسال ✓", "Sent ✓")
-                    : t("إرسال الرسالة", "Send Message")}
+                    : t("إرسال عبر تليجرام ↗", "Send via Telegram ↗")}
               </Button>
+              <p className="text-[10px] text-[#3d506e] text-center mt-2">
+                {t("سيتم فتح تليجرام لإرسال رسالتك", "Telegram will open to send your message")}
+              </p>
             </form>
           </motion.div>
         </div>

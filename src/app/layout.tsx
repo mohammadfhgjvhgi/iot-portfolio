@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "Palestine", "فلسطين", "إنترنت الأشياء", "أنظمة مدمجة", "أردوينو",
     "مشاريع إلكترونية", "متحكمات", "أتمتة",
   ],
-  icons: { icon: "/images/logo.png" },
+  icons: { icon: "/iot-portfolio/images/logo.png" },
 };
 
 export default function RootLayout({
