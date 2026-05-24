@@ -289,13 +289,13 @@ export default function Timeline() {
             <Zap className="h-4 w-4 text-[#00ff66]" />
           </div>
           <h2 className="text-xl sm:text-2xl font-bold gradient-neon-text">
-            {lang("رحلتي الهندسية", "My Engineering Journey")}
+            {lang("رحلة الفريق الهندسية", "Our Engineering Journey")}
           </h2>
         </div>
         <p className="text-sm text-[#7a8ba8] leading-relaxed">
           {lang(
-            "من أول LED يومض إلى منظومات إنترنت الأشياء المتكاملة — رحلة التعلم والابتكار",
-            "From the first LED blink to full IoT systems — a journey of learning and innovation"
+            "من أول LED يومض إلى منظومات إنترنت الأشياء المتكاملة — رحلة التطور والابتكار",
+            "From the first LED blink to full IoT systems — a journey of growth and innovation"
           )}
         </p>
       </motion.div>

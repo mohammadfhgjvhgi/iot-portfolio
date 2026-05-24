@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -47,5 +48,36 @@ test
 prompt
 
 server.log
+
 # Skills directory
 /skills/
+
+# Internal tool scripts
+.zscripts/
+
+# Database
+db/*.db
+db/*.db-journal
+
+# Generated reports and screenshots
+*.pdf
+report.html
+screenshot-*.png
+PROJECT_REPORT.md
+
+# Download and upload dirs
+/download/
+/upload/
+
+# Dev scripts
+restart-dev.sh
+
+# Examples (not part of portfolio)
+/examples/
+
+# Mini-services (separate projects)
+/mini-services/
+
+# Docs build output (rebuilt by GitHub Actions)
+# Keep docs/ tracked for initial deployment, but ignore build artifacts
+# docs/ is NOT ignored because GitHub Pages needs it

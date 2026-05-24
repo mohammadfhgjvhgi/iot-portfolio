@@ -16,6 +16,12 @@ import ServicesSection from "@/components/portfolio/ServicesSection";
 import ProjectsShowcase from "@/components/portfolio/ProjectsShowcase";
 import SkillsMatrix from "@/components/portfolio/SkillsMatrix";
 import Timeline from "@/components/portfolio/Timeline";
+import SecurityAudit from "@/components/portfolio/SecurityAudit";
+import Testimonials from "@/components/portfolio/Testimonials";
+import ChatBot from "@/components/chat/ChatBot";
+import ProjectCalculator from "@/components/portfolio/ProjectCalculator";
+import ContactForm from "@/components/portfolio/ContactForm";
+import BlogSection from "@/components/portfolio/BlogSection";
 
 /* ═══ ANIMATION VARIANTS ═══ */
 const fadeUp = {
@@ -104,8 +110,12 @@ function Navbar({ activeSection }: { activeSection: string }) {
     { id: "hero", label: t("الرئيسية", "Home") },
     { id: "team", label: t("الفريق", "Team") },
     { id: "services", label: t("الخدمات", "Services") },
+    { id: "calculator", label: t("احسب مشروعك", "Calculator") },
     { id: "projects", label: t("المشاريع", "Projects") },
     { id: "skills", label: t("المهارات", "Skills") },
+    { id: "audit", label: t("فحص الأمان", "Security Audit") },
+    { id: "testimonials", label: t("آراء العملاء", "Testimonials") },
+    { id: "blog", label: t("المدونة", "Blog") },
     { id: "timeline", label: t("المسيرة", "Journey") },
     { id: "contact", label: t("تواصل", "Contact") },
   ];
@@ -124,7 +134,7 @@ function Navbar({ activeSection }: { activeSection: string }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <button onClick={() => scrollTo("hero")} className="flex items-center gap-2 group">
+          <button onClick={() => scrollTo("hero")} className="flex items-center gap-2 group" aria-label="Go to homepage">
             <CircuitBoard className="h-7 w-7 text-[#00ff66] group-hover:shadow-[0_0_12px_#00ff66] transition-shadow" />
             <span className="font-bold text-lg gradient-neon-text hidden sm:inline">
               {t("مشاريع للأنظمة الذكية", "Smart Systems Lab")}
@@ -153,7 +163,7 @@ function Navbar({ activeSection }: { activeSection: string }) {
             <button
               onClick={toggle}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium neon-border hover:bg-[#00ff66]/5 transition-all"
-              aria-label="Toggle language"
+              aria-label={lang === "ar" ? "Switch to English" : "التبديل إلى العربية"}
             >
               <Globe className="h-4 w-4 text-[#00e5ff]" />
               <span className="text-[#00e5ff]">{lang === "ar" ? "EN" : "عربي"}</span>
@@ -479,22 +489,6 @@ function WhyUsSection() {
 /* ═══ CONTACT SECTION ═══ */
 function ContactSection() {
   const { t, lang } = useLang();
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSending(true);
-    // Simulate sending — redirect to Telegram for actual contact
-    await new Promise((r) => setTimeout(r, 800));
-    const msg = encodeURIComponent(`🔔 New message from portfolio\n\nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`);
-    window.open(`https://t.me/Mashari3_AI_Arduino?text=${msg}`, "_blank");
-    setSent(true);
-    setFormData({ name: "", email: "", message: "" });
-    setTimeout(() => setSent(false), 3000);
-    setSending(false);
-  };
 
   const contacts = [
     {
@@ -583,72 +577,7 @@ function ContactSection() {
           </motion.div>
 
           {/* Contact Form */}
-          <motion.div variants={fadeUp}>
-            <form onSubmit={handleSubmit} className="glass-card-dark rounded-2xl p-6 sm:p-8 space-y-5 gradient-card-border">
-              <div className="flex items-center gap-2 mb-2">
-                <Send className="h-4 w-4 text-[#00ff66]" />
-                <span className="text-sm font-semibold text-foreground">
-                  {t("أرسل رسالة", "Send a Message")}
-                </span>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#7a8ba8] mb-1.5">
-                  {t("الاسم", "Name")}
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-[#0a0f1a] border border-[#1e2d4d] rounded-lg px-4 py-2.5 text-sm text-[#e8edf5] placeholder:text-[#3d506e] focus:border-[#00ff66] focus:ring-1 focus:ring-[#00ff6630] outline-none transition-all"
-                  placeholder={t("أدخل اسمك", "Enter your name")}
-                  dir={lang === "ar" ? "rtl" : "ltr"}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#7a8ba8] mb-1.5">
-                  {t("البريد الإلكتروني", "Email")}
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-[#0a0f1a] border border-[#1e2d4d] rounded-lg px-4 py-2.5 text-sm text-[#e8edf5] placeholder:text-[#3d506e] focus:border-[#00ff66] focus:ring-1 focus:ring-[#00ff6630] outline-none transition-all"
-                  placeholder="example@email.com"
-                  dir="ltr"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#7a8ba8] mb-1.5">
-                  {t("الرسالة", "Message")}
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-[#0a0f1a] border border-[#1e2d4d] rounded-lg px-4 py-2.5 text-sm text-[#e8edf5] placeholder:text-[#3d506e] focus:border-[#00ff66] focus:ring-1 focus:ring-[#00ff6630] outline-none transition-all resize-none"
-                  placeholder={t("اكتب رسالتك هنا...", "Write your message here...")}
-                  dir={lang === "ar" ? "rtl" : "ltr"}
-                />
-              </div>
-              <Button
-                type="submit"
-                disabled={sending}
-                className="w-full gradient-neon text-[#0a0f1a] font-bold py-3 rounded-xl hover:shadow-[0_0_20px_#00ff6640] transition-shadow disabled:opacity-50"
-              >
-                {sending
-                  ? t("جاري الإرسال...", "Sending...")
-                  : sent
-                    ? t("تم الإرسال ✓", "Sent ✓")
-                    : t("إرسال عبر تليجرام ↗", "Send via Telegram ↗")}
-              </Button>
-              <p className="text-[10px] text-[#3d506e] text-center mt-2">
-                {t("سيتم فتح تليجرام لإرسال رسالتك", "Telegram will open to send your message")}
-              </p>
-            </form>
-          </motion.div>
+          <ContactForm />
         </div>
       </div>
     </Section>
@@ -759,7 +688,7 @@ export default function Home() {
 
   // Track active section on scroll
   useEffect(() => {
-    const sections = ["hero", "team", "services", "projects", "skills", "timeline", "contact"];
+    const sections = ["hero", "team", "services", "calculator", "projects", "skills", "audit", "testimonials", "blog", "timeline", "contact"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -802,6 +731,16 @@ export default function Home() {
           </div>
         </Section>
 
+        {/* Calculator */}
+        <div className="relative">
+          <Section id="calculator">
+            <div className="mx-auto max-w-4xl px-4 sm:px-6">
+              <SectionTitle ar="احسب مشروعك" en="Calculate Your Project" />
+              <ProjectCalculator />
+            </div>
+          </Section>
+        </div>
+
         {/* Projects */}
         <div className="relative">
           <Section id="projects">
@@ -820,6 +759,32 @@ export default function Home() {
           </div>
         </Section>
 
+        {/* Security Audit */}
+        <Section id="audit" className="relative">
+          <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <SecurityAudit />
+          </div>
+        </Section>
+
+        {/* Testimonials */}
+        <Section id="testimonials" className="relative">
+          <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <SectionTitle ar="ماذا يقول عملاؤنا" en="What Our Clients Say" />
+            <Testimonials />
+          </div>
+        </Section>
+
+        {/* Blog */}
+        <Section id="blog" className="relative">
+          <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <SectionTitle ar="المدونة التقنية" en="Tech Blog" />
+            <BlogSection />
+          </div>
+        </Section>
+
         {/* Timeline */}
         <Section id="timeline">
           <div className="mx-auto max-w-4xl px-4 sm:px-6">
@@ -833,6 +798,7 @@ export default function Home() {
 
       <PortfolioFooter />
       <ScrollToTop />
+      <ChatBot />
     </div>
   );
 }

@@ -1,8 +1,48 @@
 1:"$Sreact.fragment"
-2:I[39756,["/iot-portfolio/_next/static/chunks/676422587894ff86.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
-3:I[37457,["/iot-portfolio/_next/static/chunks/676422587894ff86.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
-4:I[29306,["/iot-portfolio/_next/static/chunks/676422587894ff86.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js","/iot-portfolio/_next/static/chunks/d5362a16bf70b584.js","/iot-portfolio/_next/static/chunks/b2b08504e9a77639.js"],"default"]
-5:I[46696,["/iot-portfolio/_next/static/chunks/676422587894ff86.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"Toaster"]
-:HL["/iot-portfolio/_next/static/chunks/55fa930f1cde2b3c.css","style"]
-:HL["/iot-portfolio/_next/static/chunks/8d3a48fd8704be0f.css","style"]
-0:{"buildId":"ucL1Mf9cZBZ6ey2yqD1bN","rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/iot-portfolio/_next/static/chunks/55fa930f1cde2b3c.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/iot-portfolio/_next/static/chunks/8d3a48fd8704be0f.css","precedence":"next"}],["$","script","script-0",{"src":"/iot-portfolio/_next/static/chunks/676422587894ff86.js","async":true}],["$","script","script-1",{"src":"/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js","async":true}]],["$","html",null,{"lang":"ar","dir":"rtl","suppressHydrationWarning":true,"children":["$","body",null,{"className":"ibm_plex_sans_arabic_f1e01728-module__836nxW__variable font-sans antialiased bg-background text-foreground","children":[["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}],"notFound":[["$","$L4",null,{}],[]]}],["$","$L5",null,{"position":"top-left","dir":"rtl","richColors":true,"closeButton":true}]]}]}]]}],"loading":null,"isPartial":false}
+2:I[33539,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
+3:I[39756,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
+4:I[37457,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
+5:I[29306,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js","/iot-portfolio/_next/static/chunks/be5ac5c7d83a3fa5.js","/iot-portfolio/_next/static/chunks/3515adf179cb4488.js"],"default"]
+6:I[13354,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"Toaster"]
+7:I[79520,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],""]
+:HL["/iot-portfolio/_next/static/chunks/724d57b002849c9b.css","style"]
+:HL["/iot-portfolio/_next/static/chunks/b2d5ed29a847a766.css","style"]
+8:T678,
+            window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
+
+            // Track contact button clicks
+            document.addEventListener('click', function(e) {
+              const target = e.target.closest('a[href*="t.me"], a[href*="wa.me"], a[href*="facebook"]');
+              if (target) {
+                var platform = 'unknown';
+                if (target.href.includes('t.me')) platform = 'telegram';
+                else if (target.href.includes('wa.me')) platform = 'whatsapp';
+                else if (target.href.includes('facebook')) platform = 'facebook';
+                plausible('Contact Click', { props: { platform: platform } });
+              }
+
+              // Track chat open
+              var chatBtn = e.target.closest('[data-chat-btn]');
+              if (chatBtn) {
+                plausible('Chat Opened');
+              }
+
+              // Track calculator completion
+              var calcQuote = e.target.closest('[data-calc-quote]');
+              if (calcQuote) {
+                plausible('Calculator Quote Request');
+              }
+
+              // Track form submission
+              var formSubmit = e.target.closest('button[type="submit"]');
+              if (formSubmit) {
+                plausible('Form Submit Attempt');
+              }
+
+              // Track blog post view
+              var blogPost = e.target.closest('[data-blog-post]');
+              if (blogPost) {
+                plausible('Blog Post Viewed', { props: { slug: blogPost.getAttribute('data-blog-post') || 'unknown' } });
+              }
+            });
+          0:{"buildId":"DA9aqdclczT63kvvg4Er1","rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/iot-portfolio/_next/static/chunks/724d57b002849c9b.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/iot-portfolio/_next/static/chunks/b2d5ed29a847a766.css","precedence":"next"}],["$","script","script-0",{"src":"/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","async":true}],["$","script","script-1",{"src":"/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js","async":true}]],["$","html",null,{"lang":"ar","dir":"rtl","suppressHydrationWarning":true,"children":[["$","head",null,{"children":["$","link",null,{"rel":"preconnect","href":"https://plausible.io"}]}],["$","body",null,{"className":"ibm_plex_sans_arabic_956bc7cf-module__tzZMpa__variable font-sans antialiased bg-background text-foreground","children":[["$","$L2",null,{}],["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}],"notFound":[["$","$L5",null,{}],[]]}],["$","$L6",null,{"position":"top-left","dir":"rtl","richColors":true,"closeButton":true}],["$","$L7",null,{"src":"https://plausible.io/js/script.js","data-domain":"iot-portfolio.example.com","strategy":"afterInteractive","defer":true}],["$","$L7",null,{"id":"plausible-events","strategy":"afterInteractive","children":"$8"}],["$","$L7",null,{"id":"pwa-install","strategy":"afterInteractive","children":"\n            window.addEventListener('beforeinstallprompt', (e) => {\n              e.preventDefault();\n              window.deferredPrompt = e;\n            });\n          "}]]}]]}]]}],"loading":null,"isPartial":false}
