@@ -1,4 +1,4 @@
 1:"$Sreact.fragment"
 2:I[39756,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
 3:I[37457,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"default"]
-0:{"buildId":"DA9aqdclczT63kvvg4Er1","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"u2dIr_84GfLjC_l9Rmboa","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
