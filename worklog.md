@@ -572,3 +572,42 @@ Stage Summary:
 - Files modified: src/app/page.tsx, src/components/portfolio/ProjectsShowcase.tsx, src/components/portfolio/TeamSection.tsx
 - New components: SecurityAuditSummary, SecurityAuditModal, ProjectGuideSection, ProjectGuideModal, ArchitectureModal, MohammadModal, FloatingTelegramButton
 - All builds pass: lint ✅, dev server 200 ✅
+
+---
+Task ID: 5
+Agent: Main Agent
+Task: Build comprehensive developer guide documentation website
+
+Work Log:
+- Created `/home/z/my-project/src/lib/guide-store.ts` — Zustand store for guide state management (view, activeSection, sidebar, search, theme, readSections, expandedSections)
+- Created `/home/z/my-project/src/data/guide-sections.ts` — Complete bilingual guide content data with 16 sections, each containing: id, icon, title (ar/en), description (ar/en), full markdown content (ar/en), and subsections
+- Created `/home/z/my-project/src/components/guide/GuideRenderer.tsx` — Markdown content renderer with:
+  - Custom code block renderer using react-syntax-highlighter (Prism/oneDark) with copy button
+  - Custom table renderer with responsive overflow wrapper
+  - Custom heading renderers (h1-h4) with anchor links and scroll-mt
+  - Blockquote alert detection (error/success/tip/warning/quote) with colored boxes
+  - External link detection (target="_blank")
+  - RTL/LTR support via dir attribute
+  - Styled inline code, lists, images, horizontal rules
+  - Uses react-markdown + remark-gfm for GFM table support
+- Rewrote `/home/z/my-project/src/app/page.tsx` (1229 lines) — Complete guide site with 2 views:
+  - **Home View**: Hero section with circuit background, title, subtitle, version badge, 2 CTA buttons, animated stats counter (16 sections, 4+ projects, 92/100 security, 20+ components), 8 featured section quick-link cards, 4 feature highlight cards
+  - **Docs View**: Fixed progress bar, left sidebar (280px desktop, Sheet drawer mobile) with search filter, collapsible sections with subsections, read checkmarks, progress indicator. Content area with breadcrumbs, section header + icon, GuideRenderer content, Previous/Next navigation
+  - **GuideHeader**: Sticky top with logo, search trigger (⌘K), language toggle, theme toggle, mobile menu
+  - **SearchDialog**: Full search dialog with keyboard navigation (ArrowUp/Down/Enter/Escape)
+  - **GuideFooter**: 3-column layout with quick links and external links
+  - Icon map for 19 lucide icons used across guide sections
+- Updated `/home/z/my-project/src/app/layout.tsx` — Updated metadata for developer guide site
+- Installed `remark-gfm@4.0.1` and `@types/react-syntax-highlighter@15.5.13`
+
+Stage Summary:
+- Complete developer guide documentation site with 16 bilingual sections
+- Interactive features: search (⌘K), scroll progress, prev/next navigation, collapsible sidebar
+- Dark/Light theme with toggle and localStorage persistence
+- Bilingual support (Arabic/English) with RTL/LTR
+- Responsive design with mobile sidebar drawer
+- Markdown rendering with syntax highlighting, tables, alerts, code copy
+- Files created: src/lib/guide-store.ts, src/data/guide-sections.ts, src/components/guide/GuideRenderer.tsx
+- Files modified: src/app/page.tsx, src/app/layout.tsx
+- Lint: 0 errors, 0 warnings
+- Dev server: GET / 200 OK

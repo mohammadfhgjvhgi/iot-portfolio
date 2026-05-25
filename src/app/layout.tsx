@@ -14,28 +14,27 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "مشاريع للأنظمة الذكية | Smart Systems Lab — IoT Engineering Team from Palestine",
+  title: "دليل المطور الشامل | Smart Systems Lab — Developer Guide v2.1",
   description:
-    "IoT engineering team from Palestine building real smart systems — smart building automation, security systems, sensor networks, and event automation. From microcontrollers to the cloud.",
+    "Comprehensive developer guide for Smart Systems Lab IoT Portfolio. Complete technical documentation covering architecture, components, security, deployment, and more.",
   keywords: [
-    "IoT", "Embedded Systems", "Arduino", "ESP32", "Smart Building",
-    "Smart Systems Lab", "Firebase", "Microcontroller", "Automation",
-    "Palestine", "فلسطين", "إنترنت الأشياء", "أنظمة مدمجة", "أردوينو",
-    "مشاريع إلكترونية", "متحكمات", "أتمتة",
+    "Developer Guide", "IoT Portfolio", "Smart Systems Lab", "Next.js",
+    "TypeScript", "Documentation", "Arduino", "ESP32",
+    "دليل المطور", "أنظمة ذكية", "وثائق تقنية",
   ],
   icons: { icon: "/iot-portfolio/images/logo.png" },
   openGraph: {
     type: "website",
     locale: "ar_PS",
     alternateLocale: "en_US",
-    title: "مشاريع للأنظمة الذكية | Smart Systems Lab",
-    description: "IoT engineering team from Palestine — real smart systems from microcontrollers to the cloud.",
-    siteName: "Smart Systems Lab",
+    title: "دليل المطور الشامل | Smart Systems Lab — Developer Guide",
+    description: "Comprehensive developer documentation for the IoT Portfolio project.",
+    siteName: "Smart Systems Lab — Developer Guide",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Smart Systems Lab — IoT from Palestine",
-    description: "IoT engineering team from Palestine building real smart systems.",
+    title: "Smart Systems Lab — Developer Guide v2.1",
+    description: "Comprehensive developer documentation for the IoT Portfolio project.",,
   },
   robots: {
     index: true,
