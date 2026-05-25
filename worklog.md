@@ -335,3 +335,217 @@ Stage Summary:
 - Pushed to GitHub: mohammadfhgjvhgi/iot-portfolio
 - Remaining action: User needs to create GitHub Actions workflow file manually
 
+---
+Task ID: 2-a
+Agent: fullstack-developer
+Task: Create StartHereSection + GroupsLinksSection components
+
+Work Log:
+- Read worklog.md, language.ts, ServicesSection.tsx, and globals.css to understand existing patterns
+- Created src/components/portfolio/StartHereSection.tsx — "use client" default export component
+  - 4 learning path cards (Beginner, Tawjihi Projects, Arduino & IoT, Troubleshooting)
+  - Each card: colored icon badge, bilingual title/description, "Start Now" button
+  - Colors: #00ff66 (green), #00e5ff (cyan), #ffab00 (amber), #b44dff (purple)
+  - Icons: GraduationCap, BookOpen, Cpu, Wrench from lucide-react
+  - Section header: Rocket icon badge, gradient-neon-text title
+  - Grid: 2x2 on sm+, 1 column on mobile, gap-4 sm:gap-6
+  - Framer Motion scroll animations with stagger delays
+  - RTL support via useLang() hook
+  - glass-card-dark + card-hover styling matching design system
+- Created src/components/portfolio/GroupsLinksSection.tsx — "use client" default export component
+  - 4 community group cards (Telegram ×2, Facebook, WhatsApp)
+  - Each card: colored top border, platform icon badge, bilingual description, feature tags as rounded pills, member count badge, "Join Now" button
+  - Cards are `<motion.a>` links opening in new tab (target="_blank")
+  - Section header: Users icon badge, gradient-neon-text title
+  - Grid: 1 col mobile, 2 cols md, 4 cols xl, gap-4 sm:gap-6
+  - Framer Motion scroll animations with stagger delays
+  - RTL support via useLang() hook
+  - glass-card-dark + card-hover styling matching design system
+- Fixed TS error: GroupsLinksSection ref type changed from HTMLDivElement to HTMLAnchorElement
+- Verified: TypeScript clean for both new files, Next.js production build succeeds
+
+Stage Summary:
+- StartHereSection.tsx: 4 bilingual learning path cards with scroll animations and neon dark styling
+- GroupsLinksSection.tsx: 4 bilingual community group link cards with feature tags and member counts
+- Both components follow existing ServicesSection pattern exactly (useLang, framer-motion, glass-card-dark, card-hover)
+- All builds pass: tsc ✅, next build ✅
+- Files: src/components/portfolio/StartHereSection.tsx (created), src/components/portfolio/GroupsLinksSection.tsx (created)
+
+---
+Task ID: 2-c
+Agent: fullstack-developer
+Task: Create ResourceLibrarySection and FAQSection components
+
+Work Log:
+- Read worklog.md, language.ts, ServicesSection.tsx, globals.css, faq.json, and accordion.tsx to understand existing patterns
+- Created src/components/portfolio/ResourceLibrarySection.tsx — "use client" default export component
+  - 12 hardcoded bilingual resource items (projects, PDFs, code, schematics, files)
+  - Search input with RTL-aware icon positioning and neon focus ring
+  - Category filter tabs: All, Arduino (#00ff66), ESP8266 (#00e5ff), IoT (#ffab00), Tawjihi (#b44dff), ESP32 (#4fc3f7)
+  - Sort dropdown: Most Downloads (default), Name A-Z, Newest
+  - useMemo for efficient filtering and sorting
+  - Results count display in mono font
+  - Responsive grid: 1 col mobile, 2 cols md, 3 cols lg
+  - max-h-[600px] overflow-y-auto with RTL-aware padding for scrollable grid
+  - Empty state with Search icon and bilingual message
+  - Each resource card: glass-card-dark + card-hover, type icon badge with color, resource name (line-clamp-2), type label, category badge, download count, Download + Preview buttons
+  - Type icons: Cpu (project), FileText (pdf), Code2 (code), CircuitBoard (schematic), FolderOpen (file)
+  - Section header: Library icon badge, gradient-neon-text title
+  - Framer Motion stagger animations (0.06s delay between cards)
+  - Full RTL/LTR support via useLang() hook
+- Created src/components/portfolio/FAQSection.tsx — "use client" default export component
+  - 8 curated bilingual FAQ items (services, offline, technologies, cost, team, support, community, tawjihi)
+  - Uses shadcn/ui Accordion component (single, collapsible)
+  - Each item: glass-card-dark with rounded-xl, open state shadow glow in cyan
+  - Question text in foreground color, answer text in #7a8ba8
+  - MessageCircle icon accent in answer content
+  - ChevronDown turns cyan (#00e5ff) when accordion item is open
+  - Section header: HelpCircle icon badge in cyan, gradient-neon-text title
+  - Framer Motion scroll animations for header and list
+  - Full RTL/LTR support via useLang() hook
+- Verified: ESLint clean (0 errors, 0 warnings), dev server compiles successfully
+
+Stage Summary:
+- ResourceLibrarySection.tsx: Full resource library with search, 6 category filters, 3 sort options, 12 bilingual resource cards, responsive grid with scroll
+- FAQSection.tsx: 8-item bilingual FAQ accordion using shadcn/ui Accordion with glass-dark styling and cyan accent
+- Both components follow existing ServicesSection pattern exactly (useLang, framer-motion, glass-card-dark, card-hover)
+- All builds pass: lint ✅, dev server compiles ✅
+- Files: src/components/portfolio/ResourceLibrarySection.tsx (created), src/components/portfolio/FAQSection.tsx (created)
+
+---
+Task ID: 2-e
+Agent: fullstack-developer
+Task: Create SearchDialog and enhanced BreadcrumbNav components
+
+Work Log:
+- Read worklog.md, language.ts, globals.css, page.tsx, dialog.tsx, breadcrumb.tsx to understand existing patterns
+- Created src/components/portfolio/SearchDialog.tsx — "use client" default export component
+  - Exports SearchTrigger button (for navbar placement) and default SearchDialog (trigger + dialog)
+  - Keyboard shortcut: Ctrl+K / Cmd+K to open/close dialog
+  - 12 searchable items with bilingual Arabic/English names + section IDs
+  - Real-time filtering as user types (searches both ar and en names plus ID)
+  - Keyboard navigation: ArrowUp/ArrowDown to move, Enter to select, Escape to close
+  - Active item highlight with green neon accent (#00ff66)
+  - "No results" empty state with Search icon and bilingual message
+  - Result items show: Hash icon, section name, #section-id badge, Enter indicator on active
+  - Footer bar with keyboard hints (navigate, select, open)
+  - Search input with Search icon, ESC hint badge
+  - glass-dark dialog styling with border-[#1e2d4d]
+  - Trigger button: Search icon + text (hidden on mobile) + ⌘K badge (hidden on small)
+  - RTL support via useLang() hook
+- Created src/components/portfolio/BreadcrumbNav.tsx — "use client" default export component
+  - Fixed at bottom-0, z-40, visible on sm+ screens only (hidden on mobile)
+  - Uses IntersectionObserver (threshold 0.2, rootMargin "-10% 0px -70% 0px") to detect active section
+  - Shows breadcrumb trail: Home > Previous Section > Current Section (active)
+  - Active section has MapPin icon + neon green text + pulsing LED dot
+  - Previous section shown as clickable intermediate breadcrumb
+  - Section progress dots on the right side with hover effects and active glow
+  - Only appears after scrolling past hero section (scrollY > 300)
+  - Hidden on small screens via `sm:block hidden`
+  - glass-dark background with border-top styling
+  - RTL/LTR chevron icon support via useLang() hook
+- Modified src/app/page.tsx:
+  - Added imports for SearchDialog and BreadcrumbNav
+  - Placed SearchDialog in Navbar between nav links and language toggle button
+  - Moved ScrollToTop button from bottom-6 to bottom-16 to avoid overlap with BreadcrumbNav
+  - Added BreadcrumbNav between PortfolioFooter and ScrollToTop in render order
+- Verified: ESLint clean (0 errors, 0 warnings), dev server compiles successfully
+
+Stage Summary:
+- SearchDialog.tsx: Site-wide search dialog with Ctrl+K shortcut, keyboard navigation, bilingual filtering, dark neon theme
+- BreadcrumbNav.tsx: Sticky bottom breadcrumb nav with IntersectionObserver section tracking, progress dots, neon indicators
+- ScrollToTop repositioned to bottom-16 to avoid overlap with BreadcrumbNav
+- All builds pass: lint ✅, dev server ✅
+- Files: src/components/portfolio/SearchDialog.tsx (created), src/components/portfolio/BreadcrumbNav.tsx (created), src/app/page.tsx (modified)
+
+---
+Task ID: 2-d
+Agent: fullstack-developer
+Task: Create LatestAdditionsSection, LiveActivitySection, and DynamicElementsSection
+
+Work Log:
+- Read worklog.md, language.ts, ServicesSection.tsx, globals.css to understand existing patterns
+- Created src/components/portfolio/LatestAdditionsSection.tsx — "use client" default export component
+  - Section header: Sparkles icon badge, gradient-neon-text title "آخر الإضافات" / "Latest Additions"
+  - 4 subsection mini-cards in 2x2 grid (1 col mobile):
+    1. Latest Files (FileText, #00ff66): DHT11 Complete Guide (2h), Tawjihi Project File (5h)
+    2. Latest Projects (Cpu, #00e5ff): Smart Parking System (1d), Hall Automation (3d)
+    3. Latest Tutorials (BookOpen, #ffab00): ESP32 Firebase (1d), MQTT Protocol (4d)
+    4. Latest Updates (RefreshCw, #b44dff): Smart Home Code (6h), New Sensors (2d)
+  - Each card: colored top glow line, icon badge, title, item list with dot indicators and relative time
+  - Hover effects on items (background highlight + dot glow)
+  - Framer Motion stagger scroll animations (0.12s delay)
+  - glass-card-dark + card-hover styling matching design system
+- Created src/components/portfolio/LiveActivitySection.tsx — "use client" default export component
+  - Section header: Activity icon badge, gradient-neon-text title "النشاط الحي" / "Live Activity"
+  - LIVE badge with pulsing green dot (animate-ping) at the top right of header
+  - 6 hardcoded activities in vertical timeline layout:
+    - Environmental Monitoring System (15 min, #00ff66, Zap)
+    - DFPlayer Mini Guide uploaded (1h, #00e5ff, FileUp)
+    - SPI connection error solved (2h, #ffab00, CheckCircle2)
+    - Security System v2.1 updated (3h, #b44dff, Code2)
+    - New member joined (5h, #ff6b9d, UserPlus)
+    - Smart Parking System updated (8h, #00ff66, Zap)
+  - Left-side timeline with colored dots and gradient connecting lines
+  - First item has pulsing ping animation (isLatest=true)
+  - Periodic highlight toggle (3s interval) simulates live feel
+  - AnimatePresence wrapper for smooth rendering
+  - RTL-aware slide-in from right (Arabic) or left (English)
+  - Glass-card-dark container with rounded-xl
+- Created src/components/portfolio/DynamicElementsSection.tsx — "use client" default export component
+  - Section header: Sparkles icon badge, gradient-neon-text title "عناصر تفاعلية" / "Dynamic Elements"
+  - 5 dynamic cards in responsive grid (3 cols lg, 2 md, 1 mobile):
+    1. Question of the Day (HelpCircle, #00ff66): Arduino Mega vs ESP32, community hint — wide card
+    2. File of the Week (Award, #00e5ff): Advanced ESP32 Course, 1200 downloads — wide card
+    3. Featured Project (Star, #ffab00): Smart Building Management, "Most Popular" badge
+    4. Today's Stat (TrendingUp, #b44dff): 350+ active users, animated progress bar (72%)
+    5. Latest Community Activity (MessageCircle, #ff6b9d): 25 questions answered, +150 messages
+  - Each card: colored top border, icon badge with glow, hover glow overlay, card-hover effect
+  - Subtle floating animation (y: [0, -4, 0]) with staggered delays per card
+  - Animated progress bar that fills on scroll into view (1.2s easeOut)
+  - Wide cards span 2 columns on md+ grid
+  - glass-card-dark + card-hover styling matching design system
+- Verified: ESLint clean (0 errors, 0 warnings), dev server compiles successfully
+
+Stage Summary:
+- LatestAdditionsSection.tsx: 4 bilingual subsection cards in 2x2 grid with item lists, dot indicators, relative times
+- LiveActivitySection.tsx: 6-item live activity feed with timeline layout, pulsing LIVE badge, animated first item
+- DynamicElementsSection.tsx: 5 bilingual dynamic cards with floating animations, progress bar, wide card support
+- All three components follow existing ServicesSection pattern (useLang, framer-motion, glass-card-dark, card-hover, neon colors)
+- All builds pass: lint ✅, dev server ✅
+- Files: src/components/portfolio/LatestAdditionsSection.tsx (created), src/components/portfolio/LiveActivitySection.tsx (created), src/components/portfolio/DynamicElementsSection.tsx (created)
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Complete 12-point website overhaul — rewrite page.tsx, integrate all new sections
+
+Work Log:
+- Read all existing files: page.tsx (805 lines), layout.tsx, language.ts, globals.css, all portfolio components
+- Verified 9 new component files created by sub-agents (StartHere, GroupsLinks, ResourceLibrary, FAQ, LatestAdditions, LiveActivity, DynamicElements, SearchDialog, BreadcrumbNav)
+- Completely rewrote src/app/page.tsx with all 12 requirements:
+  1. **Hero Section (Req 1)**: Clearer messaging in first 3 seconds (who we are, what we offer, benefit), shorter description, 2 buttons only ("استكشف المشاريع" + "انضم للمجتمع"), live stats counter with 800+ members, 4+ projects, 50+ files, 6 services
+  2. **Start Here (Req 2)**: StartHereSection component integrated right after hero
+  3. **Groups Links (Req 3)**: GroupsLinksSection with 4 full community cards (Telegram x2, Facebook, WhatsApp)
+  4. **Resource Library (Req 4)**: ResourceLibrarySection with search, filter, sort, 12 resources
+  5. **Projects Enhancement (Req 5)**: Existing ProjectsShowcase retained with its telemetry/timeline/code features
+  6. **Latest Additions (Req 6)**: LatestAdditionsSection with 4 subsections (files, projects, tutorials, updates)
+  7. **Live Activity (Req 7)**: LiveActivitySection with 6-item timeline feed + LIVE badge
+  8. **Mobile Optimization (Req 8)**: Applied throughout all sections - responsive text sizes, proper spacing, overflow handling, mobile-friendly nav menu with max-height scroll
+  9. **Performance (Req 9)**: Reduced animation complexity, simplified counters, optimized IntersectionObserver threshold
+  10. **UX Improvements (Req 10)**: SearchDialog (Ctrl+K), BreadcrumbNav (sticky bottom), ScrollToTop (existing), 404 page (existing)
+  11. **Reliability (Req 11)**: FAQSection with 8 items, About Team (existing), Contact (existing), Privacy info in footer
+  12. **Dynamic Elements (Req 12)**: DynamicElementsSection with QOTD, File of Week, Featured Project, Today's Stat, Community Activity
+- Updated Navbar: 9 items (removed calculator, audit, timeline, blog from nav; added start-here, resources, groups, faq)
+- Updated IntersectionObserver: 18 sections tracked
+- Enhanced Footer: 3-column layout (logo/team, quick links, social)
+- Mobile improvements: All text sizes responsive (text-xs sm:text-sm), padding adjusted, proper overflow handling
+- Verified: ESLint 0 errors, dev server HTTP 200, page compiles in ~2.5s
+
+Stage Summary:
+- Complete 12-point overhaul implemented in single page.tsx rewrite
+- 9 new section components integrated
+- Total sections on page: 19 (Hero + 18 content sections)
+- Mobile-first responsive design applied throughout
+- All builds pass: lint ✅, dev 200 ✅, compile ~2.5s ✅
+- Files: src/app/page.tsx (complete rewrite)

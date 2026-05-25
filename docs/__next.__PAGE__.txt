@@ -1,9 +1,9 @@
 1:"$Sreact.fragment"
 2:I[47257,["/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"ClientPageRoot"]
-3:I[52683,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/78d4111248c11c38.js","/iot-portfolio/_next/static/chunks/169ba43c87d22430.js","/iot-portfolio/_next/static/chunks/9cce41b1aa65aec5.js"],"default"]
+3:I[52683,["/iot-portfolio/_next/static/chunks/3cd21a08b8de6d89.js","/iot-portfolio/_next/static/chunks/78d4111248c11c38.js","/iot-portfolio/_next/static/chunks/89c43e3619f7c85b.js","/iot-portfolio/_next/static/chunks/f55515f8d54fa195.js"],"default"]
 6:I[97367,["/iot-portfolio/_next/static/chunks/2f236954d6a65e12.js"],"OutletBoundary"]
 7:"$Sreact.suspense"
-0:{"buildId":"u2dIr_84GfLjC_l9Rmboa","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/iot-portfolio/_next/static/chunks/78d4111248c11c38.js","async":true}],["$","script","script-1",{"src":"/iot-portfolio/_next/static/chunks/169ba43c87d22430.js","async":true}],["$","script","script-2",{"src":"/iot-portfolio/_next/static/chunks/9cce41b1aa65aec5.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"_L1UMbiYj0clIl47dJBdx","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/iot-portfolio/_next/static/chunks/78d4111248c11c38.js","async":true}],["$","script","script-1",{"src":"/iot-portfolio/_next/static/chunks/89c43e3619f7c85b.js","async":true}],["$","script","script-2",{"src":"/iot-portfolio/_next/static/chunks/f55515f8d54fa195.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
 4:{}
 5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
 8:null
