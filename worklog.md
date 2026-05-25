@@ -549,3 +549,26 @@ Stage Summary:
 - Mobile-first responsive design applied throughout
 - All builds pass: lint ✅, dev 200 ✅, compile ~2.5s ✅
 - Files: src/app/page.tsx (complete rewrite)
+
+---
+Task ID: 4
+Agent: Main Agent
+Task: Implement 10 mandatory modifications to IoT Portfolio
+
+Work Log:
+- **Req 1 — Shortened Project Guide**: Added ProjectGuideSection with 180-char (AR) / 280-char (EN) truncated text + "اقرأ المزيد" / "Read More" toggle button. Uses BookOpen icon, cyan accent (#00e5ff), glass-card-dark styling.
+- **Req 2 — Architecture/Tech Stack Modal**: Added ArchitectureModal with full-screen modal containing: (a) Design Philosophy — 4 cards (Safety First, Edge Computing, Clean Code, Cloud as Optional Layer), (b) Tech Stack — 5 categories (MCUs, Sensors, Languages, Cloud Integration, Electronic Components) with colored tags. Accessible via button in new "architecture" section on homepage.
+- **Req 3 — Security Audit Moved**: Replaced full SecurityAudit on homepage with SecurityAuditSummary — compact card showing 92/100 score, "all critical vulnerabilities fixed" LED badge, and "View Full Report" button that opens SecurityAuditModal.
+- **Req 4 — Navbar**: Already existed with scroll spy — no changes needed. Confirmed working.
+- **Req 5 — Floating Telegram Button**: Added FloatingTelegramButton — fixed at bottom-right (RTL: left), appears after scrolling 300px, gradient Telegram blue (#0088cc → #00a8e8), shows "تواصل معنا" / "Chat Now" text, responsive (icon-only on mobile).
+- **Req 6 — Enhanced Project Cards**: Enhanced ProjectsShowcase.tsx with metadata bar (visible collapsed): duration (Clock icon), wire count (Cable icon), work hours (Timer icon), problems solved (CheckCircle2 icon). Added to all 4 projects.
+- **Req 7 — Challenges Section**: Added to each project in ProjectsShowcase.tsx — problem/solution format in expanded area between telemetry and code. Example: RFID freezing → Anti-Freeze Algorithm. Each challenge has AlertTriangle (problem) and Wrench (solution) icons.
+- **Req 8 — Start Here Section**: Already existed as StartHereSection — no changes needed. Confirmed working.
+- **Req 9 — Updated Statistics**: Hero stats changed from (800+ members, 4+ projects, 50+ files, 6 services) to (4+ projects, 100+ work hours, 20+ problems solved, 800+ community). Team stats changed from (4+ projects, 10+ sensors, 3+ MCUs, 5+ protocols) to (4+ projects, 100+ work hours, 20+ problems solved, 800+ community).
+- **Req 10 — Mohammad Dedicated Modal**: Added MohammadModal — full-screen modal with avatar, name, role, bio, contact links (Telegram + WhatsApp), stats grid (4+ projects, 400+ hours, 40+ problems, 4+ MCU types), 14 technical skills tags. Accessible via "View Profile" button below Team section.
+
+Stage Summary:
+- 10 requirements implemented across 3 files modified
+- Files modified: src/app/page.tsx, src/components/portfolio/ProjectsShowcase.tsx, src/components/portfolio/TeamSection.tsx
+- New components: SecurityAuditSummary, SecurityAuditModal, ProjectGuideSection, ProjectGuideModal, ArchitectureModal, MohammadModal, FloatingTelegramButton
+- All builds pass: lint ✅, dev server 200 ✅

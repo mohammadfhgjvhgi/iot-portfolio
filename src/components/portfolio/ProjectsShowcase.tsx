@@ -26,6 +26,11 @@ import {
   EyeOff,
   Volume2,
   Timer,
+  Clock,
+  Cable,
+  CheckCircle2,
+  AlertTriangle,
+  Wrench,
 } from "lucide-react";
 import { useLang } from "@/lib/language";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -34,6 +39,11 @@ import atomDark from "react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dar
 /* ═══════════════════════════════════════════════════════════════
    DATA — 4 Real IoT Projects
    ═══════════════════════════════════════════════════════════════ */
+
+interface Challenge {
+  problem: { ar: string; en: string };
+  solution: { ar: string; en: string };
+}
 
 interface IoTProject {
   id: number;
@@ -46,6 +56,11 @@ interface IoTProject {
   innovation: { ar: string; en: string };
   codeSnippet: string;
   architecture: string;
+  duration: { ar: string; en: string };
+  wireCount: number;
+  workHours: number;
+  problemsSolved: number;
+  challenges: Challenge[];
 }
 
 const PROJECTS: IoTProject[] = [
@@ -109,6 +124,20 @@ void checkFireSensor() {
 │ │ Servo×2  │ │            └──────────────┘
 │ └──────────┘ │
 └─────────────┘`,
+    duration: { ar: "٤ أسابيع", en: "4 weeks" },
+    wireCount: 85,
+    workHours: 120,
+    problemsSolved: 12,
+    challenges: [
+      {
+        problem: { ar: "نظام يعتمد كلياً على الإنترنت — لا يعمل عند انقطاعه", en: "System fully dependent on internet — fails on outage" },
+        solution: { ar: "معمارية ثنائية مع منطق محلي — يعمل بدون إنترنت", en: "Dual architecture with local logic — works offline" },
+      },
+      {
+        problem: { ar: "كشف الحريق يحتاج استجابة فورية — لا يمكن الانتظار للسحابة", en: "Fire detection needs instant response — can't wait for cloud" },
+        solution: { ar: "تجاوز تلقائي يفتح كل الأبواب فوراً عند كشف الحريق", en: "Automatic override opens all doors immediately on fire detection" },
+      },
+    ],
   },
   {
     id: 2,
@@ -171,6 +200,20 @@ void scanAllSensors() {
 └─────────────┘                               │ GitHub     │
                                               │ Pages Web  │
                                               └────────────┘`,
+    duration: { ar: "٥ أسابيع", en: "5 weeks" },
+    wireCount: 120,
+    workHours: 150,
+    problemsSolved: 15,
+    challenges: [
+      {
+        problem: { ar: "إعادة ضبط DTR/RTS تقطع الاتصال التسلسلي مع Arduino Bridge", en: "DTR/RTS reset interrupts serial connection with Arduino Bridge" },
+        solution: { ar: "خط أنابيب urllib غير قابل للحجب مع منع إعادة الضبط", en: "Non-blocking urllib pipeline with DTR/RTS reset prevention" },
+      },
+      {
+        problem: { ar: "اتصال USB بين 3 أجهزة Arduino غير مستقر", en: "USB connection between 3 Arduino boards is unstable" },
+        solution: { ar: "متحكم Uno كجسر UART مع بروتوكول اتصال مخصص", en: "Uno controller as UART bridge with custom communication protocol" },
+      },
+    ],
   },
   {
     id: 3,
@@ -233,6 +276,20 @@ bool checkRFID() {
 │  │ UIDs     │    │   REST API   │      │
 │  └──────────┘    └──────────────┘      │
 └──────────────────────────────────────────┘`,
+    duration: { ar: "٣ أسابيع", en: "3 weeks" },
+    wireCount: 25,
+    workHours: 80,
+    problemsSolved: 8,
+    challenges: [
+      {
+        problem: { ar: "قارئ RFID يتجمد ولا يستجيب بعد عدة محاولات فاشلة", en: "RFID reader freezes and stops responding after several failed attempts" },
+        solution: { ar: "خوارزمية Anti-Freeze: إعادة تعيين SPI+MFRC522 تلقائياً", en: "Anti-Freeze Algorithm: automatic SPI+MFRC522 hardware reset" },
+      },
+      {
+        problem: { ar: "لا يمكن تخزين بطاقات UID محلياً عند فقدان الاتصال", en: "Can't store card UIDs locally when connection is lost" },
+        solution: { ar: "استخدام ESP32 Preferences (Flash) كقاعدة بيانات محلية", en: "Using ESP32 Preferences (Flash) as local database" },
+      },
+    ],
   },
   {
     id: 4,
@@ -307,6 +364,20 @@ void updateStateMachine() {
 │                   │   Remote Control  │    │
 │                   └───────────────────┘    │
 └────────────────────────────────────────────┘`,
+    duration: { ar: "٢ أسابيع", en: "2 weeks" },
+    wireCount: 30,
+    workHours: 60,
+    problemsSolved: 5,
+    challenges: [
+      {
+        problem: { ar: "تنسيق إضاءة وموسيقى متعددة الأوضاع يدوياً معقد", en: "Manually coordinating multi-mode lighting and music is complex" },
+        solution: { ar: "آلة حالات برمجية (State Machine) مع 6 أوضاع تلقائية", en: "Software State Machine with 6 automatic modes" },
+      },
+      {
+        problem: { ar: "تحميل ملفات MP3 وتشغيلها بدون تعطل النظام", en: "Loading and playing MP3 files without system crashes" },
+        solution: { ar: "DFPlayer Mini مع تشغيل تلقائي للقطعة التالية", en: "DFPlayer Mini with automatic next track playback" },
+      },
+    ],
   },
 ];
 
@@ -861,6 +932,64 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           </p>
         </div>
 
+        {/* ── Project Metadata Bar ── */}
+        <div
+          className="flex flex-wrap items-center gap-2 mb-4 p-2.5 rounded-lg"
+          style={{
+            background: `${project.statusColor}06`,
+            border: `1px solid ${project.statusColor}15`,
+          }}
+        >
+          {/* Duration */}
+          <div
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium"
+            style={{
+              background: `${project.statusColor}10`,
+              color: project.statusColor,
+              border: `1px solid ${project.statusColor}20`,
+            }}
+          >
+            <Clock className="h-3 w-3" />
+            <span>{lang(project.duration.ar, project.duration.en)}</span>
+          </div>
+          {/* Wire Count */}
+          <div
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium"
+            style={{
+              background: `${project.statusColor}10`,
+              color: project.statusColor,
+              border: `1px solid ${project.statusColor}20`,
+            }}
+          >
+            <Cable className="h-3 w-3" />
+            <span>{project.wireCount} {lang("سلك", "wires")}</span>
+          </div>
+          {/* Work Hours */}
+          <div
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium"
+            style={{
+              background: `${project.statusColor}10`,
+              color: project.statusColor,
+              border: `1px solid ${project.statusColor}20`,
+            }}
+          >
+            <Timer className="h-3 w-3" />
+            <span>{project.workHours}h</span>
+          </div>
+          {/* Problems Solved */}
+          <div
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium"
+            style={{
+              background: `${project.statusColor}10`,
+              color: project.statusColor,
+              border: `1px solid ${project.statusColor}20`,
+            }}
+          >
+            <CheckCircle2 className="h-3 w-3" />
+            <span>{project.problemsSolved} {lang("مشكلة", "solved")}</span>
+          </div>
+        </div>
+
         {/* ── Expand/Collapse Button ── */}
         <button
           onClick={() => setExpanded(!expanded)}
@@ -910,6 +1039,85 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 </span>
               </div>
               {telemetryMap[project.id]}
+            </div>
+
+            {/* ── Challenges Section ── */}
+            <div className="px-5 sm:px-6 pb-4">
+              <div className="flex items-center gap-2 mb-3">
+                <AlertTriangle className="h-4 w-4" style={{ color: project.statusColor }} />
+                <span className="text-xs font-semibold text-foreground">
+                  {lang("⚡ التحديات والحلول", "⚡ Challenges & Solutions")}
+                </span>
+              </div>
+              <div className="space-y-2.5">
+                {project.challenges.map((challenge, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: idx * 0.1 }}
+                    className="rounded-lg p-3"
+                    style={{
+                      background: `${project.statusColor}06`,
+                      border: `1px solid ${project.statusColor}15`,
+                    }}
+                  >
+                    {/* Problem */}
+                    <div className="flex items-start gap-2 mb-2">
+                      <div
+                        className="flex h-5 w-5 shrink-0 items-center justify-center rounded mt-0.5"
+                        style={{
+                          background: `${project.statusColor}15`,
+                          border: `1px solid ${project.statusColor}25`,
+                        }}
+                      >
+                        <AlertTriangle className="h-3 w-3" style={{ color: project.statusColor }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span
+                          className="text-[9px] font-semibold uppercase tracking-wider block mb-0.5"
+                          style={{ color: `${project.statusColor}99` }}
+                        >
+                          {lang("المشكلة", "Problem")}
+                        </span>
+                        <p
+                          className="text-[11px] leading-relaxed text-[#c5cdd8]"
+                          dir={isRTL() ? "rtl" : "ltr"}
+                        >
+                          {lang(challenge.problem.ar, challenge.problem.en)}
+                        </p>
+                      </div>
+                    </div>
+                    {/* Solution */}
+                    <div className="flex items-start gap-2">
+                      <div
+                        className="flex h-5 w-5 shrink-0 items-center justify-center rounded mt-0.5"
+                        style={{
+                          background: `${project.statusColor}20`,
+                          border: `1px solid ${project.statusColor}35`,
+                        }}
+                      >
+                        <Wrench className="h-3 w-3" style={{ color: project.statusColor }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span
+                          className="text-[9px] font-semibold uppercase tracking-wider block mb-0.5"
+                          style={{ color: `${project.statusColor}cc` }}
+                        >
+                          {lang("الحل", "Solution")}
+                        </span>
+                        <p
+                          className="text-[11px] leading-relaxed font-medium"
+                          style={{ color: `${project.statusColor}ee` }}
+                          dir={isRTL() ? "rtl" : "ltr"}
+                        >
+                          {lang(challenge.solution.ar, challenge.solution.en)}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
             {/* ── Code Snippet Toggle ── */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   ArrowUp, Globe, Github, Linkedin, Mail, Phone,
@@ -8,7 +8,9 @@ import {
   ChevronDown, Menu, X, ExternalLink,
   CircuitBoard, Wifi, ShieldCheck, Rocket, Star,
   MapPin, Send, Users, Wrench, Target, TrendingUp,
-  Loader2
+  Loader2, Timer, Clock, CheckCircle2, AlertTriangle,
+  MessageCircle, BookOpen, FileText, LayoutDashboard,
+  User, Layers, Monitor, Smartphone, Cloud, Cable,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/language";
@@ -264,12 +266,12 @@ function HeroSection() {
     return () => clearInterval(interval);
   }, [lang, fullText]);
 
-  // Updated stats per requirement 1
+  // Updated stats per requirement 9
   const stats = [
-    { value: 800, suffix: "+", label: t("عدد الأعضاء", "Members"), icon: <Users className="h-4 w-4" />, color: "#00ff66" },
-    { value: 4, suffix: "+", label: t("عدد المشاريع", "Projects"), icon: <Zap className="h-4 w-4" />, color: "#00e5ff" },
-    { value: 50, suffix: "+", label: t("عدد الملفات", "Files"), icon: <Radio className="h-4 w-4" />, color: "#ffab00" },
-    { value: 6, suffix: "", label: t("عدد الخدمات", "Services"), icon: <Target className="h-4 w-4" />, color: "#b44dff" },
+    { value: 4, suffix: "+", label: t("مشاريع حقيقية", "Real Projects"), icon: <Zap className="h-4 w-4" />, color: "#00ff66" },
+    { value: 100, suffix: "+", label: t("ساعة عمل", "Work Hours"), icon: <Timer className="h-4 w-4" />, color: "#00e5ff" },
+    { value: 20, suffix: "+", label: t("مشكلة حُلّت", "Problems Solved"), icon: <Wrench className="h-4 w-4" />, color: "#ffab00" },
+    { value: 800, suffix: "+", label: t("عضو مجتمع", "Community"), icon: <Users className="h-4 w-4" />, color: "#b44dff" },
   ];
 
   return (
@@ -713,6 +715,487 @@ function PortfolioFooter() {
   );
 }
 
+/* ═══ SECURITY AUDIT SUMMARY (Homepage Card) ═══ */
+function SecurityAuditSummary() {
+  const { t, lang } = useLang();
+
+  return (
+    <motion.div variants={fadeUp} className="text-center">
+      <SectionTitle ar="تقرير تدقيق الأمان" en="Security Audit Report" />
+      <div className="max-w-lg mx-auto">
+        <div className="glass-card-dark rounded-xl p-6 sm:p-8 card-hover mb-4">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <motion.div
+              animate={{
+                boxShadow: [
+                  "0 0 8px #00ff6640, 0 0 16px #00ff6620",
+                  "0 0 12px #00ff6660, 0 0 24px #00ff6630",
+                  "0 0 8px #00ff6640, 0 0 16px #00ff6620",
+                ],
+              }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="flex h-14 w-14 items-center justify-center rounded-full"
+              style={{ background: "#00ff6612", border: "1px solid #00ff6625" }}
+            >
+              <ShieldCheck className="h-7 w-7 text-[#00ff66]" />
+            </motion.div>
+          </div>
+          <div className="text-4xl font-bold gradient-neon-text mb-2">92<span className="text-lg text-[#7a8ba8]">/100</span></div>
+          <p className="text-sm text-[#7a8ba8] mb-2">
+            {lang === "ar"
+              ? "نتيجة أمنية ممتازة — 4 أدوات اختبار، 17 إصلاح أمني"
+              : "Excellent security score — 4 testing tools, 17 security fixes"}
+          </p>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="led-on" />
+            <span className="text-xs text-[#00ff66] font-medium">
+              {lang === "ar" ? "جميع الثغرات الحرجة تم إصلاحها" : "All critical vulnerabilities fixed"}
+            </span>
+          </div>
+          <Button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-security-modal"))}
+            variant="outline"
+            className="neon-border text-[#00ff66] hover:bg-[#00ff66]/10 font-semibold text-sm"
+          >
+            {lang === "ar" ? "عرض التقرير الكامل" : "View Full Report"}
+            <ExternalLink className="h-3.5 w-3.5 mr-2" />
+          </Button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ═══ SECURITY AUDIT MODAL ═══ */
+function SecurityAuditModal() {
+  const [open, setOpen] = useState(false);
+  const { t, lang } = useLang();
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => { setOpen(true); };
+    window.addEventListener("open-security-modal", handler as EventListener);
+    return () => window.removeEventListener("open-security-modal", handler as EventListener);
+  }, []);
+
+  if (!open) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-10 overflow-y-auto"
+        onClick={() => setOpen(false)}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40, scale: 0.95 }}
+          className="w-full max-w-6xl bg-[#0a0f1a] rounded-2xl border border-[#1e2d4d] overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="sticky top-0 z-10 glass-dark border-b border-[#1e2d4d] px-6 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold gradient-neon-text">
+              {lang === "ar" ? "تقرير تدقيق الأمان الكامل" : "Full Security Audit Report"}
+            </h2>
+            <button
+              onClick={() => setOpen(false)}
+              className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="p-4 sm:p-6">
+            <SecurityAudit />
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ═══ PROJECT GUIDE SECTION (Shortened) ═══ */
+function ProjectGuideSection() {
+  const { t, lang } = useLang();
+  const [showMore, setShowMore] = useState(false);
+
+  const fullText = lang === "ar"
+    ? "نظام بيئي متكامل لإنشاء وصيانة أنظمة إنترنت الأشياء الذكية. يضم المنصة 4 مشاريع حقيقية مُنفذة بأنظمة ثنائية وثلاثية المعالجات، مع معمارية قائمة على معالجة الحافة (Edge Computing) والتكامل السحابي عبر Firebase. كل مشروع يمر بمراحل: تحديد المشكلة → التصميم المعماري → التركيب → البرمجة → الاختبار → النشر. استخدمنا تقنيات Arduino Mega، ESP32، ESP8266 مع بروتوكولات اتصال متعددة (Serial, I2C, SPI, HTTP, MQTT). الفلسفة التصميمية تعتمد على الأمان أولاً — جميع الأنظمة تعمل محلياً بدون إنترنت وتتضمن خوارزميات حماية مبتكرة مثل Anti-Freeze للخزنة الذكية. الكود مكتوب بلغة C++ مع معايير هندسية صارمة لضمان الاستقرار والصيانة."
+    : "A complete ecosystem for building and maintaining smart IoT systems. The platform includes 4 real projects built with dual and triple processor architectures, using an edge computing approach with Firebase cloud integration. Each project goes through: problem definition → architectural design → assembly → programming → testing → deployment. We used Arduino Mega, ESP32, ESP8266 with multiple communication protocols (Serial, I2C, SPI, HTTP, MQTT). The design philosophy is safety-first — all systems work locally without internet and include innovative protection algorithms like Anti-Freeze for the smart safe. Code is written in C++ with strict engineering standards for stability and maintainability.";
+
+  const truncated = fullText.slice(0, lang === "ar" ? 180 : 280);
+
+  return (
+    <Section id="guide" className="relative">
+      <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
+      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6">
+        <SectionTitle ar="الدليل الشامل للمشروع" en="Comprehensive Project Guide" />
+        <motion.div variants={fadeUp} className="glass-card-dark rounded-xl p-5 sm:p-6">
+          <div className="flex items-center gap-2 mb-3">
+            <BookOpen className="h-4 w-4 text-[#00e5ff]" />
+            <span className="text-xs font-semibold text-[#00e5ff] uppercase tracking-wider">
+              {lang === "ar" ? "نظرة عامة" : "Overview"}
+            </span>
+          </div>
+          <p className="text-sm text-[#7a8ba8] leading-relaxed mb-4" dir={lang === "ar" ? "rtl" : "ltr"}>
+            {showMore ? fullText : truncated}
+            {!showMore && <span className="text-[#3d506e]">...</span>}
+          </p>
+          <button
+            onClick={() => setShowMore(!showMore)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all"
+            style={{
+              background: "#00e5ff10",
+              color: "#00e5ff",
+              border: "1px solid #00e5ff25",
+            }}
+          >
+            {showMore
+              ? (lang === "ar" ? "عرض أقل" : "Show Less")
+              : (lang === "ar" ? "اقرأ المزيد" : "Read More")}
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${showMore ? "rotate-180" : ""}`} />
+          </button>
+        </motion.div>
+      </div>
+    </Section>
+  );
+}
+
+/* ═══ PROJECT GUIDE MODAL (Full content) ═══ */
+function ProjectGuideModal() {
+  const [open, setOpen] = useState(false);
+  const { t, lang } = useLang();
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => { setOpen(true); };
+    window.addEventListener("open-guide-modal", handler as EventListener);
+    return () => window.removeEventListener("open-guide-modal", handler as EventListener);
+  }, []);
+
+  if (!open) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-10 overflow-y-auto"
+        onClick={() => setOpen(false)}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40, scale: 0.95 }}
+          className="w-full max-w-4xl bg-[#0a0f1a] rounded-2xl border border-[#1e2d4d] overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="sticky top-0 z-10 glass-dark border-b border-[#1e2d4d] px-6 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold gradient-neon-text">
+              {lang === "ar" ? "الدليل الشامل للمشروع" : "Comprehensive Project Guide"}
+            </h2>
+            <button onClick={() => setOpen(false)} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="p-6 sm:p-8" dir={lang === "ar" ? "rtl" : "ltr"}>
+            <ProjectGuideSection />
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ═══ ARCHITECTURE MODAL (Design Philosophy + Tech Stack) ═══ */
+function ArchitectureModal() {
+  const [open, setOpen] = useState(false);
+  const { lang } = useLang();
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => { setOpen(true); };
+    window.addEventListener("open-arch-modal", handler as EventListener);
+    return () => window.removeEventListener("open-arch-modal", handler as EventListener);
+  }, []);
+
+  if (!open) return null;
+
+  const designPrinciples = lang === "ar"
+    ? [
+        { title: "الأمان أولاً", desc: "جميع الأنظمة تعمل محلياً بدون إنترنت — قرارات فورية للحالات الطارئة. المنطق المحلي يسبق السحابة.", icon: <ShieldCheck className="h-5 w-5" />, color: "#00ff66" },
+        { title: "معالجة الحافة", desc: "Edge Computing — المعالجة تتم على المتحكم مباشرة بدون الاعتماد على سيرفر خارجي.", icon: <Cpu className="h-5 w-5" />, color: "#00e5ff" },
+        { title: "كود نظيف وقابل للصيانة", desc: "تقسيم منطقي للكود، تسميات واضحة، وتوثيق شامل. معايير هندسية صارمة.", icon: <Code2 className="h-5 w-5" />, color: "#ffab00" },
+        { title: "التكامل السحابي كطبقة إضافية", desc: "Firebase للمراقبة عن بعد والتحكم — ميزة إضافية وليست شرطاً للعمل.", icon: <Cloud className="h-5 w-5" />, color: "#b44dff" },
+      ]
+    : [
+        { title: "Safety First", desc: "All systems work locally without internet — instant decisions for emergencies. Local logic precedes cloud.", icon: <ShieldCheck className="h-5 w-5" />, color: "#00ff66" },
+        { title: "Edge Computing", desc: "Processing happens on the microcontroller directly — no dependency on external servers.", icon: <Cpu className="h-5 w-5" />, color: "#00e5ff" },
+        { title: "Clean & Maintainable Code", desc: "Logical code separation, clear naming, comprehensive documentation. Strict engineering standards.", icon: <Code2 className="h-5 w-5" />, color: "#ffab00" },
+        { title: "Cloud as Optional Layer", desc: "Firebase for remote monitoring and control — an optional feature, not a requirement.", icon: <Cloud className="h-5 w-5" />, color: "#b44dff" },
+      ];
+
+  const techStack = [
+    { category: lang === "ar" ? "المتحكمات" : "Microcontrollers", items: ["Arduino Mega 2560", "Arduino Uno", "ESP32", "ESP8266"], color: "#00ff66" },
+    { category: lang === "ar" ? "الحساسات" : "Sensors", items: ["DHT11", "MQ-2 Gas", "Flame", "PIR Motion", "LDR Light", "IR", "HC-SR04 Ultrasonic", "TTP223 Touch", "SW-420 Vibration", "RFID MFRC522"], color: "#00e5ff" },
+    { category: lang === "ar" ? "لغات البرمجة" : "Languages", items: ["C/C++ (Arduino)", "Python", "Kotlin (Android)"], color: "#ffab00" },
+    { category: lang === "ar" ? "التكامل السحابي" : "Cloud Integration", items: ["Firebase RTDB", "Firebase REST API", "HTTP/HTTPS", "Serial Communication", "SPI", "I2C"], color: "#b44dff" },
+    { category: lang === "ar" ? "المكونات الإلكترونية" : "Electronic Components", items: ["Servo Motors", "Relays", "Solenoid Locks", "LCD Displays", "Keypads", "Buzzers", "DFPlayer Mini", "LED Arrays"], color: "#ff6b9d" },
+  ];
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-10 overflow-y-auto"
+        onClick={() => setOpen(false)}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40, scale: 0.95 }}
+          className="w-full max-w-5xl bg-[#0a0f1a] rounded-2xl border border-[#1e2d4d] overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="sticky top-0 z-10 glass-dark border-b border-[#1e2d4d] px-6 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold gradient-neon-text">
+              {lang === "ar" ? "فلسفة التصميم والتقنيات" : "Design Philosophy & Tech Stack"}
+            </h2>
+            <button onClick={() => setOpen(false)} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="p-6 sm:p-8 space-y-8" dir={lang === "ar" ? "rtl" : "ltr"}>
+            {/* Design Philosophy */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <LayoutDashboard className="h-5 w-5 text-[#00ff66]" />
+                <h3 className="text-base font-bold text-[#e8edf5]">
+                  {lang === "ar" ? "فلسفة التصميم" : "Design Philosophy"}
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {designPrinciples.map((p, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="glass-card-dark rounded-xl p-4"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${p.color}15`, color: p.color }}>
+                        {p.icon}
+                      </div>
+                      <h4 className="text-sm font-bold" style={{ color: p.color }}>{p.title}</h4>
+                    </div>
+                    <p className="text-xs text-[#7a8ba8] leading-relaxed">{p.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tech Stack */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Layers className="h-5 w-5 text-[#00e5ff]" />
+                <h3 className="text-base font-bold text-[#e8edf5]">
+                  {lang === "ar" ? "التقنيات المستخدمة" : "Technologies Used"}
+                </h3>
+              </div>
+              <div className="space-y-4">
+                {techStack.map((cat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 + i * 0.08 }}
+                    className="glass-card-dark rounded-xl p-4"
+                  >
+                    <h4 className="text-xs font-semibold mb-2 uppercase tracking-wider" style={{ color: cat.color }}>
+                      {cat.category}
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cat.items.map((item) => (
+                        <span
+                          key={item}
+                          className="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-medium"
+                          style={{
+                            background: `${cat.color}08`,
+                            color: `${cat.color}cc`,
+                            border: `1px solid ${cat.color}20`,
+                          }}
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ═══ MOHAMMAD DEDICATED MODAL ═══ */
+function MohammadModal() {
+  const [open, setOpen] = useState(false);
+  const { lang } = useLang();
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => { setOpen(true); };
+    window.addEventListener("open-mohammad-modal", handler as EventListener);
+    return () => window.removeEventListener("open-mohammad-modal", handler as EventListener);
+  }, []);
+
+  if (!open) return null;
+
+  const stats = [
+    { label: lang === "ar" ? "المشاريع المُنفذة" : "Projects Built", value: "4+", color: "#00e5ff" },
+    { label: lang === "ar" ? "ساعات العمل" : "Work Hours", value: "400+", color: "#00ff66" },
+    { label: lang === "ar" ? "المشاكل المُحلّة" : "Problems Solved", value: "40+", color: "#ffab00" },
+    { label: lang === "ar" ? "أنواع المتحكمات" : "MCU Types", value: "4+", color: "#b44dff" },
+  ];
+
+  const skills = [
+    "Arduino (Mega, Uno, Nano)", "ESP32 / ESP8266", "C / C++ (Embedded)",
+    "Python", "Hardware Design & Assembly", "Firebase RTDB & REST",
+    "Serial Communication (UART/SPI/I2C)", "Sensor Integration",
+    "State Machine Architecture", "Edge Computing", "Multi-Processor Systems",
+    "PCB Design Basics", "Android (Kotlin)", "Git & GitHub",
+  ];
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-10 overflow-y-auto"
+        onClick={() => setOpen(false)}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40, scale: 0.95 }}
+          className="w-full max-w-4xl bg-[#0a0f1a] rounded-2xl border border-[#1e2d4d] overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="sticky top-0 z-10 glass-dark border-b border-[#1e2d4d] px-6 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-[#00e5ff]">
+              {lang === "ar" ? "محمد عقيلي — المهندس الرئيسي" : "Mohammad Aqli — Lead Engineer"}
+            </h2>
+            <button onClick={() => setOpen(false)} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="p-6 sm:p-8" dir={lang === "ar" ? "rtl" : "ltr"}>
+            {/* Avatar & Name */}
+            <div className="flex flex-col sm:flex-row items-center gap-6 mb-8">
+              <div className="relative">
+                <div className="w-24 h-24 rounded-full flex items-center justify-center bg-[#00e5ff10] border-2 border-[#00e5ff30]">
+                  <CircuitBoard className="h-10 w-10 text-[#00e5ff]" />
+                </div>
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#00e5ff15] text-[#00e5ff] border border-[#00e5ff30]">🇵🇸 Palestine</span>
+                </div>
+              </div>
+              <div className="text-center sm:text-start">
+                <h3 className="text-2xl font-bold text-[#00e5ff] mb-1">{lang === "ar" ? "محمد عقيلي" : "Mohammad Aqli"}</h3>
+                <p className="text-sm text-[#7a8ba8] mb-2">{lang === "ar" ? "المؤسس والمهندس الرئيسي — مشاريع للأنظمة الذكية" : "Founder & Lead Engineer — Smart Systems Lab"}</p>
+                <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+                  <a href="https://t.me/Mashari3_AI_Arduino" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#0088cc15] text-[#0088cc] border border-[#0088cc25] hover:bg-[#0088cc25] transition-colors">
+                    <Send className="h-3 w-3" /> Telegram
+                  </a>
+                  <a href="https://wa.me/972569303043" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#25D36615] text-[#25D366] border border-[#25D36625] hover:bg-[#25D36625] transition-colors">
+                    <MessageCircle className="h-3 w-3" /> WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Bio */}
+            <div className="glass-card-dark rounded-xl p-5 mb-6">
+              <p className="text-sm text-[#7a8ba8] leading-relaxed">
+                {lang === "ar"
+                  ? "المهندس الرئيسي لفريق مشاريع للأنظمة الذكية. متخصص في تصميم الأنظمة المدمجة، تركيب القطع الإلكترونية، معرفة أنواع المتحكمات والحساسات، والبرمجة بأنواعها — من الخفيفة إلى المعقدة. يبني المنطق البرمجي على المتحكمات بمنهجية هندسية تضمن الأمان والاستقرار. خبرة واسعة في معمارية الأنظمة متعددة المعالجات والاتصال التسلسلي والتكامل مع السحابة."
+                  : "Lead engineer at Smart Systems Lab. Specializing in embedded systems design, hardware assembly, component knowledge (MCUs, sensors), and programming — from light to complex. Builds software logic for microcontrollers with engineering methodology ensuring safety and stability. Extensive experience in multi-processor architectures, serial communication, and cloud integration."}
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              {stats.map((s, i) => (
+                <div key={i} className="glass-card-dark rounded-xl p-4 text-center">
+                  <div className="text-2xl font-bold font-mono" style={{ color: s.color }}>{s.value}</div>
+                  <div className="text-[10px] text-[#7a8ba8] mt-1">{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Skills */}
+            <div className="glass-card-dark rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Code2 className="h-4 w-4 text-[#00e5ff]" />
+                <h4 className="text-sm font-bold text-[#e8edf5]">{lang === "ar" ? "المهارات التقنية" : "Technical Skills"}</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <span key={skill} className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[#00e5ff08] text-[#00e5ffcc] border border-[#00e5ff20]">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ═══ FLOATING TELEGRAM BUTTON ═══ */
+function FloatingTelegramButton() {
+  const { lang } = useLang();
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.a
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 20 }}
+          href="https://t.me/Mashari3_AI_Arduino"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bottom-14 sm:bottom-16 right-4 sm:right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full text-white font-semibold text-xs sm:text-sm shadow-lg transition-shadow hover:shadow-[0_0_20px_#0088cc60]"
+          style={{ background: "linear-gradient(135deg, #0088cc, #00a8e8)" }}
+          aria-label={lang === "ar" ? "تواصل عبر تليجرام" : "Contact via Telegram"}
+        >
+          <Send className="h-4 w-4" />
+          <span className="hidden sm:inline">{lang === "ar" ? "تواصل معنا" : "Chat Now"}</span>
+          <span className="sm:hidden">{lang === "ar" ? "تليجرام" : "Telegram"}</span>
+        </motion.a>
+      )}
+    </AnimatePresence>
+  );
+}
+
 /* ═══ SCROLL TO TOP ═══ */
 function ScrollToTop() {
   const [show, setShow] = useState(false);
@@ -755,7 +1238,7 @@ export default function Home() {
   // Track active section on scroll
   useEffect(() => {
     const sections = [
-      "hero", "start-here", "about", "team", "groups",
+      "hero", "start-here", "about", "guide", "architecture", "team", "groups",
       "services", "calculator", "resources", "projects",
       "latest", "activity", "dynamic",
       "skills", "audit", "testimonials", "blog", "timeline",
@@ -796,11 +1279,54 @@ export default function Home() {
         {/* 3. WHY US / ABOUT */}
         <WhyUsSection />
 
+        {/* 3b. PROJECT GUIDE (Shortened — Req 1) */}
+        <ProjectGuideSection />
+
+        {/* 3c. ARCHITECTURE LINK (Req 2) */}
+        <div className="relative">
+          <Section id="architecture" className="relative">
+            <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
+            <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6">
+              <motion.div variants={fadeUp} className="text-center">
+                <SectionTitle ar="فلسفة التصميم والتقنيات" en="Design Philosophy & Tech Stack" />
+                <p className="text-sm text-[#7a8ba8] mb-6 max-w-xl mx-auto">
+                  {lang === "ar"
+                    ? "تعرّف على فلسفتنا في التصميم والتقنيات المستخدمة في جميع مشاريعنا"
+                    : "Learn about our design philosophy and technologies used across all projects"}
+                </p>
+                <Button
+                  onClick={() => window.dispatchEvent(new CustomEvent("open-arch-modal"))}
+                  variant="outline"
+                  className="neon-border text-[#00ff66] hover:bg-[#00ff66]/10 font-semibold text-sm"
+                >
+                  {lang === "ar" ? "عرض الفلسفة والتقنيات" : "View Philosophy & Tech Stack"}
+                  <Layers className="h-3.5 w-3.5 mr-2" />
+                </Button>
+              </motion.div>
+            </div>
+          </Section>
+        </div>
+
         {/* 4. TEAM */}
         <div className="relative">
           <Section id="team">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
               <TeamSection />
+              {/* Mohammad dedicated link (Req 10) */}
+              <motion.div variants={fadeUp} className="mt-6 text-center">
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent("open-mohammad-modal"))}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all"
+                  style={{
+                    background: "#00e5ff10",
+                    color: "#00e5ff",
+                    border: "1px solid #00e5ff25",
+                  }}
+                >
+                  <User className="h-4 w-4" />
+                  {lang === "ar" ? "عرض صفحة محمد العقيلي الكاملة" : "View Mohammad Aqli's Full Profile"}
+                </button>
+              </motion.div>
             </div>
           </Section>
         </div>
@@ -890,13 +1416,15 @@ export default function Home() {
           </div>
         </Section>
 
-        {/* 14. SECURITY AUDIT */}
-        <Section id="audit" className="relative">
-          <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
-          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <SecurityAudit />
-          </div>
-        </Section>
+        {/* 14. SECURITY AUDIT — Moved to modal (Req 3) */}
+        <div className="relative">
+          <Section id="audit" className="relative">
+            <div className="absolute inset-0 gradient-mesh-dark opacity-30" />
+            <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+              <SecurityAuditSummary />
+            </div>
+          </Section>
+        </div>
 
         {/* 15. TESTIMONIALS */}
         <Section id="testimonials" className="relative">
@@ -940,7 +1468,14 @@ export default function Home() {
       <PortfolioFooter />
       <BreadcrumbNav />
       <ScrollToTop />
+      <FloatingTelegramButton />
       <ChatBot />
+
+      {/* ═══ MODALS ═══ */}
+      <SecurityAuditModal />
+      <ProjectGuideModal />
+      <ArchitectureModal />
+      <MohammadModal />
     </div>
   );
 }

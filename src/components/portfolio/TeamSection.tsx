@@ -12,6 +12,8 @@ import {
   Rocket,
   Microchip,
   CircuitBoard,
+  Timer,
+  CheckCircle2,
 } from "lucide-react";
 import { useLang } from "@/lib/language";
 
@@ -83,23 +85,23 @@ const STATS: TeamStat[] = [
     glowColor: "#00ff6640",
   },
   {
-    value: { ar: "+١٠", en: "10+" },
-    label: { ar: "حساسات", en: "Sensors" },
-    icon: <Wifi className="h-4 w-4" />,
+    value: { ar: "+١٠٠", en: "100+" },
+    label: { ar: "ساعة عمل", en: "Work Hours" },
+    icon: <Timer className="h-4 w-4" />,
     color: "#00e5ff",
     glowColor: "#00e5ff40",
   },
   {
-    value: { ar: "+٣", en: "3+" },
-    label: { ar: "متحكمات", en: "MCUs" },
-    icon: <Cpu className="h-4 w-4" />,
+    value: { ar: "+٢٠", en: "20+" },
+    label: { ar: "مشكلة حُلّت", en: "Problems Solved" },
+    icon: <CheckCircle2 className="h-4 w-4" />,
     color: "#ffab00",
     glowColor: "#ffab0040",
   },
   {
-    value: { ar: "+٥", en: "5+" },
-    label: { ar: "بروتوكولات", en: "Protocols" },
-    icon: <Globe className="h-4 w-4" />,
+    value: { ar: "٨٠٠+", en: "800+" },
+    label: { ar: "عضو مجتمع", en: "Community Members" },
+    icon: <Users className="h-4 w-4" />,
     color: "#b44dff",
     glowColor: "#b44dff40",
   },
