@@ -22,7 +22,6 @@ import ChatBot from "@/components/chat/ChatBot";
 import ProjectCalculator from "@/components/portfolio/ProjectCalculator";
 import ContactForm from "@/components/portfolio/ContactForm";
 import BlogSection from "@/components/portfolio/BlogSection";
-import ProjectAbout from "@/components/portfolio/ProjectAbout";
 
 /* ═══ ANIMATION VARIANTS ═══ */
 const fadeUp = {
@@ -109,7 +108,6 @@ function Navbar({ activeSection }: { activeSection: string }) {
 
   const navItems = [
     { id: "hero", label: t("الرئيسية", "Home") },
-    { id: "about-project", label: t("عن المشروع", "About") },
     { id: "team", label: t("الفريق", "Team") },
     { id: "services", label: t("الخدمات", "Services") },
     { id: "calculator", label: t("احسب مشروعك", "Calculator") },
@@ -690,7 +688,7 @@ export default function Home() {
 
   // Track active section on scroll
   useEffect(() => {
-    const sections = ["hero", "about-project", "team", "services", "calculator", "projects", "skills", "audit", "testimonials", "blog", "timeline", "contact"];
+    const sections = ["hero", "team", "services", "calculator", "projects", "skills", "audit", "testimonials", "blog", "timeline", "contact"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -715,14 +713,6 @@ export default function Home() {
 
         {/* Why Us / About */}
         <WhyUsSection />
-
-        {/* About Project */}
-        <Section id="about-project" className="relative">
-          <div className="absolute inset-0 gradient-mesh-dark opacity-40" />
-          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <ProjectAbout />
-          </div>
-        </Section>
 
         {/* Team */}
         <div className="relative">
