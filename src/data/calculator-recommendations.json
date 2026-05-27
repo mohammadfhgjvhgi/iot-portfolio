@@ -1,0 +1,92 @@
+[
+  {
+    "projectType": "smart-home",
+    "title_ar": "المنزل الذكي",
+    "title_en": "Smart Home",
+    "recommendation": {
+      "mcu": {
+        "name": "ESP32",
+        "name_ar": "ESP32",
+        "reason": "Wi-Fi + Bluetooth مدمج + GPIO كافية للتحكم بأجهزة المنزل"
+      },
+      "protocols": ["MQTT", "HTTP", "WebSocket"],
+      "estimatedTime": "2-3 weeks",
+      "estimatedTime_ar": "2-3 أسابيع",
+      "complexity": "medium",
+      "description": "ESP32 + Firebase + DHT22 + PIR + Relay modules",
+      "description_ar": "ESP32 + Firebase + DHT22 + PIR + وحدات relay"
+    }
+  },
+  {
+    "projectType": "event-hall",
+    "title_ar": "قاعة أفراح",
+    "title_en": "Event Hall",
+    "recommendation": {
+      "mcu": {
+        "name": "ESP32 + Arduino Mega",
+        "name_ar": "ESP32 + Arduino Mega",
+        "reason": "Arduino Mega للتحكم بكم كبير من وحدات الإضاءة والريلاي، ESP32 للتحكم عن بُعد"
+      },
+      "protocols": ["MQTT", "HTTP", "Bluetooth"],
+      "estimatedTime": "3-5 weeks",
+      "estimatedTime_ar": "3-5 أسابيع",
+      "complexity": "high",
+      "description": "Arduino Mega + ESP32 + RGB LED strips + Relay modules + IR sensors + Firebase",
+      "description_ar": "Arduino Mega + ESP32 + شرائط LED ملونة + وحدات Relay + حساسات IR + Firebase"
+    }
+  },
+  {
+    "projectType": "security",
+    "title_ar": "نظام أمان",
+    "title_en": "Security System",
+    "recommendation": {
+      "mcu": {
+        "name": "ESP32-CAM + ESP32",
+        "name_ar": "ESP32-CAM + ESP32",
+        "reason": "ESP32-CAM للتصوير والمراقبة البصرية، ESP32 للمعالجة والتحكم"
+      },
+      "protocols": ["MQTT", "HTTP", "WebSocket", "SMTP"],
+      "estimatedTime": "3-4 weeks",
+      "estimatedTime_ar": "3-4 أسابيع",
+      "complexity": "high",
+      "description": "ESP32-CAM + PIR + Magnetic sensors + Buzzer + Firebase notifications",
+      "description_ar": "ESP32-CAM + PIR + حساسات مغناطيسية + Buzzer + إشعارات Firebase"
+    }
+  },
+  {
+    "projectType": "parking",
+    "title_ar": "مواقف ذكية",
+    "title_en": "Smart Parking",
+    "recommendation": {
+      "mcu": {
+        "name": "ESP32 + IR Array",
+        "name_ar": "ESP32 + مصفوفة IR",
+        "reason": "ESP32 للاتصال الشبكي والمعالجة، حساسات IR لمراقبة كل موقف"
+      },
+      "protocols": ["MQTT", "HTTP", "WebSocket"],
+      "estimatedTime": "2-4 weeks",
+      "estimatedTime_ar": "2-4 أسابيع",
+      "complexity": "medium",
+      "description": "ESP32 + IR sensors + LED indicators + Servo barriers + Firebase dashboard",
+      "description_ar": "ESP32 + حساسات IR + مؤشرات LED + حواجز Servo + لوحة تحكم Firebase"
+    }
+  },
+  {
+    "projectType": "other",
+    "title_ar": "مشروع مخصص",
+    "title_en": "Custom Project",
+    "recommendation": {
+      "mcu": {
+        "name": "ESP32 / Arduino Mega",
+        "name_ar": "ESP32 / Arduino Mega",
+        "reason": "يعتمد على متطلبات المشروع — ESP32 للمشاريع الشبكية، Arduino Mega للتحكم الكثيف"
+      },
+      "protocols": ["MQTT", "HTTP", "Serial", "I2C"],
+      "estimatedTime": "3-6 weeks",
+      "estimatedTime_ar": "3-6 أسابيع",
+      "complexity": "varies",
+      "description": "Custom hardware selection based on project requirements + sensors + cloud integration",
+      "description_ar": "اختيار عتاد مخصص حسب متطلبات المشروع + حساسات + تكامل سحابي"
+    }
+  }
+]
