@@ -1,34 +1,23 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
-  CircuitBoard, Search, Globe, Sun, Moon, Menu, ChevronRight,
-  ChevronLeft, ChevronDown, Check, BookOpen, LayoutDashboard,
+  CircuitBoard, Search, Globe, Sun, Moon, BookOpen, LayoutDashboard,
   Cpu, Layers, Palette, Settings, ShieldCheck, Rocket,
-  Wrench, Smartphone, ArrowRight, Github, ExternalLink,
-  Code2, Home, Terminal, HelpCircle, Zap, X,
-  Database, Bot, Key, Map,
+  Smartphone, ArrowRight, Github, ExternalLink,
+  Code2, Terminal, Zap, Database, Bot, Map,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+  Dialog, DialogContent, DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { useLang } from "@/lib/language";
 import { useGuideStore } from "@/lib/guide-store";
 import { guideSections } from "@/data/guide-sections";
-import GuideRenderer from "@/components/guide/GuideRenderer";
 import { cn } from "@/lib/utils";
 
 /* ═══════════════════════════════════════════════════════════
@@ -103,7 +92,8 @@ function AnimatedCounter({ end, suffix = "", duration = 1500 }: { end: number; s
    ═══════════════════════════════════════════════════════════ */
 function GuideHeader() {
   const { t, toggle, lang } = useLang();
-  const { theme, toggleTheme, toggleSearch, view, setView, toggleSidebar } = useGuideStore();
+  const { theme, toggleTheme, toggleSearch } = useGuideStore();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -134,15 +124,15 @@ function GuideHeader() {
     >
       <div className="mx-auto w-full max-w-[1400px] px-4 flex items-center justify-between">
         {/* Left: Logo */}
-        <button
-          onClick={() => setView("home")}
+        <Link
+          href="/"
           className="flex items-center gap-2 group shrink-0"
         >
           <CircuitBoard className="h-5 w-5 sm:h-6 sm:w-6 text-[#00ff66] group-hover:shadow-[0_0_12px_#00ff66] transition-shadow" />
           <span className="font-bold text-sm sm:text-base gradient-neon-text hidden sm:inline">
             {t("Smart Systems Lab", "Smart Systems Lab")}
           </span>
-        </button>
+        </Link>
 
         {/* Right: Actions */}
         <div className="flex items-center gap-1.5 sm:gap-2">
@@ -195,16 +185,6 @@ function GuideHeader() {
             {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
 
-          {/* Mobile menu (sidebar toggle in docs view, or just for sidebar) */}
-          {view === "docs" && (
-            <button
-              onClick={toggleSidebar}
-              className="lg:hidden flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white/10 transition-colors"
-              aria-label="Toggle sidebar"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-          )}
         </div>
       </div>
     </header>
@@ -239,12 +219,11 @@ function SearchDialog() {
 
   const navigate = useCallback(
     (sectionId: string) => {
-      setView("docs");
-      setActiveSection(sectionId);
+      router.push(`/docs/${sectionId}/`);
       toggleSearch();
       setQuery("");
     },
-    [setView, setActiveSection, toggleSearch]
+    [router, toggleSearch]
   );
 
   // Focus input when dialog opens
@@ -334,17 +313,16 @@ function SearchDialog() {
    ═══════════════════════════════════════════════════════════ */
 function HomeView() {
   const { t, lang, isRTL } = useLang();
-  const { theme, setView, setActiveSection } = useGuideStore();
+  const { theme } = useGuideStore();
+  const router = useRouter();
 
   const handleStartReading = useCallback(() => {
-    setActiveSection(guideSections[0].id);
-    setView("docs");
-  }, [setActiveSection, setView]);
+    router.push("/docs/overview/");
+  }, [router]);
 
   const handleSectionClick = useCallback((id: string) => {
-    setActiveSection(id);
-    setView("docs");
-  }, [setActiveSection, setView]);
+    router.push(`/docs/${id}/`);
+  }, [router]);
 
   /* Stats */
   const stats = [
@@ -510,12 +488,11 @@ function HomeView() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
           >
             {quickSections.map((section) => (
-              <motion.button
+              <Link
                 key={section.id}
-                variants={fadeUp}
-                onClick={() => handleSectionClick(section.id)}
+                href={`/docs/${section.id}/`}
                 className={cn(
-                  "group p-4 sm:p-5 rounded-xl text-start card-hover transition-all",
+                  "group p-4 sm:p-5 rounded-xl text-start card-hover transition-all block",
                   isLight
                     ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md hover:shadow-green-600/5"
                     : "glass-card-dark"
@@ -539,7 +516,7 @@ function HomeView() {
                   {t("اقرأ المزيد", "Read more")}
                   <ArrowRight className={cn("h-3 w-3 transition-transform group-hover:translate-x-1", isRTL() && "rotate-180")} />
                 </div>
-              </motion.button>
+              </Link>
             ))}
           </motion.div>
         </div>

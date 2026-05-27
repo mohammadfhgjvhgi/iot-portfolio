@@ -703,3 +703,103 @@ Stage Summary:
 - Added Section 18: Multi-Page conversion plan (from uploaded PDF)
 - Added Section 19: Development history from worklog
 - Categorized issues into Critical (2), Medium (5), and Notes (4)
+
+---
+Task ID: 1
+Agent: fullstack-developer
+Task: Create Multi-Page Docs Routing Infrastructure
+
+Work Log:
+- Read worklog.md and examined existing project structure: guide-sections.ts (17 sections), guide-store.ts (Zustand), language.ts, GuideRenderer.tsx, all shadcn/ui components
+- Created `/home/z/my-project/src/lib/docs.ts` — Helper functions for docs routing:
+  - getAllDocSlugs() — returns all section IDs for generateStaticParams
+  - getDocBySlug(slug) — finds section by ID
+  - getPrevNext(slug) — returns adjacent sections for pagination
+  - getReadProgress() / markSectionRead() / getProgressPercent() — localStorage-based read tracking
+  - searchSections(query) — filters sections by bilingual title/description/subsection text
+  - getSectionCategories() — groups 17 sections into 4 categories (Getting Started, Architecture, Features, Reference)
+- Created `/home/z/my-project/src/app/docs/layout.tsx` — Server component layout with metadata, delegates to DocsLayoutClient
+- Created `/home/z/my-project/src/app/docs/DocsLayoutClient.tsx` — "use client" layout with:
+  - Fixed progress bar at top (green neon, reads from localStorage)
+  - Sticky header with: logo, breadcrumbs (Home > Docs > Section), search (⌘K), language toggle, theme toggle, mobile menu
+  - Desktop sidebar (280px fixed) with: section list grouped by categories, progress counter, read checkmarks, active highlighting, back-to-home link
+  - Mobile sidebar (Sheet drawer, RTL-aware side) with same content
+  - Main content area with max-w-4xl and responsive padding
+  - Ref-based sidebar auto-close on navigation (no useEffect setState)
+  - Keyboard shortcut ⌘K for search integration
+  - Full light/dark theme support
+  - RTL/LTR aware chevron direction and sidebar side
+- Created `/home/z/my-project/src/app/docs/page.tsx` — Redirects /docs to /docs/overview/
+- Created `/home/z/my-project/src/app/docs/[slug]/page.tsx` — Server component with:
+  - generateStaticParams() for all 17 section slugs (static export compatible)
+  - generateMetadata() with dynamic title and description per section
+  - Async params handling (Next.js 15+ pattern)
+  - 404 via notFound() for invalid slugs
+  - Passes section data, prev/next to DocsSectionClient
+- Created `/home/z/my-project/src/app/docs/[slug]/DocsSectionClient.tsx` — "use client" with:
+  - Auto-marks section as read on mount (localStorage + Zustand store sync)
+  - Section header: icon badge, gradient title, description, subsection chips
+  - GuideRenderer integration for markdown content
+  - DocsPagination: prev/next navigation with RTL-aware arrows, glass-card-dark styling
+  - Fade-in animation on mount
+- Fixed React 19 lint errors:
+  - Removed useState+useEffect for localStorage reads (now computed directly in render)
+  - Replaced ref-based sidebar tracking with state-based comparison (openPath === pathname)
+  - Cleaned up unused imports (Button, Badge, Separator, ArrowRight, ArrowLeft, X)
+- Verified: ESLint 0 errors, 0 warnings
+
+Stage Summary:
+- Files created: src/lib/docs.ts, src/app/docs/layout.tsx, src/app/docs/DocsLayoutClient.tsx, src/app/docs/page.tsx, src/app/docs/[slug]/page.tsx, src/app/docs/[slug]/DocsSectionClient.tsx
+- All 17 guide sections have dedicated routes at /docs/{slug}/
+- Static export compatible with generateStaticParams()
+- Bilingual (ar/en), RTL-aware, responsive, dark neon theme
+- All builds pass: lint ✅
+
+---
+Task ID: 2
+Agent: fullstack-developer
+Task: Create Multi-Page Docs Components
+
+Work Log:
+- Read worklog.md, guide-sections.ts, language.ts, dialog.tsx, utils.ts, SearchDialog.tsx to understand existing patterns
+- Created src/components/docs/ directory
+- Created src/components/docs/DocsSearch.tsx — "use client" search dialog for documentation pages
+  - Exports DocsSearchTrigger button (Search icon + text + ⌘K badge) and default DocsSearch dialog
+  - Keyboard shortcut: ⌘K / Ctrl+K to open/close dialog
+  - Searches all 16 guide sections + subsections (flattened list of ~77 items)
+  - Real-time filtering: searches ar/en titles, descriptions, subsection titles, section IDs
+  - Keyboard navigation: ArrowUp/ArrowDown to move, Enter to navigate, Escape to close
+  - Active result highlight with green neon accent (#00ff66) + CornerDownLeft icon
+  - Results link to /docs/{sectionId} (with optional #hash for subsections)
+  - Empty state with bilingual message
+  - Footer bar with keyboard hints (navigate, open, close)
+  - glass-dark dialog styling with border-[#1e2d4d]
+  - RTL support via useLang() hook
+- Created src/components/docs/DocsPagination.tsx — "use client" prev/next navigation component
+  - Takes prev/next GuideSection props (optional)
+  - Two responsive cards in 1-col mobile / 2-col sm grid
+  - Each card: glass-card-dark, hover border-[#00ff66]/30, icon badge in green bg, section title
+  - RTL-aware: Previous/Next labels swap sides, arrow directions flip
+  - Icon mapping for 6 section icons (Globe, LayoutDashboard, Cpu, Settings, Palette, Layers) + fallback
+  - Links to /docs/{sectionId} via next/link
+- Created src/components/docs/TableOfContents.tsx — "use client" dynamic TOC with scroll spy
+  - Extracts h2/h3 headings from DOM (looks for [data-docs-content], article, or main)
+  - IntersectionObserver with rootMargin "-80px 0px -60% 0px" for scroll spy
+  - Initial scroll position detection + debounced scroll handler as fallback
+  - Active heading: green text + green left border + font-medium
+  - Inactive heading: gray text + transparent border + hover effects
+  - h3 items indented with extra pl-6
+  - max-h-[calc(100vh-12rem)] overflow-y-auto container
+  - Smooth scroll on click
+  - Bilingual "On this page" / "في هذا القسم" header
+  - Delayed re-extraction (500ms timeout) for async content rendering
+- Fixed lint error in TableOfContents.tsx: deferred extractHeadings() call via requestAnimationFrame to avoid synchronous setState in effect (react-hooks/set-state-in-effect rule)
+- Verified: ESLint clean (0 errors, 0 warnings)
+
+Stage Summary:
+- 3 reusable docs components created for multi-page documentation layout
+- DocsSearch.tsx: ⌘K search across all guide sections with bilingual filtering and keyboard navigation
+- DocsPagination.tsx: RTL-aware prev/next section navigation cards
+- TableOfContents.tsx: Dynamic heading extraction with IntersectionObserver scroll spy
+- All builds pass: lint ✅
+- Files: src/components/docs/DocsSearch.tsx (created), src/components/docs/DocsPagination.tsx (created), src/components/docs/TableOfContents.tsx (created)
