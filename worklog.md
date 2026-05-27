@@ -851,3 +851,35 @@ Stage Summary:
 - NVIDIA API key configuration fixed for both server and client
 - Repository is now clean with only actively used components
 - Remaining files: src/app/page.tsx, src/app/layout.tsx, src/app/api/*, src/components/chat/ChatBot.tsx, src/components/guide/GuideRenderer.tsx, src/components/ui/* (48 files), src/components/ServiceWorkerRegistrar.tsx, src/data/guide-sections.ts, src/data/faq.json, src/lib/*
+
+---
+Task ID: 1
+Agent: main
+Task: Convert IoT Portfolio from SPA (single page) to multi-page site with proper Next.js routing
+
+Work Log:
+- Analyzed existing project structure (1459-line SPA page.tsx with all components inline)
+- Created shared component library: icon-map.tsx, AnimatedCounter.tsx
+- Created layout components: SiteHeader.tsx (route-aware with usePathname), SiteFooter.tsx, SiteLayout.tsx
+- Created guide components: SearchDialog.tsx (router.push navigation), Sidebar.tsx (DocsSidebar + DesktopSidebar)
+- Updated guide-store.ts: removed `view` state, kept theme/sidebar/search/readSections
+- Rewrote page.tsx: clean home page (~350 lines) using Link components for navigation
+- Created docs/[slug]/page.tsx with generateStaticParams for all 17 sections + generateMetadata
+- Created docs/[slug]/DocsClientPage.tsx with breadcrumbs, sidebar, content, prev/next navigation
+- Updated sitemap.ts to include all 18 pages (home + 17 docs)
+- Fixed icon-map.ts → icon-map.tsx (JSX requires .tsx extension)
+- Verified: lint passes, home page renders correctly with all content
+
+Stage Summary:
+- Successfully converted from SPA (~1459 lines in one file) to multi-page architecture
+- New file structure:
+  - src/app/page.tsx (home page, ~350 lines)
+  - src/app/docs/[slug]/page.tsx (server component with metadata + static params)
+  - src/app/docs/[slug]/DocsClientPage.tsx (client component for docs)
+  - src/components/layout/SiteHeader.tsx, SiteFooter.tsx, SiteLayout.tsx
+  - src/components/guide/SearchDialog.tsx, Sidebar.tsx, AnimatedCounter.tsx
+  - src/lib/icon-map.tsx, guide-store.ts (simplified)
+- Navigation uses Next.js Link and router.push (proper multi-page)
+- All 17 documentation sections have their own URL: /docs/overview, /docs/architecture, etc.
+- SEO metadata generated per-page via generateMetadata
+- Sitemap includes all pages for search engines

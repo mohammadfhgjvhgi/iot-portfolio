@@ -1,9 +1,6 @@
 import { create } from "zustand";
 
-export type GuideView = "home" | "docs";
-
 interface GuideState {
-  view: GuideView;
   activeSection: string;
   sidebarOpen: boolean;
   searchOpen: boolean;
@@ -11,11 +8,11 @@ interface GuideState {
   expandedSections: Set<string>;
   theme: "dark" | "light";
 
-  setView: (view: GuideView) => void;
   setActiveSection: (id: string) => void;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
   toggleSearch: () => void;
+  setSearchOpen: (open: boolean) => void;
   markSectionRead: (id: string) => void;
   toggleSectionExpanded: (id: string) => void;
   toggleTheme: () => void;
@@ -23,7 +20,6 @@ interface GuideState {
 }
 
 export const useGuideStore = create<GuideState>((set) => ({
-  view: "home",
   activeSection: "",
   sidebarOpen: false,
   searchOpen: false,
@@ -31,7 +27,6 @@ export const useGuideStore = create<GuideState>((set) => ({
   expandedSections: new Set<string>(),
   theme: "dark",
 
-  setView: (view) => set({ view, activeSection: view === "home" ? "" : undefined }),
   setActiveSection: (id) =>
     set((state) => ({
       activeSection: id,
@@ -40,6 +35,7 @@ export const useGuideStore = create<GuideState>((set) => ({
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
   toggleSearch: () => set((s) => ({ searchOpen: !s.searchOpen })),
+  setSearchOpen: (open) => set({ searchOpen: open }),
   markSectionRead: (id) =>
     set((state) => ({
       readSections: new Set([...state.readSections, id]),

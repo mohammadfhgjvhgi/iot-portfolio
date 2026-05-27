@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import ServiceWorkerRegistrar from "@/components/ServiceWorkerRegistrar";
+import { SiteLayout } from "@/components/layout/SiteLayout";
 
 const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   variable: "--font-ibm-plex-arabic",
@@ -57,7 +58,7 @@ export default function RootLayout({
       </head>
       <body className={`${ibmPlexArabic.variable} font-sans antialiased bg-background text-foreground`}>
         <ServiceWorkerRegistrar />
-        {children}
+        <SiteLayout>{children}</SiteLayout>
         <Toaster position="top-left" dir="rtl" richColors closeButton />
         <Script
           src="https://plausible.io/js/script.js"
@@ -70,7 +71,6 @@ export default function RootLayout({
           {`
             window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) };
 
-            // Track contact button clicks
             document.addEventListener('click', function(e) {
               const target = e.target.closest('a[href*="t.me"], a[href*="wa.me"], a[href*="facebook"]');
               if (target) {
@@ -81,28 +81,9 @@ export default function RootLayout({
                 plausible('Contact Click', { props: { platform: platform } });
               }
 
-              // Track chat open
               var chatBtn = e.target.closest('[data-chat-btn]');
               if (chatBtn) {
                 plausible('Chat Opened');
-              }
-
-              // Track calculator completion
-              var calcQuote = e.target.closest('[data-calc-quote]');
-              if (calcQuote) {
-                plausible('Calculator Quote Request');
-              }
-
-              // Track form submission
-              var formSubmit = e.target.closest('button[type="submit"]');
-              if (formSubmit) {
-                plausible('Form Submit Attempt');
-              }
-
-              // Track blog post view
-              var blogPost = e.target.closest('[data-blog-post]');
-              if (blogPost) {
-                plausible('Blog Post Viewed', { props: { slug: blogPost.getAttribute('data-blog-post') || 'unknown' } });
               }
             });
           `}
