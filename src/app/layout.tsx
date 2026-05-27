@@ -15,27 +15,27 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "دليل المطور الشامل | Smart Systems Lab — Developer Guide v2.1",
+  title: "مشاريع للأنظمة الذكية | Smart Systems Lab — IoT Engineering Team",
   description:
-    "Comprehensive developer guide for Smart Systems Lab IoT Portfolio. Complete technical documentation covering architecture, components, security, deployment, and more.",
+    "Smart Systems Lab — IoT engineering team from Palestine. Real smart systems: building management, parking automation, RFID security, wedding hall automation, and more.",
   keywords: [
-    "Developer Guide", "IoT Portfolio", "Smart Systems Lab", "Next.js",
-    "TypeScript", "Documentation", "Arduino", "ESP32",
-    "دليل المطور", "أنظمة ذكية", "وثائق تقنية",
+    "IoT", "Smart Systems", "Arduino", "ESP32", "Firebase",
+    "Palestine", "Smart Home", "Automation", "Security Systems",
+    "أنظمة ذكية", "أردوينو", "إنترنت الأشياء", "مشروعات",
   ],
   icons: { icon: "/iot-portfolio/images/logo.png" },
   openGraph: {
     type: "website",
     locale: "ar_PS",
     alternateLocale: "en_US",
-    title: "دليل المطور الشامل | Smart Systems Lab — Developer Guide",
-    description: "Comprehensive developer documentation for the IoT Portfolio project.",
-    siteName: "Smart Systems Lab — Developer Guide",
+    title: "مشاريع للأنظمة الذكية | Smart Systems Lab",
+    description: "IoT engineering team from Palestine — building real smart systems.",
+    siteName: "Smart Systems Lab",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Smart Systems Lab — Developer Guide v2.1",
-    description: "Comprehensive developer documentation for the IoT Portfolio project.",
+    title: "مشاريع للأنظمة الذكية | Smart Systems Lab",
+    description: "IoT engineering team from Palestine — building real smart systems.",
   },
   robots: {
     index: true,
