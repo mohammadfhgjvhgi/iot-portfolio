@@ -24,6 +24,7 @@ import { useGuideStore } from "@/lib/guide-store";
 import { guideSections } from "@/data/guide-sections";
 import { cn } from "@/lib/utils";
 import GuideRenderer from "@/components/guide/GuideRenderer";
+import ChatBot from "@/components/chat/ChatBot";
 
 /* ═══════════════════════════════════════════════════════════
    ICON MAP — maps icon string names to lucide components
@@ -1451,6 +1452,7 @@ export default function GuidePage() {
         {view === "home" ? <HomeView key="home" /> : <DocsView key="docs" />}
       </AnimatePresence>
       <SearchDialog />
+      <ChatBot />
       <GuideFooter />
     </div>
   );
