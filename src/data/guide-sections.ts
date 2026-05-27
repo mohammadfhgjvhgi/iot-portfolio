@@ -35,6 +35,7 @@ export const guideSections: GuideSection[] = [
 - **دردشة ذكية** بوضعين: محلي (FAQ) + ذكاء اصطناعي (NVIDIA NIM)
 - **تقرير أمان** شامل مع نتيجة 92/100
 - **مدونة تقنية** مع مقالات مفصلة
+- **دليل مطور شامل** مع 17 قسماً متعدد الصفحات
 
 ## فريق العمل
 
@@ -70,6 +71,7 @@ export const guideSections: GuideSection[] = [
 - **Smart chatbot** with two modes: local (FAQ) + AI (NVIDIA NIM)
 - **Comprehensive security report** with a score of 92/100
 - **Technical blog** with detailed articles
+- **Comprehensive developer guide** with 17 multi-page sections
 
 ## Team
 
@@ -112,8 +114,8 @@ export const guideSections: GuideSection[] = [
     icon: "LayoutDashboard",
     title: { ar: "الهيكل التقني والبنية", en: "Technical Structure" },
     description: {
-      ar: "بنية المجلدات والمعمارية وخريطة الأقسام",
-      en: "Directory structure, architecture, and section map",
+      ar: "بنية المجلدات والمعمارية وخريطة المسارات",
+      en: "Directory structure, architecture, and route map",
     },
     content: {
       ar: `## بنية المجلدات
@@ -139,20 +141,36 @@ iot-portfolio/
 │   ├── app/
 │   │   ├── globals.css       # الأنماط العامة + التأثيرات
 │   │   ├── layout.tsx        # التخطيط الرئيسي (خط IBM Plex Arabic، SEO)
-│   │   ├── page.tsx          # الصفحة الرئيسية (الصفحة واحدة)
+│   │   ├── page.tsx          # الصفحة الرئيسية (دليل المطور، ~520 سطر)
 │   │   ├── manifest.ts       # PWA manifest
 │   │   ├── sitemap.ts        # خريطة الموقع SEO
-│   │   └── not-found.tsx     # صفحة 404
+│   │   ├── not-found.tsx     # صفحة 404
+│   │   ├── api/              # API Routes
+│   │   │   ├── route.ts      # API رئيسي
+│   │   │   ├── contact/route.ts
+│   │   │   ├── ai-chat/route.ts
+│   │   │   ├── search/route.ts
+│   │   │   └── newsletter/route.ts
+│   │   └── docs/
+│   │       └── [slug]/
+│   │           ├── page.tsx  # صفحة الوثائق (generateStaticParams)
+│   │           └── DocsClientPage.tsx
 │   ├── components/
 │   │   ├── chat/
 │   │   │   └── ChatBot.tsx   # الدردشة الذكية (FAQ + NVIDIA AI)
-│   │   ├── portfolio/        # مكونات المحتوى الرئيسية
-│   │   ├── platform/         # مكونات إضافية (غير مفعّلة حالياً)
+│   │   ├── guide/
+│   │   │   ├── Sidebar.tsx       # الشريط الجانبي للدليل
+│   │   │   ├── SearchDialog.tsx  # بحث Cmd+K
+│   │   │   ├── GuideRenderer.tsx # محلل Markdown للدليل
+│   │   │   └── AnimatedCounter.tsx # عداد متحرك
+│   │   ├── layout/
+│   │   │   ├── SiteLayout.tsx  # التخطيط العام (رأس + تذييل + شريط جانبي)
+│   │   │   ├── SiteHeader.tsx  # رأس الصفحة
+│   │   │   └── SiteFooter.tsx  # تذييل الصفحة
 │   │   ├── ServiceWorkerRegistrar.tsx
 │   │   └── ui/               # مكونات shadcn/ui (55+ مكون)
 │   ├── data/
-│   │   ├── blog-posts.ts     # بيانات المدونة
-│   │   ├── calculator-recommendations.json
+│   │   ├── guide-sections.ts # بيانات أقسام الدليل (17 قسماً)
 │   │   └── faq.json          # بيانات الشات (18 سؤال)
 │   ├── hooks/
 │   │   ├── use-toast.ts
@@ -160,6 +178,8 @@ iot-portfolio/
 │   └── lib/
 │       ├── db.ts             # عميل Prisma
 │       ├── language.ts       # إدارة اللغة (Zustand)
+│       ├── guide-store.ts    # حالة الدليل (Zustand)
+│       ├── icon-map.tsx      # خريطة الأيقونات
 │       └── utils.ts          # أدوات مساعدة (cn, etc.)
 ├── Caddyfile                 # إعدادات البوابة (Port 81)
 ├── components.json           # إعدادات shadcn/ui
@@ -184,21 +204,26 @@ iot-portfolio/
           │  Next.js (:3000)  │
           │                    │
           │  ┌──────────────┐  │
-          │  │ page.tsx    │  │  ← صفحة واحدة تحتوي كل شيء
+          │  │ App Router   │  │  ← Multi-page routing
           │  │  Components │  │
           │  │  ┌────────┐ │  │
-          │  │  │portfolio│ │  │
-          │  │  │chat    │ │  │
-          │  │  │ui/     │ │  │
+          │  │  │layout/ │ │  │  ← SiteLayout, SiteHeader, SiteFooter
+          │  │  │guide/  │ │  │  ← Sidebar, GuideRenderer, SearchDialog
+          │  │  │chat    │ │  │  ← ChatBot
+          │  │  │ui/     │ │  │  ← shadcn/ui (55+)
           │  │  └────────┘ │  │
           │  └──────────────┘  │
           │                    │
           │  ┌──────────────┐  │
-          │  │ State/Store  │  │  ← Zustand (language)
+          │  │ State/Store  │  │  ← Zustand (language + guide theme)
           │  └──────────────┘  │
           │                    │
           │  ┌──────────────┐  │
-          │  │  Data Files  │  │  ← faq.json, blog-posts.ts, etc.
+          │  │  Data Files  │  │  ← guide-sections.ts, faq.json
+          │  └──────────────┘  │
+          │                    │
+          │  ┌──────────────┐  │
+          │  │  API Routes  │  │  ← contact, ai-chat, search, newsletter
           │  └──────────────┘  │
           └────────────────────┘
                      │
@@ -219,22 +244,21 @@ iot-portfolio/
           └──────────────────┘
 \`\`\`
 
-## خريطة الأقسام (Scroll Spy)
+## خريطة المسارات (Route Map)
 
-الموقع صفحة واحدة (SPA) مع أقسام مرقصة عبر \`id\`:
+الموقع يستخدم Next.js App Router مع مسارات متعددة:
 
-| القسم | ID | المكون |
-|-------|----|--------|
-| الرئيسية | \`#hero\` | مدمج في page.tsx |
-| ابدأ من هنا | \`#start-here\` | StartHereSection |
-| الفريق | \`#team\` | TeamSection |
-| لماذا نحن مختلفون | \`#about\` | WhyUsSection |
-| الخدمات | \`#services\` | ServicesSection |
-| الموارد | \`#resources\` | ResourceLibrarySection |
-| المشاريع | \`#projects\` | ProjectsShowcase |
-| المجتمعات | \`#groups\` | GroupsLinksSection |
-| الأسئلة الشائعة | \`#faq\` | FAQSection |
-| تواصل | \`#contact\` | ContactSection |`,
+| الصفحة | المسار | المكون/الملف |
+|-------|--------|-------------|
+| الرئيسية (الدليل) | \`/\` | \`src/app/page.tsx\` |
+| صفحة الوثائق | \`/docs/[slug]\` | \`src/app/docs/[slug]/page.tsx\` |
+| صفحة 404 | \`/404\` | \`src/app/not-found.tsx\` |
+| API - اتصال | \`/api/contact\` | \`src/app/api/contact/route.ts\` |
+| API - دردشة AI | \`/api/ai-chat\` | \`src/app/api/ai-chat/route.ts\` |
+| API - بحث | \`/api/search\` | \`src/app/api/search/route.ts\` |
+| API - نشرة | \`/api/newsletter\` | \`src/app/api/newsletter/route.ts\` |
+
+صفحات الدليل تُولّد تلقائياً عبر \`generateStaticParams\` من \`guideSections\` (17 صفحة).`,
       en: `## Directory Structure
 
 \`\`\`
@@ -258,20 +282,36 @@ iot-portfolio/
 │   ├── app/
 │   │   ├── globals.css       # Global styles + effects
 │   │   ├── layout.tsx        # Main layout (IBM Plex Arabic font, SEO)
-│   │   ├── page.tsx          # Main page (single page)
+│   │   ├── page.tsx          # Home page (developer guide landing, ~520 lines)
 │   │   ├── manifest.ts       # PWA manifest
 │   │   ├── sitemap.ts        # SEO sitemap
-│   │   └── not-found.tsx     # 404 page
+│   │   ├── not-found.tsx     # 404 page
+│   │   ├── api/              # API Routes
+│   │   │   ├── route.ts      # Main API route
+│   │   │   ├── contact/route.ts
+│   │   │   ├── ai-chat/route.ts
+│   │   │   ├── search/route.ts
+│   │   │   └── newsletter/route.ts
+│   │   └── docs/
+│   │       └── [slug]/
+│   │           ├── page.tsx  # Docs page (generateStaticParams)
+│   │           └── DocsClientPage.tsx
 │   ├── components/
 │   │   ├── chat/
 │   │   │   └── ChatBot.tsx   # Smart chat (FAQ + NVIDIA AI)
-│   │   ├── portfolio/        # Main content components
-│   │   ├── platform/         # Extra components (currently disabled)
+│   │   ├── guide/
+│   │   │   ├── Sidebar.tsx       # Guide sidebar navigation
+│   │   │   ├── SearchDialog.tsx  # Cmd+K search
+│   │   │   ├── GuideRenderer.tsx # Markdown renderer for guide
+│   │   │   └── AnimatedCounter.tsx # Animated counter
+│   │   ├── layout/
+│   │   │   ├── SiteLayout.tsx  # Overall layout (header + footer + sidebar)
+│   │   │   ├── SiteHeader.tsx  # Page header
+│   │   │   └── SiteFooter.tsx  # Page footer
 │   │   ├── ServiceWorkerRegistrar.tsx
 │   │   └── ui/               # shadcn/ui components (55+)
 │   ├── data/
-│   │   ├── blog-posts.ts     # Blog data
-│   │   ├── calculator-recommendations.json
+│   │   ├── guide-sections.ts # Guide section data (17 sections)
 │   │   └── faq.json          # Chat data (18 questions)
 │   ├── hooks/
 │   │   ├── use-toast.ts
@@ -279,6 +319,8 @@ iot-portfolio/
 │   └── lib/
 │       ├── db.ts             # Prisma client
 │       ├── language.ts       # Language management (Zustand)
+│       ├── guide-store.ts    # Guide state (Zustand)
+│       ├── icon-map.tsx      # Icon mapping
 │       └── utils.ts          # Utility functions (cn, etc.)
 ├── Caddyfile                 # Gateway config (Port 81)
 ├── components.json           # shadcn/ui config
@@ -303,21 +345,26 @@ iot-portfolio/
           │  Next.js (:3000)  │
           │                    │
           │  ┌──────────────┐  │
-          │  │ page.tsx    │  │  ← Single page containing everything
+          │  │ App Router   │  │  ← Multi-page routing
           │  │  Components │  │
           │  │  ┌────────┐ │  │
-          │  │  │portfolio│ │  │
-          │  │  │chat    │ │  │
-          │  │  │ui/     │ │  │
+          │  │  │layout/ │ │  │  ← SiteLayout, SiteHeader, SiteFooter
+          │  │  │guide/  │ │  │  ← Sidebar, GuideRenderer, SearchDialog
+          │  │  │chat    │ │  │  ← ChatBot
+          │  │  │ui/     │ │  │  ← shadcn/ui (55+)
           │  │  └────────┘ │  │
           │  └──────────────┘  │
           │                    │
           │  ┌──────────────┐  │
-          │  │ State/Store  │  │  ← Zustand (language)
+          │  │ State/Store  │  │  ← Zustand (language + guide theme)
           │  └──────────────┘  │
           │                    │
           │  ┌──────────────┐  │
-          │  │  Data Files  │  │  ← faq.json, blog-posts.ts, etc.
+          │  │  Data Files  │  │  ← guide-sections.ts, faq.json
+          │  └──────────────┘  │
+          │                    │
+          │  ┌──────────────┐  │
+          │  │  API Routes  │  │  ← contact, ai-chat, search, newsletter
           │  └──────────────┘  │
           └────────────────────┘
                      │
@@ -338,27 +385,26 @@ iot-portfolio/
           └──────────────────┘
 \`\`\`
 
-## Section Map (Scroll Spy)
+## Route Map
 
-The site is a single page application (SPA) with sections identified via \`id\`:
+The site uses Next.js App Router with multiple routes:
 
-| Section | ID | Component |
-|---------|----|----|
-| Hero | \`#hero\` | Built into page.tsx |
-| Start Here | \`#start-here\` | StartHereSection |
-| Team | \`#team\` | TeamSection |
-| Why Us | \`#about\` | WhyUsSection |
-| Services | \`#services\` | ServicesSection |
-| Resources | \`#resources\` | ResourceLibrarySection |
-| Projects | \`#projects\` | ProjectsShowcase |
-| Communities | \`#groups\` | GroupsLinksSection |
-| FAQ | \`#faq\` | FAQSection |
-| Contact | \`#contact\` | ContactSection |`,
+| Page | Route | Component/File |
+|------|-------|----------------|
+| Home (Guide Landing) | \`/\` | \`src/app/page.tsx\` |
+| Docs Page | \`/docs/[slug]\` | \`src/app/docs/[slug]/page.tsx\` |
+| 404 Page | \`/404\` | \`src/app/not-found.tsx\` |
+| API - Contact | \`/api/contact\` | \`src/app/api/contact/route.ts\` |
+| API - AI Chat | \`/api/ai-chat\` | \`src/app/api/ai-chat/route.ts\` |
+| API - Search | \`/api/search\` | \`src/app/api/search/route.ts\` |
+| API - Newsletter | \`/api/newsletter\` | \`src/app/api/newsletter/route.ts\` |
+
+Guide pages are auto-generated via \`generateStaticParams\` from \`guideSections\` (17 pages).`,
     },
     subsections: [
       { id: "directory-structure", title: { ar: "بنية المجلدات", en: "Directory Structure" } },
       { id: "system-architecture", title: { ar: "البنية المعمارية", en: "System Architecture" } },
-      { id: "section-map", title: { ar: "خريطة الأقسام", en: "Section Map" } },
+      { id: "route-map", title: { ar: "خريطة المسارات", en: "Route Map" } },
     ],
   },
 
@@ -383,7 +429,7 @@ The site is a single page application (SPA) with sections identified via \`id\`:
 | **TypeScript** | 5 | لغة البرمجة |
 | **Tailwind CSS** | 4 | إطار الأنماط |
 | **Framer Motion** | 12.23.2 | الرسوم والانتقالات |
-| **Zustand** | 5.0.6 | إدارة الحالة (لغة) |
+| **Zustand** | 5.0.6 | إدارة الحالة (لغة + سمة الدليل) |
 | **Prisma** | 6.11.1 | ORM وقاعدة البيانات |
 | **shadcn/ui** | أحدث | مكتبة مكونات UI |
 | **Lucide React** | 0.525.0 | أيقونات SVG |
@@ -418,7 +464,7 @@ bun run db:generate # توليد عميل Prisma
 | **TypeScript** | 5 | Programming language |
 | **Tailwind CSS** | 4 | Styling framework |
 | **Framer Motion** | 12.23.2 | Animations and transitions |
-| **Zustand** | 5.0.6 | State management (language) |
+| **Zustand** | 5.0.6 | State management (language + guide theme) |
 | **Prisma** | 6.11.1 | ORM and database |
 | **shadcn/ui** | Latest | UI component library |
 | **Lucide React** | 0.525.0 | SVG icons |
@@ -736,55 +782,30 @@ frame-src https://challenges.cloudflare.com;
     icon: "Layers",
     title: { ar: "قائمة المكونات", en: "Components" },
     description: {
-      ar: "المكونات المدمجة والمستقلة والشات و shadcn/ui",
-      en: "Inline, standalone, chatbot, and shadcn/ui components",
+      ar: "مكونات التخطيط والدليل والشات و shadcn/ui",
+      en: "Layout, guide, chatbot, and shadcn/ui components",
     },
     content: {
-      ar: `## المكونات المدمجة في \`page.tsx\`
+      ar: `## مكونات التخطيط (\`layout/\`)
 
-المكونات التالية مُعرّفة **مباشرة داخل** \`src/app/page.tsx\`:
-
-| المكون | النوع | الوصف |
+| المكون | الملف | الوصف |
 |--------|------|-------|
-| \`Navbar\` | function | شريط التنقل الثابت مع Scroll Spy + تبديل اللغة |
-| \`HeroSection\` | function | القسم الرئيسي مع تأثير طباعة + عداد متحرك + CTA |
-| \`WhyUsSection\` | function | 6 أسباب للتمايز (الأمان، Offline-First، كود نظيف...) |
-| \`ProjectGuideSection\` | function | دليل المشروع المختصر مع زر "اقرأ المزيد" |
-| \`ProjectGuideModal\` | function | نافذة كاملة للدليل |
-| \`ArchitectureModal\` | function | نافذة المعمارية والتصميم |
-| \`SecurityAuditSummary\` | function | ملخص تقرير الأمان (92/100) |
-| \`SecurityAuditModal\` | function | النافذة الكاملة لتقرير الأمان |
-| \`ContactSection\` | function | معلومات الاتصال + نموذج الاتصال |
-| \`PortfolioFooter\` | function | تذييل الصفحة |
+| **SiteLayout** | \`layout/SiteLayout.tsx\` | التخطيط العام الذي يغلف كل الصفحات — يتضمن SiteHeader + الشريط الجانبي + SiteFooter + ChatBot |
+| **SiteHeader** | \`layout/SiteHeader.tsx\` | رأس الصفحة مع تبديل اللغة، زر البحث ⌘K، وتبديل السمة (داكن/فاتح) |
+| **SiteFooter** | \`layout/SiteFooter.tsx\` | تذييل الصفحة مع روابط سريعة ومعلومات حقوق النشر |
 
-## المكونات المستقلة
+## مكونات الدليل (\`guide/\`)
 
-| المكون | الملف | الوصف التفصيلي |
-|--------|------|--------------|
-| **TeamSection** | \`portfolio/TeamSection.tsx\` | بطاقتا المؤسسين مع صور SVG مخصصة، شريط إحصائيات (4+/100+/20+/800+)، رسالة المهمية |
-| **ServicesSection** | \`portfolio/ServicesSection.tsx\` | 6 خدمات IoT مع بطاقات ألوان، قائمة مميزات، CTA سفلي |
-| **ProjectsShowcase** | \`portfolio/ProjectsShowcase.tsx\` | أكبر مكون (~1300 سطر) — 4 مشاريع كاملة مع بيانات متعددة اللغات، رمز معمارية ASCII، عروض أكواد مع syntax highlighter، محاكاة بيانات حية (Telemetry)، تفاصيل المشاريع، قسم التحديات، مودال التوسيع |
-| **SecurityAudit** | \`portfolio/SecurityAudit.tsx\` | تقرير أمان شامل مع 4 أدوات (Lighthouse, Security Headers, Nuclei, OWASP)، حلقات SVG متحركة، شريط تقدم |
-| **StartHereSection** | \`portfolio/StartHereSection.tsx\` | 4 فئات تعلم: مبتدئ، مشاريع توجيهي، Arduino/IoT، حلول أخطاء |
-| **GroupsLinksSection** | \`portfolio/GroupsLinksSection.tsx\` | 4 قنوات اتصال: 2 تليجرام + فيسبوك + واتساب مع أزرار انضمام |
-| **ResourceLibrarySection** | \`portfolio/ResourceLibrarySection.tsx\` | مكتبة موارد مع بحث، تصنيف (6 فئات)، ترتيب (تحميل/اسم/أحدث)، 12 مورداً |
-| **BlogSection** | \`portfolio/BlogSection.tsx\` | مدونة تقنية مع بطاقات مقالات، مودال قراءة كامل مع جداول وأكواد |
-| **FAQSection** | \`portfolio/FAQSection.tsx\` | 8 أسئلة شائعة مع Accordion ثنائي اللغات |
-| **ContactForm** | \`portfolio/ContactForm.tsx\` | نموذج اتصال مع Turnstile + Formspree |
-| **LiveActivitySection** | \`portfolio/LiveActivitySection.tsx\` | خط زمني "نشاط حي" مع 6 أحداث + مؤشر LIVE |
-| **LatestAdditionsSection** | \`portfolio/LatestAdditionsSection.tsx\` | 4 أقسام: ملفات، مشاريع، شرحات، تحديثات |
-| **SearchDialog** | \`portfolio/SearchDialog.tsx\` | بحث Cmd+K مع 11 عنصر قابلة للبحث، تنقل لوحة مفاتيح |
-| **DynamicElementsSection** | \`portfolio/DynamicElementsSection.tsx\` | عنصر تفاعلي ديناميكي (جزيئئات، عدادات، بيانات) |
-| **ProjectCalculator** | \`portfolio/ProjectCalculator.tsx\` | حاساب تكلفة المشروع المبدئي |
-| **SkillsMatrix** | \`portfolio/SkillsMatrix.tsx\` | مصفوف المهارات التقنية |
-| **Timeline** | \`portfolio/Timeline.tsx\` | خط زمني للفريق |
-| **Testimonials** | \`portfolio/Testimonials.tsx\` | آراء العملاء |
-| **ESP32Simulator** | \`portfolio/ESP32Simulator.tsx\` | محاكي ESP32 تفاعلي |
-| **BreadcrumbNav** | \`portfolio/BreadcrumbNav.tsx\` | مسار التنقل |
+| المكون | الملف | الوصف |
+|--------|------|-------|
+| **Sidebar** | \`guide/Sidebar.tsx\` | الشريط الجانبي للتنقل بين أقسام الدليل الـ 17، مع دعم ثنائي اللغة وتتبع القسم النشط |
+| **SearchDialog** | \`guide/SearchDialog.tsx\` | حوار البحث السريع ⌘K — يبحث في عناوين الأقسام والمحتوى |
+| **GuideRenderer** | \`guide/GuideRenderer.tsx\` | محلل محتوى Markdown — يحول المحتوى النصي لكل من العربية والإنجليزية إلى HTML مع تنسيق الجداول والأكواد |
+| **AnimatedCounter** | \`guide/AnimatedCounter.tsx\` | عداد متحرك للأرقام — يستخدم في الصفحة الرئيسية لإحصائيات المشاريع والأمان والمكونات |
 
-## مكون الدردشة
+## مكون الدردشة (\`chat/\`)
 
-**الملف:** \`src/components/chat/ChatBot.tsx\`
+**الملف:** \`chat/ChatBot.tsx\`
 
 **وضعان مزدوج:**
 
@@ -809,6 +830,22 @@ frame-src https://challenges.cloudflare.com;
    - رابط تليجرام تلقائي عند فشل AI
    - Fallback ذكي: إذا فشل AI ← يعود للوضع المحلي
 
+## مكونات أخرى
+
+| المكون | الملف | الوصف |
+|--------|------|-------|
+| **ServiceWorkerRegistrar** | \`ServiceWorkerRegistrar.tsx\` | تسجيل Service Worker لتفعيل PWA و Offline Support |
+
+## مكونات الصفحة الرئيسية
+
+الصفحة الرئيسية (\`src/app/page.tsx\`) هي صفحة هبوط الدليل (~520 سطر) وتتضمن:
+- قسم Hero مع عنوان الدليل وإحصائيات متحركة (17 قسماً، 4+ مشاريع، 92/100 أمان)
+- شبكة روابط سريعة لاستكشاف الأقسام (9 أقسام مميزة)
+- بطاقات المميزات (ثنائي اللغة، داكن، بحث ⌘K، متجاوب)
+- لوحة معلومات المشروع (معلومات المستودع، Lighthouse، النشر)
+- بطاقة الميزات المفعّلة (14 ميزة)
+- خارطة الطريق (4 مراحل)
+
 ## مكونات UI (shadcn/ui)
 
 مُثبّت 55+ مكون من مكتبة shadcn/ui في \`src/components/ui/\`. تشمل:
@@ -819,54 +856,27 @@ frame-src https://challenges.cloudflare.com;
 - Label, Menubar, NavigationMenu, Pagination, Popover, Progress
 - RadioGroup, Resizable, ScrollArea, Search (Command), Select
 - Separator, Sheet, Sidebar, Skeleton, Slider, Sonner (Toast), Switch
-- Table, Tabs, Textarea, Toggle, ToggleGroup, Tooltip
+- Table, Tabs, Textarea, Toggle, ToggleGroup, Tooltip`,
+      en: `## Layout Components (\`layout/\`)
 
-> **ملاحظة:** لا تستخدم المكونات من \`src/components/platform/\` — هذه ملفات إضافية غير مُفعّلة حالياً.`,
-      en: `## Components Built Into \`page.tsx\`
-
-The following components are defined **directly inside** \`src/app/page.tsx\`:
-
-| Component | Type | Description |
+| Component | File | Description |
 |-----------|------|-------------|
-| \`Navbar\` | function | Fixed navigation bar with Scroll Spy + language toggle |
-| \`HeroSection\` | function | Hero section with typewriter effect + animated counter + CTA |
-| \`WhyUsSection\` | function | 6 differentiation reasons (Security, Offline-First, Clean Code...) |
-| \`ProjectGuideSection\` | function | Brief project guide with "Read More" button |
-| \`ProjectGuideModal\` | function | Full-screen guide modal |
-| \`ArchitectureModal\` | function | Architecture and design modal |
-| \`SecurityAuditSummary\` | function | Security report summary (92/100) |
-| \`SecurityAuditModal\` | function | Full security report modal |
-| \`ContactSection\` | function | Contact info + contact form |
-| \`PortfolioFooter\` | function | Page footer |
+| **SiteLayout** | \`layout/SiteLayout.tsx\` | Overall layout wrapping all pages — includes SiteHeader + Sidebar + SiteFooter + ChatBot |
+| **SiteHeader** | \`layout/SiteHeader.tsx\` | Page header with language toggle, ⌘K search button, and theme toggle (dark/light) |
+| **SiteFooter** | \`layout/SiteFooter.tsx\` | Page footer with quick links and copyright info |
 
-## Standalone Components
+## Guide Components (\`guide/\`)
 
-| Component | File | Detailed Description |
-|-----------|------|---------------------|
-| **TeamSection** | \`portfolio/TeamSection.tsx\` | Co-founder cards with custom SVG images, stats bar (4+/100+/20+/800+), mission statement |
-| **ServicesSection** | \`portfolio/ServicesSection.tsx\` | 6 IoT services with colored cards, features list, bottom CTA |
-| **ProjectsShowcase** | \`portfolio/ProjectsShowcase.tsx\` | Largest component (~1300 lines) — 4 complete projects with multilingual data, ASCII architecture diagrams, code displays with syntax highlighter, live telemetry simulation, project details, challenges section, expansion modal |
-| **SecurityAudit** | \`portfolio/SecurityAudit.tsx\` | Comprehensive security report with 4 tools (Lighthouse, Security Headers, Nuclei, OWASP), animated SVG rings, progress bar |
-| **StartHereSection** | \`portfolio/StartHereSection.tsx\` | 4 learning categories: beginner, high school projects, Arduino/IoT, troubleshooting |
-| **GroupsLinksSection** | \`portfolio/GroupsLinksSection.tsx\` | 4 communication channels: 2 Telegram + Facebook + WhatsApp with join buttons |
-| **ResourceLibrarySection** | \`portfolio/ResourceLibrarySection.tsx\` | Resource library with search, categories (6), sorting (downloads/name/newest), 12 resources |
-| **BlogSection** | \`portfolio/BlogSection.tsx\` | Tech blog with article cards, full reading modal with tables and code |
-| **FAQSection** | \`portfolio/FAQSection.tsx\` | 8 FAQ items with bilingual Accordion |
-| **ContactForm** | \`portfolio/ContactForm.tsx\` | Contact form with Turnstile + Formspree |
-| **LiveActivitySection** | \`portfolio/LiveActivitySection.tsx\` | "Live Activity" timeline with 6 events + LIVE indicator |
-| **LatestAdditionsSection** | \`portfolio/LatestAdditionsSection.tsx\` | 4 sections: files, projects, tutorials, updates |
-| **SearchDialog** | \`portfolio/SearchDialog.tsx\` | Cmd+K search with 11 searchable items, keyboard navigation |
-| **DynamicElementsSection** | \`portfolio/DynamicElementsSection.tsx\` | Dynamic interactive element (particles, counters, data) |
-| **ProjectCalculator** | \`portfolio/ProjectCalculator.tsx\` | Initial project cost calculator |
-| **SkillsMatrix** | \`portfolio/SkillsMatrix.tsx\` | Technical skills matrix |
-| **Timeline** | \`portfolio/Timeline.tsx\` | Team timeline |
-| **Testimonials** | \`portfolio/Testimonials.tsx\` | Client testimonials |
-| **ESP32Simulator** | \`portfolio/ESP32Simulator.tsx\` | Interactive ESP32 simulator |
-| **BreadcrumbNav** | \`portfolio/BreadcrumbNav.tsx\` | Breadcrumb navigation |
+| Component | File | Description |
+|-----------|------|-------------|
+| **Sidebar** | \`guide/Sidebar.tsx\` | Sidebar navigation for the 17 guide sections, with bilingual support and active section tracking |
+| **SearchDialog** | \`guide/SearchDialog.tsx\` | Quick search dialog ⌘K — searches across section titles and content |
+| **GuideRenderer** | \`guide/GuideRenderer.tsx\` | Markdown content renderer — converts text content for both Arabic and English to formatted HTML with tables and code blocks |
+| **AnimatedCounter** | \`guide/AnimatedCounter.tsx\` | Animated number counter — used on the home page for project, security, and component statistics |
 
-## ChatBot Component
+## Chat Component (\`chat/\`)
 
-**File:** \`src/components/chat/ChatBot.tsx\`
+**File:** \`chat/ChatBot.tsx\`
 
 **Dual Mode:**
 
@@ -891,6 +901,22 @@ The following components are defined **directly inside** \`src/app/page.tsx\`:
    - Automatic Telegram link on AI failure
    - Smart Fallback: if AI fails → returns to local mode
 
+## Other Components
+
+| Component | File | Description |
+|-----------|------|-------------|
+| **ServiceWorkerRegistrar** | \`ServiceWorkerRegistrar.tsx\` | Registers Service Worker for PWA and Offline Support |
+
+## Home Page Components
+
+The home page (\`src/app/page.tsx\`) is a guide landing page (~520 lines) that includes:
+- Hero section with guide title and animated statistics (17 sections, 4+ projects, 92/100 security)
+- Quick links grid to explore sections (9 featured sections)
+- Feature cards (Bilingual, Dark, Search ⌘K, Responsive)
+- Project information dashboard (repo info, Lighthouse, deployment)
+- Enabled features card (14 active features)
+- Roadmap (4 phases)
+
 ## UI Components (shadcn/ui)
 
 55+ components from shadcn/ui installed in \`src/components/ui/\`. Includes:
@@ -901,13 +927,11 @@ The following components are defined **directly inside** \`src/app/page.tsx\`:
 - Label, Menubar, NavigationMenu, Pagination, Popover, Progress
 - RadioGroup, Resizable, ScrollArea, Search (Command), Select
 - Separator, Sheet, Sidebar, Skeleton, Slider, Sonner (Toast), Switch
-- Table, Tabs, Textarea, Toggle, ToggleGroup, Tooltip
-
-> **Note:** Do not use components from \`src/components/platform/\` — these are extra files that are currently disabled.`,
+- Table, Tabs, Textarea, Toggle, ToggleGroup, Tooltip`,
     },
     subsections: [
-      { id: "inline-components", title: { ar: "المكونات المدمجة", en: "Inline Components" } },
-      { id: "standalone-components", title: { ar: "المكونات المستقلة", en: "Standalone Components" } },
+      { id: "layout-components", title: { ar: "مكونات التخطيط", en: "Layout Components" } },
+      { id: "guide-components", title: { ar: "مكونات الدليل", en: "Guide Components" } },
       { id: "chatbot-component", title: { ar: "مكون الدردشة", en: "ChatBot Component" } },
       { id: "ui-components", title: { ar: "مكونات UI", en: "UI Components" } },
     ],
@@ -921,8 +945,8 @@ The following components are defined **directly inside** \`src/app/page.tsx\`:
     icon: "Database",
     title: { ar: "إدارة الحالة", en: "State Management" },
     description: {
-      ar: "نظام اللغة ودعم RTL والخطوط",
-      en: "Language system, RTL support, and fonts",
+      ar: "نظام اللغة، حالة الدليل، ودعم RTL والخطوط",
+      en: "Language system, guide state, RTL support, and fonts",
     },
     content: {
       ar: `## نظام اللغة — Zustand Store
@@ -953,6 +977,30 @@ const isRTL = isRTL(); // true = عربي, false = إنجليزي
 <button onClick={toggle}>
   {lang === 'ar' ? 'EN' : 'عربي'}
 </button>
+\`\`\`
+
+## حالة الدليل — Zustand Store
+
+**الملف:** \`src/lib/guide-store.ts\`
+
+يدير حالة الدليل بما في ذلك:
+- **السمة (Theme):** \`'dark' | 'light'\` — يتحكم بالسمة البصرية للدليل
+- **القسم النشط:** تتبع القسم الحالي المعروض
+
+\`\`\`typescript
+const { theme } = useGuideStore();
+const isLight = theme === "light";
+\`\`\`
+
+## خريطة الأيقونات
+
+**الملف:** \`src/lib/icon-map.tsx\`
+
+يربط أسماء الأيقونات (string) بمكونات Lucide React الفعلية. يُستخدم في الشريط الجانبي والصفحة الرئيسية لعرض أيقونات الأقسام ديناميكياً.
+
+\`\`\`typescript
+import { SectionIcon } from "@/lib/icon-map";
+<SectionIcon name="Globe" className="h-5 w-5" />
 \`\`\`
 
 ## الاتجاهات
@@ -1012,6 +1060,30 @@ const isRTL = isRTL(); // true = Arabic, false = English
 </button>
 \`\`\`
 
+## Guide State — Zustand Store
+
+**File:** \`src/lib/guide-store.ts\`
+
+Manages guide state including:
+- **Theme:** \`'dark' | 'light'\` — controls the visual theme of the guide
+- **Active Section:** tracks the currently displayed section
+
+\`\`\`typescript
+const { theme } = useGuideStore();
+const isLight = theme === "light";
+\`\`\`
+
+## Icon Map
+
+**File:** \`src/lib/icon-map.tsx\`
+
+Maps icon names (string) to actual Lucide React components. Used in the sidebar and home page to dynamically render section icons.
+
+\`\`\`typescript
+import { SectionIcon } from "@/lib/icon-map";
+<SectionIcon name="Globe" className="h-5 w-5" />
+\`\`\`
+
 ## API Methods
 
 | Method | Code | Description |
@@ -1042,6 +1114,7 @@ Font: **IBM Plex Sans Arabic** (from Google Fonts)
     },
     subsections: [
       { id: "language-system", title: { ar: "نظام اللغة", en: "Language System" } },
+      { id: "guide-state", title: { ar: "حالة الدليل", en: "Guide State" } },
       { id: "rtl-support", title: { ar: "دعم RTL/LTR", en: "RTL/LTR Support" } },
       { id: "fonts", title: { ar: "الخطوط", en: "Fonts" } },
     ],
@@ -1107,13 +1180,12 @@ const messages = await db.contactMessage.findMany();
 await db.contactMessage.create({ data: {...} });
 \`\`\`
 
-## البيانات الثابتة (JSON)
+## البيانات الثابتة
 
 | الملف | المحتوى | الاستخدام |
 |------|---------|---------|
-| \`src/data/faq.json\` | 18 سؤال مع كلمات مفتاحية | مصدر بيانات الشات |
-| \`src/data/blog-posts.ts\` | مقالات المدونة (عنوان، محتوى، أكواد) | عرض المدونة |
-| \`src/data/calculator-recommendations.json\` | توصيات حاساب المشروع | حاساب التكلفة |`,
+| \`src/data/guide-sections.ts\` | 17 قسم دليل مع محتوى ثنائي اللغة | بيانات الدليل وتوليد الصفحات |
+| \`src/data/faq.json\` | 18 سؤال مع كلمات مفتاحية | مصدر بيانات الشات |`,
       en: `## Schema (\`prisma/schema.prisma\`)
 
 Only 3 models (the site uses JSON files for static data):
@@ -1162,13 +1234,12 @@ const messages = await db.contactMessage.findMany();
 await db.contactMessage.create({ data: {...} });
 \`\`\`
 
-## Static Data (JSON)
+## Static Data
 
 | File | Content | Usage |
 |------|---------|-------|
-| \`src/data/faq.json\` | 18 questions with keywords | Chatbot data source |
-| \`src/data/blog-posts.ts\` | Blog articles (title, content, code) | Blog display |
-| \`src/data/calculator-recommendations.json\` | Project calculator recommendations | Cost calculator |`,
+| \`src/data/guide-sections.ts\` | 17 guide sections with bilingual content | Guide data and page generation |
+| \`src/data/faq.json\` | 18 questions with keywords | Chatbot data source |`,
     },
     subsections: [
       { id: "prisma-schema", title: { ar: "مخطط Prisma", en: "Prisma Schema" } },
@@ -1416,7 +1487,7 @@ git push
 
 ## Cloudflare Turnstile
 
-- مدمج في \`ContactForm.tsx\` لحماية من الروبوتات
+- مدمج في نموذج الاتصال لحماية من الروبوتات
 - يُحمّل النموذج من الإرسال بدون رمز صالح
 - المفتاح: \`NEXT_PUBLIC_TURNSTILE_SITE_KEY\``,
       en: `## Development Environment (localhost:3000)
@@ -1465,7 +1536,7 @@ git push
 
 ## Cloudflare Turnstile
 
-- Integrated in \`ContactForm.tsx\` for bot protection
+- Integrated in the contact form for bot protection
 - Blocks form submission without valid token
 - Key: \`NEXT_PUBLIC_TURNSTILE_SITE_KEY\``,
     },
@@ -1674,12 +1745,12 @@ consecutiveFails = 0;
 - [ ] صفحة معمارية (\`/architecture\`)
 - [ ] صفحة أمان (\`/security\`)
 - [ ] نظام تعليقات/مدونات حقيقية
-- [ ] دعم وضع Dark/Light كامل
+- [x] دعم وضع Dark/Light كامل
 - [ ] تحويل SearchDialog للبحث في المحتوى الكامل
 
 ## تحسينات تقنية
 
-- [ ] تحويل إلى App Router متعدد الصفحات (إضافة صفحات فرعية)
+- [x] تحويل إلى App Router متعدد الصفحات (تم: \`/docs/[slug]\`)
 - [ ] إضافة Image Optimization (sharp)
 - [ ] إضافة ISR (Incremental Static Regeneration)
 - [ ] تحسين Font Loading
@@ -1704,12 +1775,12 @@ consecutiveFails = 0;
 - [ ] Architecture page (\`/architecture\`)
 - [ ] Security page (\`/security\`)
 - [ ] Real comments/blog system
-- [ ] Full Dark/Light mode support
+- [x] Full Dark/Light mode support
 - [ ] Convert SearchDialog to full content search
 
 ## Technical Improvements
 
-- [ ] Convert to multi-page App Router (add sub-pages)
+- [x] Convert to multi-page App Router (done: \`/docs/[slug]\`)
 - [ ] Add Image Optimization (sharp)
 - [ ] Add ISR (Incremental Static Regeneration)
 - [ ] Improve Font Loading
@@ -1833,12 +1904,13 @@ consecutiveFails = 0;
 1. **تشغيل:** \`bun run dev\` (Port 3000)
 2. **فحص:** \`bun run lint\` قبل كل commit
 3. **تعديل \`globals.css\`** إذا أردت تعديل الأنماط أو التأثيرات
-4. **تعديل \`page.tsx\`** بحذر — الملف كبير (1000+ سطر)
-5. **أضف مكون جديد:** في \`src/components/portfolio/\` ثم استورده في \`page.tsx\`
-6. **اللغة:** استخدم \`t("عربي", "English")\` لكل نص
-7. **RTL:** أضف \`dir={isRTL() ? "rtl" : "ltr"}\` للعناصر
-8. **CSS:** استخدم الأصناف (\`glass-dark\`, \`gradient-neon\`, \`card-hover\`) لتوحيد موحد
-9. **النشر:** \`NEXT_PUBLIC=true bun run build\` ثم \`git push\`
+4. **تعديل الصفحة الرئيسية:** \`src/app/page.tsx\` (~520 سطر، صفحة هبوط الدليل)
+5. **أضف مكون جديد:** في \`src/components/layout/\` أو \`src/components/guide/\` ثم استورده
+6. **تعديل محتوى الدليل:** \`src/data/guide-sections.ts\` (17 قسم)
+7. **اللغة:** استخدم \`t("عربي", "English")\` لكل نص
+8. **RTL:** أضف \`dir={isRTL() ? "rtl" : "ltr"}\` للعناصر
+9. **CSS:** استخدم الأصناف (\`glass-dark\`, \`gradient-neon\`, \`card-hover\`) لتوحيد موحد
+10. **النشر:** \`NEXT_PUBLIC=true bun run build\` ثم \`git push\`
 
 ## اختصارات سريعة:
 
@@ -1862,7 +1934,6 @@ bun run lint
 - **لا تستخدم \`<img>\` بدون \`alt\`** — يفشل accessibility
 - **لا تستخدم \`any\` في TypeScript** — يجب تحديد الأنواع
 - **لا تُعدّل CSS في \`globals.css\`** بدون سبب — ضعها في \`@layer\`
-- **لا تُعدّل \`page.tsx\` مباشرة** — الملف ضخم وخطأ واحد قد يكسر الصفحة بالكامل
 
 ### أفضل الممارسات
 
@@ -1891,18 +1962,19 @@ bun run lint
 | v1.2 | إضافة BlogSection, LiveActivity, DynamicElements |
 | v1.3 | إضافة SearchDialog (Cmd+K), FAQ Section |
 | v2.0 | تحديث الإحصائيات (92/100)، إضافة التحديات، تحسين التصميم |
-| الحالي | استقرار المطورين الشامل |`,
+| v2.1 | إعادة هيكلة: إزالة portfolio/ و platform/، إضافة layout/ و guide/، تحويل إلى App Router متعدد الصفحات (/docs/[slug])، دليل المطور الشامل (17 قسم) |`,
       en: `## When Working on the Project:
 
 1. **Run:** \`bun run dev\` (Port 3000)
 2. **Lint:** \`bun run lint\` before every commit
 3. **Edit \`globals.css\`** if you want to modify styles or effects
-4. **Edit \`page.tsx\`** with caution — the file is large (1000+ lines)
-5. **Add a new component:** in \`src/components/portfolio/\` then import it in \`page.tsx\`
-6. **Language:** Use \`t("عربي", "English")\` for every text
-7. **RTL:** Add \`dir={isRTL() ? "rtl" : "ltr"}\` to elements
-8. **CSS:** Use classes (\`glass-dark\`, \`gradient-neon\`, \`card-hover\`) for consistency
-9. **Deploy:** \`NEXT_PUBLIC=true bun run build\` then \`git push\`
+4. **Edit the home page:** \`src/app/page.tsx\` (~520 lines, guide landing page)
+5. **Add a new component:** in \`src/components/layout/\` or \`src/components/guide/\` then import it
+6. **Edit guide content:** \`src/data/guide-sections.ts\` (17 sections)
+7. **Language:** Use \`t("عربي", "English")\` for every text
+8. **RTL:** Add \`dir={isRTL() ? "rtl" : "ltr"}\` to elements
+9. **CSS:** Use classes (\`glass-dark\`, \`gradient-neon\`, \`card-hover\`) for consistency
+10. **Deploy:** \`NEXT_PUBLIC=true bun run build\` then \`git push\`
 
 ## Quick Shortcuts:
 
@@ -1926,7 +1998,6 @@ bun run lint
 - **Never use \`<img>\` without \`alt\`** — fails accessibility
 - **Never use \`any\` in TypeScript** — always specify types
 - **Don't modify CSS in \`globals.css\`** without reason — put it in \`@layer\`
-- **Don't modify \`page.tsx\` directly** — the file is huge and one error can break the entire page
 
 ### Best Practices
 
@@ -1955,7 +2026,7 @@ bun run lint
 | v1.2 | Added BlogSection, LiveActivity, DynamicElements |
 | v1.3 | Added SearchDialog (Cmd+K), FAQ Section |
 | v2.0 | Updated statistics (92/100), added challenges, improved design |
-| Current | Comprehensive developer documentation |`,
+| v2.1 | Refactored: removed portfolio/ and platform/, added layout/ and guide/, converted to multi-page App Router (/docs/[slug]), comprehensive developer guide (17 sections) |`,
     },
     subsections: [
       { id: "working-on-project", title: { ar: "العمل على المشروع", en: "Working on the Project" } },
@@ -2037,26 +2108,22 @@ bun run lint
 - ✅ دردشة ذكية مزدوجة الوضع (FAQ محلي + AI NVIDIA NIM)
 - ✅ نموذج اتصال مع Formspree + Cloudflare Turnstile
 - ✅ تقرير أمان شامل (4 أدوات فحص)
-- ✅ مدونة تقنية (3 مقالات)
-- ✅ مكتبة موارد (12 مورداً مع بحث وتصفية)
-- ✅ حاسبة تكلفة المشروع (4 خطوات)
-- ✅ أقسام مجتمعية (4 قنوات اتصال)
+- ✅ دليل مطور شامل (17 قسم متعدد الصفحات)
+- ✅ بحث شامل (⌘K)
+- ✅ تبديل السمة (داكن/فاتح)
 - ✅ PWA مع Service Worker (Offline Support)
 - ✅ Plausible Analytics (تحليلات خفيفة)
 - ✅ تصميم متجاوب (Mobile-First)
 - ✅ SEO شامل (sitemap, manifest, robots.txt, meta tags)
 - ✅ أنيميشن Framer Motion
-- ✅ بحث شامل (⌘K)
 
 ### المشاكل المعروفة
 
 - ⚠️ ملف GitHub Actions يحتاج إنشاء يدوي عبر واجهة GitHub (نقص صلاحية PAT)
-- ⚠️ مكتبات \`platform/\` غير مُفعّلة حالياً (مكونات إضافية تجريبية)
 - ⚠️ الصور المنتجة بالـ AI قد تحتاج تحسين للإنتاج
 
 ### الميزات المعطّلة
 
-- ❌ الوضع الداكن/الفاتح (مُعرّف في الكود لكن الموقع يستخدم الثيم الداكن فقط)
 - ❌ المصادقة عبر NextAuth (مُثبّت لكن غير مُفعّل)
 - ❌ قاعدة البيانات (Prisma مُثبّت لكن غير مستخدم في الإنتاج)
 
@@ -2067,7 +2134,6 @@ bun run lint
 | الأولوية | الميزة | الحالة |
 |----------|--------|--------|
 | 🔴 عالية | إصلاح GitHub Actions Workflow | مخطط |
-| 🔴 عالية | تفعيل الوضع الداكن/الفاتح | مخطط |
 | 🟡 متوسطة | إضافة صفحة المدونة كمسار منفصل | تحت المراجعة |
 | 🟡 متوسطة | نظام إدارة المحتوى (CMS) | قيد الدراسة |
 | 🟢 منخفضة | دعم لغات إضافية (العبرية) | فكرة |
@@ -2087,7 +2153,7 @@ bun run lint
 
 ### أولويات التطوير
 
-1. **المرحلة 1** (فوري): إصلاح CI/CD + تفعيل dark/light mode
+1. **المرحلة 1** (فوري): إصلاح CI/CD
 2. **المرحلة 2** (قصير المدى): تحسين الأداء + الأمان + SEO
 3. **المرحلة 3** (متوسط المدى): محتوى جديد + CMS
 4. **المرحلة 4** (طويل المدى): لوحة تحكم + لغات إضافية
@@ -2105,22 +2171,27 @@ bun run lint
 
 | المسار | الوصف |
 |--------|-------|
-| \`src/app/page.tsx\` | الصفحة الرئيسية (كل شيء في ملف واحد) |
+| \`src/app/page.tsx\` | الصفحة الرئيسية (دليل المطور، ~520 سطر) |
+| \`src/app/docs/[slug]/page.tsx\` | صفحات الوثائق (generateStaticParams) |
+| \`src/app/docs/[slug]/DocsClientPage.tsx\` | المكون العميل لصفحات الوثائق |
+| \`src/components/layout/\` | مكونات التخطيط (SiteLayout, SiteHeader, SiteFooter) |
+| \`src/components/guide/\` | مكونات الدليل (Sidebar, SearchDialog, GuideRenderer, AnimatedCounter) |
 | \`src/components/chat/ChatBot.tsx\` | الدردشة الذكية |
-| \`src/components/portfolio/\` | جميع مكونات المحتوى |
-| \`src/data/\` | البيانات الثابتة (FAQ, مدونة, حاسبة) |
+| \`src/data/guide-sections.ts\` | بيانات أقسام الدليل (17 قسم) |
+| \`src/data/faq.json\` | بيانات الشات (18 سؤال) |
 | \`next.config.ts\` | تكوين Next.js (dev vs prod) |
 | \`public/sw.js\` | Service Worker |
 
 ### تلميحات للمطورين
 
-- الموقع مصمم كـ SPA (Single Page Application) — جميع الأقسام في صفحة واحدة
+- الموقع يستخدم Next.js App Router مع مسارات متعددة
+- الصفحة الرئيسية هي صفحة هبوط الدليل — صفحات المحتوى في \`/docs/[slug]\`
 - استخدم \`useLang()\` hook للوصول إلى دالة الترجمة \`t(ar, en)\`
+- استخدم \`useGuideStore()\` hook للوصول إلى حالة الدليل والسمة
 - استخدم \`isRTL()\` للتحقق من اتجاه النص
 - فئة CSS مخصصة: \`glass-card-dark\`, \`gradient-neon\`, \`neon-border\`, \`card-hover\`
 - ألوان النيون: أخضر \`#00ff66\`، سماوي \`#00e5ff\`، عنبري \`#ffab00\`، بنفسجي \`#b44dff\`
-- شغّل \`bun run dev\` للتطوير و \`bun run lint\` للفحص
-- لا تستخدم الملفات في \`src/components/platform/\` — غير مُفعّلة`,
+- شغّل \`bun run dev\` للتطوير و \`bun run lint\` للفحص`,
       en: `## Repository Information
 
 | Item | Details |
@@ -2182,26 +2253,22 @@ bun run lint
 - ✅ Dual-mode smart chat (Local FAQ + AI NVIDIA NIM)
 - ✅ Contact form with Formspree + Cloudflare Turnstile
 - ✅ Comprehensive security report (4 scanning tools)
-- ✅ Technical blog (3 articles)
-- ✅ Resource library (12 resources with search & filtering)
-- ✅ Project cost calculator (4-step wizard)
-- ✅ Community sections (4 communication channels)
+- ✅ Comprehensive developer guide (17 multi-page sections)
+- ✅ Full-text search (⌘K)
+- ✅ Theme toggle (dark/light)
 - ✅ PWA with Service Worker (Offline Support)
 - ✅ Plausible Analytics (lightweight analytics)
 - ✅ Responsive design (Mobile-First)
 - ✅ Comprehensive SEO (sitemap, manifest, robots.txt, meta tags)
 - ✅ Framer Motion animations
-- ✅ Full-text search (⌘K)
 
 ### Known Issues
 
 - ⚠️ GitHub Actions workflow needs manual creation via GitHub UI (PAT lacks workflow scope)
-- ⚠️ \`platform/\` library components are currently disabled (experimental extras)
 - ⚠️ AI-generated images may need optimization for production
 
 ### Disabled Features
 
-- ❌ Dark/Light mode toggle (defined in code but site uses dark theme only)
 - ❌ NextAuth authentication (installed but not activated)
 - ❌ Database (Prisma installed but unused in production)
 
@@ -2212,7 +2279,6 @@ bun run lint
 | Priority | Feature | Status |
 |----------|---------|--------|
 | 🔴 High | Fix GitHub Actions Workflow | Planned |
-| 🔴 High | Enable Dark/Light mode toggle | Planned |
 | 🟡 Medium | Add blog as separate route | Under Review |
 | 🟡 Medium | Content Management System (CMS) | Under Study |
 | 🟢 Low | Additional language support (Hebrew) | Idea |
@@ -2232,7 +2298,7 @@ bun run lint
 
 ### Development Priorities
 
-1. **Phase 1** (Immediate): Fix CI/CD + Enable dark/light mode
+1. **Phase 1** (Immediate): Fix CI/CD
 2. **Phase 2** (Short-term): Performance + Security + SEO improvements
 3. **Phase 3** (Mid-term): New content + CMS
 4. **Phase 4** (Long-term): Admin dashboard + Additional languages
@@ -2250,22 +2316,27 @@ bun run lint
 
 | Path | Description |
 |------|-------------|
-| \`src/app/page.tsx\` | Main page (everything in one file) |
+| \`src/app/page.tsx\` | Home page (developer guide landing, ~520 lines) |
+| \`src/app/docs/[slug]/page.tsx\` | Docs pages (generateStaticParams) |
+| \`src/app/docs/[slug]/DocsClientPage.tsx\` | Client component for docs pages |
+| \`src/components/layout/\` | Layout components (SiteLayout, SiteHeader, SiteFooter) |
+| \`src/components/guide/\` | Guide components (Sidebar, SearchDialog, GuideRenderer, AnimatedCounter) |
 | \`src/components/chat/ChatBot.tsx\` | Smart chatbot |
-| \`src/components/portfolio/\` | All content components |
-| \`src/data/\` | Static data (FAQ, blog, calculator) |
+| \`src/data/guide-sections.ts\` | Guide section data (17 sections) |
+| \`src/data/faq.json\` | Chat data (18 questions) |
 | \`next.config.ts\` | Next.js configuration (dev vs prod) |
 | \`public/sw.js\` | Service Worker |
 
 ### Developer Tips
 
-- The site is designed as an SPA (Single Page Application) — all sections in one page
+- The site uses Next.js App Router with multiple routes
+- The home page is a guide landing page — content pages are at \`/docs/[slug]\`
 - Use \`useLang()\` hook for translation function \`t(ar, en)\`
+- Use \`useGuideStore()\` hook for guide state and theme
 - Use \`isRTL()\` to check text direction
 - Custom CSS classes: \`glass-card-dark\`, \`gradient-neon\`, \`neon-border\`, \`card-hover\`
 - Neon colors: Green \`#00ff66\`, Cyan \`#00e5ff\`, Amber \`#ffab00\`, Purple \`#b44dff\`
-- Run \`bun run dev\` for development and \`bun run lint\` for linting
-- Do NOT use files in \`src/components/platform/\` — they are disabled`,
+- Run \`bun run dev\` for development and \`bun run lint\` for linting`,
     },
     subsections: [
       { id: "repo-info", title: { ar: "معلومات المستودع", en: "Repository Information" } },

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import {
   CircuitBoard, Globe, Moon, Search, BookOpen, Cpu, Layers,
   ShieldCheck, Smartphone, Github, ArrowRight, Bot, Terminal,
-  Database, Zap, Rocket, Map,
+  Database, Zap, Rocket, Map, Users, ExternalLink, MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -285,6 +285,224 @@ export default function HomePage() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── TEAM & PROJECTS ─── */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl">
+          <motion.div variants={fadeUp} initial="initial" whileInView="animate" viewport={{ once: true }} className="text-center mb-10 sm:mb-12">
+            <h2 className={cn("text-2xl sm:text-3xl font-bold inline-block mb-3", isLight ? "text-gray-900" : "gradient-neon-text")}>
+              {t("فريق العمل والمشاريع", "Team & Projects")}
+            </h2>
+            <p className={cn("text-sm max-w-xl mx-auto", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>
+              {t(
+                "فريق هندسي من فلسطين 🇵🇸 — نبني أنظمة ذكية حقيقية تعتمد على معمارية متعددة المعالجات",
+                "An engineering team from Palestine 🇵🇸 — building real smart systems with multi-processor architectures"
+              )}
+            </p>
+            <div className="w-20 h-0.5 gradient-neon mx-auto rounded-full opacity-60 mt-3" />
+          </motion.div>
+
+          {/* Team Cards */}
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-10"
+          >
+            {[
+              {
+                name: "عمار مشارقة",
+                nameEn: "Ammar Masharqa",
+                role: t("مؤسس ومدير العمليات", "Co-founder & Operations Manager"),
+                skills: ["Project Management", "Client Relations", "Team Coordination", "IoT Overview", "Content Creation"],
+                color: "#00ff66",
+              },
+              {
+                name: "محمد عقيلي",
+                nameEn: "Mohammad Aqli",
+                role: t("المؤسس والمهندس الرئيسي", "Co-founder & Lead Engineer"),
+                skills: ["Arduino", "ESP32/8266", "C/C++", "Hardware Design", "Firebase", "Python", "Assembly"],
+                color: "#00e5ff",
+              },
+            ].map((member, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                className={cn(
+                  "p-5 sm:p-6 rounded-xl card-hover",
+                  isLight
+                    ? "bg-white border border-gray-200 hover:shadow-md"
+                    : "glass-card-dark"
+                )}
+              >
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-lg font-bold"
+                    style={{ backgroundColor: `${member.color}15`, color: member.color }}
+                  >
+                    {member.name.charAt(0)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className={cn("font-bold text-sm", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                      {member.name}
+                    </h3>
+                    <p className={cn("text-xs mb-0.5", isLight ? "text-gray-400" : "text-[#3d506e]")}>{member.nameEn}</p>
+                    <p className={cn("text-xs font-medium mb-2", isLight ? "text-gray-600" : "text-[#7a8ba8]")}>{member.role}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {member.skills.map((skill) => (
+                        <Badge
+                          key={skill}
+                          variant="outline"
+                          className={cn(
+                            "text-[10px] px-2 py-0 font-normal",
+                            isLight
+                              ? "border-gray-200 text-gray-500 bg-gray-50"
+                              : "border-[#1e2d4d] text-[#7a8ba8] bg-[#151d33]/50"
+                          )}
+                        >
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Projects Grid */}
+          <motion.div variants={fadeUp} initial="initial" whileInView="animate" viewport={{ once: true }} className="mb-6">
+            <h3 className={cn("text-lg font-bold mb-4 flex items-center gap-2", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+              <Cpu className="h-5 w-5 text-[#00e5ff]" />
+              {t("المشاريع المنفذة", "Completed Projects")}
+            </h3>
+          </motion.div>
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"
+          >
+            {[
+              {
+                title: t("نظام إدارة المباني الذكية", "Smart Building Management"),
+                desc: t("معمارية ثنائية المعالجات (Arduino Mega + ESP8266) لإدارة صلاحيات الدخول، حماية المناطق، وتتبع البيئة عبر Firebase.", "Dual-processor (Arduino Mega + ESP8266) for access control, zone protection, and environment monitoring via Firebase."),
+                tech: ["Arduino Mega", "ESP8266", "C++", "Firebase", "Kotlin"],
+                color: "#00ff66",
+                slug: "overview",
+              },
+              {
+                title: t("نظام المواقف الذكي", "Smart Parking System"),
+                desc: t("9 حساسات IR + كشف غاز MQ-2 + اهتزاز SW-420 عبر معمارية 3 مستويات (Mega → Uno → Python API).", "9 IR sensors + MQ-2 gas + SW-420 vibration via 3-tier architecture (Mega → Uno → Python API)."),
+                tech: ["Arduino Mega", "Arduino Uno", "Python", "Firebase REST", "C++"],
+                color: "#00e5ff",
+                slug: "overview",
+              },
+              {
+                title: t("الخزنة الذكية عالية الأمان", "High-Security RFID Smart Safe"),
+                desc: t("معالجة الحافة مع خوارزمية مكافحة تجمد المعالج لضمان عمل RFID بنسبة 100%.", "Edge computing with anti-freeze algorithm ensuring 100% RFID reliability."),
+                tech: ["ESP32", "MFRC522 RFID", "C++", "Firebase REST", "Preferences"],
+                color: "#ffab00",
+                slug: "overview",
+              },
+              {
+                title: t("أتمتة صالات الأفراح", "Wedding Hall Automation"),
+                desc: t("حساسات تقارب + HC-SR04 + DFPlayer Mini مع آلة حالات برمجية (6 أوضاع إضاءة).", "Proximity sensors + HC-SR04 + DFPlayer Mini with state machine (6 lighting modes)."),
+                tech: ["ESP32", "DFPlayer Mini", "HC-SR04", "Firebase RTDB", "C++"],
+                color: "#b44dff",
+                slug: "overview",
+              },
+            ].map((project, i) => (
+              <Link key={i} href={`/docs/${project.slug}`}>
+                <motion.div
+                  variants={fadeUp}
+                  className={cn(
+                    "group p-5 rounded-xl card-hover transition-all cursor-pointer h-full",
+                    isLight
+                      ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md"
+                      : "glass-card-dark"
+                  )}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${project.color}15`, color: project.color }}
+                    >
+                      <Cpu className="h-4 w-4" />
+                    </div>
+                    <ArrowRight className={cn(
+                      "h-4 w-4 text-[#3d506e] group-hover:text-[#00ff66] transition-all group-hover:translate-x-0.5",
+                      isRTL() && "rotate-180 group-hover:-translate-x-0.5"
+                    )} />
+                  </div>
+                  <h4 className={cn("font-bold text-sm mb-1", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                    {project.title}
+                  </h4>
+                  <p className={cn("text-xs leading-relaxed mb-3 line-clamp-2", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>
+                    {project.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tech.map((t) => (
+                      <code
+                        key={t}
+                        className={cn(
+                          "text-[10px] px-1.5 py-0.5 rounded",
+                          isLight
+                            ? "bg-gray-100 text-gray-600"
+                            : "bg-[#151d33] text-[#3d506e]"
+                        )}
+                      >
+                        {t}
+                      </code>
+                    ))}
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </motion.div>
+
+          {/* Contact CTA */}
+          <motion.div
+            variants={fadeUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className={cn(
+              "mt-10 p-5 sm:p-6 rounded-xl text-center",
+              isLight
+                ? "bg-green-50 border border-green-200"
+                : "glass-card-dark"
+            )}
+          >
+            <p className={cn("text-sm font-medium mb-3", isLight ? "text-gray-700" : "text-[#e8edf5]")}>
+              {t("مشروع في بالك؟ تواصل معنا!", "Have a project in mind? Contact us!")}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="https://t.me/Mashari3_AI_Arduino"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-[#0088cc] text-white hover:bg-[#0077b5] transition-colors shadow-lg shadow-[#0088cc20]"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Telegram
+                <ExternalLink className="h-3 w-3" />
+              </a>
+              <a
+                href="https://wa.me/972569303043"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-[#25D366] text-white hover:bg-[#1fb855] transition-colors shadow-lg shadow-[#25D36620]"
+              >
+                WhatsApp
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>

@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SearchDialog } from "@/components/guide/SearchDialog";
+import ChatBot from "@/components/chat/ChatBot";
 import { useGuideStore } from "@/lib/guide-store";
 import { cn } from "@/lib/utils";
 
@@ -32,6 +33,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <SearchDialog />
+      <ChatBot />
       <SiteFooter />
     </div>
   );

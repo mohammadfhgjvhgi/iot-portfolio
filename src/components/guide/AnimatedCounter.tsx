@@ -8,13 +8,15 @@ export function AnimatedCounter({ end, suffix = "", duration = 1500 }: { end: nu
   const started = useRef(false);
 
   useEffect(() => {
-    if (started.current) return;
     const el = ref.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
+          observer.disconnect();
+
           let start = performance.now();
           const step = (now: number) => {
             const progress = Math.min((now - start) / duration, 1);
@@ -27,6 +29,7 @@ export function AnimatedCounter({ end, suffix = "", duration = 1500 }: { end: nu
       },
       { threshold: 0.3 }
     );
+
     observer.observe(el);
     return () => observer.disconnect();
   }, [end, duration]);

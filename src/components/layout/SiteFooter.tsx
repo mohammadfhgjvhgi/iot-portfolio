@@ -6,11 +6,13 @@ import {
   CircuitBoard, ExternalLink,
 } from "lucide-react";
 import { useLang } from "@/lib/language";
+import { useGuideStore } from "@/lib/guide-store";
 import { cn } from "@/lib/utils";
 
 export function SiteFooter() {
   const { t, lang } = useLang();
-  const isLight = typeof document !== "undefined" && !document.documentElement.classList.contains("dark");
+  const { theme } = useGuideStore();
+  const isLight = theme === "light";
 
   const quickLinks = [
     { label: t("نظرة عامة", "Overview"), href: "/docs/overview" },
