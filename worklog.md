@@ -827,3 +827,27 @@ Stage Summary:
 - All navigation is client-side via Zustand store (no route changes needed)
 - Features working: sidebar with search/filter, progress tracking, breadcrumbs, prev/next navigation, dark/light theme, bilingual, responsive design, search dialog (⌘K)
 - 17 documentation sections accessible via sidebar and search
+---
+Task ID: 11
+Agent: Main Agent
+Task: Push pending commits, fix NVIDIA API key, clean up 42 unused files
+
+Work Log:
+- Pushed 11 pending commits to GitHub (some commits included .github/workflows/deploy.yml which required rebase to remove due to token scope limitation)
+- Verified NVIDIA API key is already in .env (NVIDIA_API_KEY for server-side, NEXT_PUBLIC_NVIDIA_API_KEY added for client-side ChatBot)
+- Removed 42 unused files (17,610 lines deleted):
+  - src/components/platform/ (13 files) — never activated
+  - src/components/portfolio/ (21 files) — not imported in current SPA page.tsx
+  - src/app/docs/ (5 files) — unused multi-page routes
+  - src/components/docs/ (3 files) — unused multi-page components
+  - src/lib/docs.ts — unused multi-page helper
+  - src/data/blog-posts.ts (494 lines) — not imported
+  - src/data/calculator-recommendations.json (92 lines) — not imported
+- Verified: lint clean, dev server 200 OK, push to GitHub successful
+- Note: .github/workflows/deploy.yml kept locally but not committed (PAT lacks workflow scope)
+
+Stage Summary:
+- 42 unused files removed, 17,610 lines deleted
+- NVIDIA API key configuration fixed for both server and client
+- Repository is now clean with only actively used components
+- Remaining files: src/app/page.tsx, src/app/layout.tsx, src/app/api/*, src/components/chat/ChatBot.tsx, src/components/guide/GuideRenderer.tsx, src/components/ui/* (48 files), src/components/ServiceWorkerRegistrar.tsx, src/data/guide-sections.ts, src/data/faq.json, src/lib/*
