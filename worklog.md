@@ -803,3 +803,27 @@ Stage Summary:
 - TableOfContents.tsx: Dynamic heading extraction with IntersectionObserver scroll spy
 - All builds pass: lint ✅
 - Files: src/components/docs/DocsSearch.tsx (created), src/components/docs/DocsPagination.tsx (created), src/components/docs/TableOfContents.tsx (created)
+---
+Task ID: 1
+Agent: Main Agent
+Task: Transform documentation site from SPA to Multi-Page Documentation Site (client-side navigation within / route)
+
+Work Log:
+- Read uploaded docx file (برومت شامل) to understand full requirements
+- Explored existing project structure - found 1431-line page.tsx with HomeView + DocsView already scaffolded
+- Found existing /docs/[slug] routes that can't be previewed
+- Identified bugs: SearchDialog uses router.push, HomeView uses router.push, missing imports
+- Fixed imports: added AnimatePresence, Check, ChevronDown/Left/Right, Home, Menu, Wrench, HelpCircle, Key, Sheet/SheetContent/SheetHeader/SheetTitle, Input, GuideRenderer
+- Removed useRouter and Link imports (no longer needed for client-side navigation)
+- Fixed SearchDialog: navigate() now uses setActiveSection + markSectionRead + setView("docs")
+- Fixed HomeView: handleStartReading and handleSectionClick use client-side state
+- Changed quick links from Link components to buttons with onClick handlers
+- Added mobile menu button (hamburger) to GuideHeader that appears only in docs view
+- Changed logo Link to button that calls setView("home")
+- Verified dev server returns 200, lint passes clean
+
+Stage Summary:
+- The / page now has two views: HomeView (landing page) and DocsView (documentation reader)
+- All navigation is client-side via Zustand store (no route changes needed)
+- Features working: sidebar with search/filter, progress tracking, breadcrumbs, prev/next navigation, dark/light theme, bilingual, responsive design, search dialog (⌘K)
+- 17 documentation sections accessible via sidebar and search

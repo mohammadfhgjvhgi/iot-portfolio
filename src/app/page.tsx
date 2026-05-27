@@ -1,24 +1,29 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CircuitBoard, Search, Globe, Sun, Moon, BookOpen, LayoutDashboard,
   Cpu, Layers, Palette, Settings, ShieldCheck, Rocket,
   Smartphone, ArrowRight, Github, ExternalLink,
   Code2, Terminal, Zap, Database, Bot, Map,
+  Check, ChevronDown, ChevronLeft, ChevronRight, Home, Menu,
+  Wrench, HelpCircle, Key,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   Dialog, DialogContent, DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Sheet, SheetContent, SheetHeader, SheetTitle,
+} from "@/components/ui/sheet";
 import { useLang } from "@/lib/language";
 import { useGuideStore } from "@/lib/guide-store";
 import { guideSections } from "@/data/guide-sections";
 import { cn } from "@/lib/utils";
+import GuideRenderer from "@/components/guide/GuideRenderer";
 
 /* ═══════════════════════════════════════════════════════════
    ICON MAP — maps icon string names to lucide components
@@ -92,8 +97,7 @@ function AnimatedCounter({ end, suffix = "", duration = 1500 }: { end: number; s
    ═══════════════════════════════════════════════════════════ */
 function GuideHeader() {
   const { t, toggle, lang } = useLang();
-  const { theme, toggleTheme, toggleSearch } = useGuideStore();
-  const router = useRouter();
+  const { theme, toggleTheme, toggleSearch, view, toggleSidebar } = useGuideStore();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -124,18 +128,34 @@ function GuideHeader() {
     >
       <div className="mx-auto w-full max-w-[1400px] px-4 flex items-center justify-between">
         {/* Left: Logo */}
-        <Link
-          href="/"
+        <button
+          onClick={() => useGuideStore.getState().setView("home")}
           className="flex items-center gap-2 group shrink-0"
         >
           <CircuitBoard className="h-5 w-5 sm:h-6 sm:w-6 text-[#00ff66] group-hover:shadow-[0_0_12px_#00ff66] transition-shadow" />
           <span className="font-bold text-sm sm:text-base gradient-neon-text hidden sm:inline">
             {t("Smart Systems Lab", "Smart Systems Lab")}
           </span>
-        </Link>
+        </button>
 
         {/* Right: Actions */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Mobile menu button (only in docs view) */}
+          {view === "docs" && (
+            <button
+              onClick={toggleSidebar}
+              className={cn(
+                "flex items-center justify-center w-8 h-8 rounded-lg transition-all lg:hidden",
+                theme === "light"
+                  ? "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200"
+                  : "bg-white/5 text-[#7a8ba8] hover:bg-white/10 hover:text-[#e8edf5] neon-border"
+              )}
+              aria-label={t("القائمة", "Menu")}
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+          )}
+
           {/* Search trigger */}
           <button
             onClick={toggleSearch}
@@ -195,7 +215,7 @@ function GuideHeader() {
    SEARCH DIALOG
    ═══════════════════════════════════════════════════════════ */
 function SearchDialog() {
-  const { searchOpen, toggleSearch, setActiveSection, setView } = useGuideStore();
+  const { searchOpen, toggleSearch, setActiveSection, setView, markSectionRead } = useGuideStore();
   const { t, lang } = useLang();
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -219,11 +239,14 @@ function SearchDialog() {
 
   const navigate = useCallback(
     (sectionId: string) => {
-      router.push(`/docs/${sectionId}/`);
+      setActiveSection(sectionId);
+      markSectionRead(sectionId);
+      setView("docs");
       toggleSearch();
       setQuery("");
+      setActiveIndex(0);
     },
-    [router, toggleSearch]
+    [setActiveSection, markSectionRead, setView, toggleSearch]
   );
 
   // Focus input when dialog opens
@@ -313,16 +336,19 @@ function SearchDialog() {
    ═══════════════════════════════════════════════════════════ */
 function HomeView() {
   const { t, lang, isRTL } = useLang();
-  const { theme } = useGuideStore();
-  const router = useRouter();
+  const { theme, setActiveSection, setView, markSectionRead } = useGuideStore();
 
   const handleStartReading = useCallback(() => {
-    router.push("/docs/overview/");
-  }, [router]);
+    setActiveSection("overview");
+    markSectionRead("overview");
+    setView("docs");
+  }, [setActiveSection, markSectionRead, setView]);
 
   const handleSectionClick = useCallback((id: string) => {
-    router.push(`/docs/${id}/`);
-  }, [router]);
+    setActiveSection(id);
+    markSectionRead(id);
+    setView("docs");
+  }, [setActiveSection, markSectionRead, setView]);
 
   /* Stats */
   const stats = [
@@ -488,11 +514,11 @@ function HomeView() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
           >
             {quickSections.map((section) => (
-              <Link
+              <button
                 key={section.id}
-                href={`/docs/${section.id}/`}
+                onClick={() => handleSectionClick(section.id)}
                 className={cn(
-                  "group p-4 sm:p-5 rounded-xl text-start card-hover transition-all block",
+                  "group p-4 sm:p-5 rounded-xl text-start card-hover transition-all block w-full",
                   isLight
                     ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md hover:shadow-green-600/5"
                     : "glass-card-dark"
@@ -516,7 +542,7 @@ function HomeView() {
                   {t("اقرأ المزيد", "Read more")}
                   <ArrowRight className={cn("h-3 w-3 transition-transform group-hover:translate-x-1", isRTL() && "rotate-180")} />
                 </div>
-              </Link>
+              </button>
             ))}
           </motion.div>
         </div>
