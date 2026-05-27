@@ -883,3 +883,36 @@ Stage Summary:
 - All 17 documentation sections have their own URL: /docs/overview, /docs/architecture, etc.
 - SEO metadata generated per-page via generateMetadata
 - Sitemap includes all pages for search engines
+
+---
+Task ID: 8
+Agent: Main Agent
+Task: Inspect deployed site, identify issues, and improve data
+
+Work Log:
+- Visited deployed site at https://mohammadfhgjvhgi.github.io/iot-portfolio/ using agent-browser
+- Took full page screenshot and analyzed page structure
+- Checked browser console for errors (none found, only SW registered)
+- Identified deployed site was OLD version (original SPA portfolio), 2 commits ahead locally
+- Found 3 critical issues on deployed site:
+  1. AnimatedCounter shows 0+ for all stats (IntersectionObserver race condition)
+  2. Security audit scores show 0/100 (same counter issue)
+  3. Site is still SPA (user wants multi-page)
+- Analyzed local code: already refactored to multi-page docs site with /docs/[slug] routes
+- Found local code was missing: ChatBot, team/projects content, had stale data references
+- Fixed AnimatedCounter: removed early return that prevented animation in React 18 strict mode
+- Added ChatBot back to SiteLayout (was removed during refactor)
+- Fixed SiteFooter: replaced direct DOM check with Zustand theme state
+- Added Team & Projects section to homepage:
+  - 2 team member cards with skills badges (Ammar, Mohammad)
+  - 4 project cards with descriptions and tech stacks
+  - Contact CTA with Telegram + WhatsApp buttons
+- Updated guide-sections.ts: removed all references to deleted portfolio/ components, updated directory tree, route map, component list, project info
+- Pushed 4 commits to GitHub
+
+Stage Summary:
+- Deployed site updated from old SPA to multi-page docs site
+- All bugs fixed: AnimatedCounter, SiteFooter theme, missing ChatBot
+- Homepage enhanced with team info, project showcase, contact CTA
+- Guide data updated to reflect actual current project structure
+- Push URL: https://github.com/mohammadfhgjvhgi/iot-portfolio
