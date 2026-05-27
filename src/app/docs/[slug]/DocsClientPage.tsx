@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Home, ChevronLeft, ChevronRight,
@@ -18,7 +19,6 @@ export default function DocsClientPage() {
   const { t, lang, isRTL } = useLang();
   const { sidebarOpen, setSidebarOpen, markSectionRead } = useGuideStore();
   const params = useParams();
-  const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
@@ -54,25 +54,18 @@ export default function DocsClientPage() {
     if (contentRef.current) contentRef.current.scrollTop = 0;
   }, [slug]);
 
-  const navigateTo = useCallback(
-    (id: string) => {
-      router.push(`/docs/${id}`);
-    },
-    [router]
-  );
-
   // Invalid slug - redirect to first section
   if (currentIndex < 0) {
     return (
       <div className="flex-1 flex items-center justify-center pt-14">
         <div className="text-center">
           <p className="text-[#7a8ba8] mb-4">{t("القسم غير موجود", "Section not found")}</p>
-          <button
-            onClick={() => router.push("/docs/overview")}
+          <Link
+            href="/docs/overview"
             className="gradient-neon text-[#0a0f1a] px-6 py-2 rounded-lg font-bold text-sm"
           >
             {t("الذهاب للنظرة العامة", "Go to Overview")}
-          </button>
+          </Link>
         </div>
       </div>
     );
@@ -113,13 +106,13 @@ export default function DocsClientPage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
           {/* Breadcrumbs */}
           <div className="flex items-center gap-2 text-xs mb-6 text-[#3d506e]">
-            <button
-              onClick={() => router.push("/")}
+            <Link
+              href="/"
               className="hover:text-[#00ff66] transition-colors flex items-center gap-1"
             >
               <Home className="h-3 w-3" />
               {t("الرئيسية", "Home")}
-            </button>
+            </Link>
             <ChevronRight className={cn("h-3 w-3", isRTL() ? "rotate-180" : "")} />
             <span className="text-[#e8edf5] truncate">
               {lang === "ar" ? currentSection.title.ar : currentSection.title.en}
@@ -166,8 +159,8 @@ export default function DocsClientPage() {
           {/* Prev / Next navigation */}
           <div className="flex items-center justify-between gap-4 mt-8 mb-4">
             {prevSection ? (
-              <button
-                onClick={() => navigateTo(prevSection.id)}
+              <Link
+                href={`/docs/${prevSection.id}`}
                 className="flex items-center gap-2 px-4 py-3 rounded-xl text-start flex-1 transition-all glass-card-dark hover:bg-[#151d33] text-[#c5cdd8] hover:text-[#e8edf5]"
               >
                 {isRTL() ? <ChevronRight className="h-4 w-4 text-[#00ff66]" /> : <ChevronLeft className="h-4 w-4 text-[#00ff66]" />}
@@ -179,11 +172,11 @@ export default function DocsClientPage() {
                     {lang === "ar" ? prevSection.title.ar : prevSection.title.en}
                   </div>
                 </div>
-              </button>
+              </Link>
             ) : <div />}
             {nextSection ? (
-              <button
-                onClick={() => navigateTo(nextSection.id)}
+              <Link
+                href={`/docs/${nextSection.id}`}
                 className="flex items-center gap-2 px-4 py-3 rounded-xl text-end flex-1 transition-all glass-card-dark hover:bg-[#151d33] text-[#c5cdd8] hover:text-[#e8edf5]"
               >
                 <div className="min-w-0 text-end">
@@ -195,7 +188,7 @@ export default function DocsClientPage() {
                   </div>
                 </div>
                 {isRTL() ? <ChevronLeft className="h-4 w-4 text-[#00ff66]" /> : <ChevronRight className="h-4 w-4 text-[#00ff66]" />}
-              </button>
+              </Link>
             ) : <div />}
           </div>
         </div>
