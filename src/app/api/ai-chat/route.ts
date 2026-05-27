@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 const NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
-const NVIDIA_API_KEY = "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";
+const NVIDIA_API_KEY = process.env.NVIDIA_API_KEY || "";
 const MODEL = "meta/llama-3.1-405b-instruct";
 
 const SYSTEM_PROMPTS = {
