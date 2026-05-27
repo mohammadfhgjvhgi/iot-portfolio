@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { guideSections } from "@/data/guide-sections";
 
+export const dynamic = "force-static";
+
 const BASE_URL = "https://mohammadfhgjvhgi.github.io/iot-portfolio";
 
 export default function sitemap(): MetadataRoute.Sitemap {
