@@ -348,14 +348,14 @@ function HomeView() {
 
   /* Stats */
   const stats = [
-    { value: 16, suffix: "", label: t("قسم", "Sections"), color: "#00ff66", icon: <BookOpen className="h-4 w-4" /> },
+    { value: 17, suffix: "", label: t("قسم", "Sections"), color: "#00ff66", icon: <BookOpen className="h-4 w-4" /> },
     { value: 4, suffix: "+", label: t("مشروع", "Projects"), color: "#00e5ff", icon: <Cpu className="h-4 w-4" /> },
     { value: 92, suffix: "/100", label: t("أمان", "Security"), color: "#00ff66", icon: <ShieldCheck className="h-4 w-4" /> },
     { value: 20, suffix: "+", label: t("مكون", "Components"), color: "#ffab00", icon: <Layers className="h-4 w-4" /> },
   ];
 
   /* Quick links */
-  const quickLinkIds = ["overview", "architecture", "technologies", "components", "security", "deployment", "troubleshooting", "quick-reference"];
+  const quickLinkIds = ["overview", "architecture", "technologies", "components", "project-info", "security", "deployment", "troubleshooting", "quick-reference"];
   const quickSections = quickLinkIds
     .map((id) => guideSections.find((s) => s.id === id))
     .filter(Boolean) as typeof guideSections;
@@ -589,6 +589,230 @@ function HomeView() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── PROJECT INFO DASHBOARD ─── */}
+      <section className={cn("py-16 sm:py-20 px-4 sm:px-6", isLight ? "bg-gray-50" : "")}>
+        <div className="mx-auto max-w-6xl">
+          <motion.div variants={fadeUp} initial="initial" whileInView="animate" viewport={{ once: true }} className="text-center mb-10 sm:mb-12">
+            <h2 className={cn("text-2xl sm:text-3xl font-bold inline-block mb-3", isLight ? "text-gray-900" : "gradient-neon-text")}>
+              {t("معلومات المشروع", "Project Information")}
+            </h2>
+            <div className="w-20 h-0.5 gradient-neon mx-auto rounded-full opacity-60" />
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+          >
+            {/* Repo Info Card */}
+            <motion.div
+              variants={fadeUp}
+              onClick={() => handleSectionClick("project-info")}
+              className={cn(
+                "group p-5 sm:p-6 rounded-xl card-hover transition-all cursor-pointer",
+                isLight
+                  ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md"
+                  : "glass-card-dark"
+              )}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", isLight ? "bg-green-50 text-green-600" : "bg-[#00ff66]/10 text-[#00ff66]")}>
+                  <Github className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className={cn("font-bold text-sm", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                    {t("معلومات المستودع", "Repository Info")}
+                  </h3>
+                  <span className={cn("text-xs", isLight ? "text-gray-400" : "text-[#3d506e]")}>GitHub</span>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>{t("الفرع", "Branch")}</span>
+                  <code className={cn("text-xs px-2 py-0.5 rounded", isLight ? "bg-gray-100 text-gray-700" : "bg-[#151d33] text-[#00e5ff]")}>main</code>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>{t("الحجم", "Size")}</span>
+                  <span className={cn("text-xs font-medium", isLight ? "text-gray-700" : "text-[#c5cdd8]")}>~20K {t("سطر", "LOC")}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>{t("الملفات", "Files")}</span>
+                  <span className={cn("text-xs font-medium", isLight ? "text-gray-700" : "text-[#c5cdd8]")}>100+</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Lighthouse Score Card */}
+            <motion.div
+              variants={fadeUp}
+              className={cn(
+                "group p-5 sm:p-6 rounded-xl card-hover transition-all",
+                isLight
+                  ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md"
+                  : "glass-card-dark"
+              )}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", isLight ? "bg-green-50 text-green-600" : "bg-[#00ff66]/10 text-[#00ff66]")}>
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className={cn("font-bold text-sm", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                    Lighthouse Score
+                  </h3>
+                  <span className={cn("text-xs", isLight ? "text-gray-400" : "text-[#3d506e]")}>{t("تقديري", "Estimated")}</span>
+                </div>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  { label: t("الأداء", "Performance"), value: 92, color: "#00ff66" },
+                  { label: t("إمكانية الوصول", "Accessibility"), value: 95, color: "#00e5ff" },
+                  { label: t("أفضل الممارسات", "Best Practices"), value: 92, color: "#ffab00" },
+                  { label: "SEO", value: 100, color: "#b44dff" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-3">
+                    <span className={cn("text-xs w-20 truncate", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>{item.label}</span>
+                    <div className={cn("flex-1 h-1.5 rounded-full overflow-hidden", isLight ? "bg-gray-100" : "bg-[#151d33]")}>
+                      <div className="h-full rounded-full transition-all" style={{ width: `${item.value}%`, backgroundColor: item.color }} />
+                    </div>
+                    <span className={cn("text-[10px] font-mono font-medium", isLight ? "text-gray-600" : "text-[#c5cdd8]")}>{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Deployment & Settings Card */}
+            <motion.div
+              variants={fadeUp}
+              onClick={() => handleSectionClick("project-info")}
+              className={cn(
+                "group p-5 sm:p-6 rounded-xl card-hover transition-all cursor-pointer",
+                isLight
+                  ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md"
+                  : "glass-card-dark"
+              )}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", isLight ? "bg-green-50 text-green-600" : "bg-[#00ff66]/10 text-[#00ff66]")}>
+                  <Rocket className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className={cn("font-bold text-sm", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                    {t("النشر والتكوين", "Deployment & Config")}
+                  </h3>
+                  <span className={cn("text-xs", isLight ? "text-gray-400" : "text-[#3d506e]")}>{t("الإعدادات الحالية", "Current Settings")}</span>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>{t("المنصة", "Platform")}</span>
+                  <span className={cn("text-xs font-medium", isLight ? "text-gray-700" : "text-[#c5cdd8]")}>GitHub Pages</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>Next.js</span>
+                  <code className={cn("text-xs px-2 py-0.5 rounded", isLight ? "bg-gray-100 text-gray-700" : "bg-[#151d33] text-[#00e5ff]")}>16.1.1</code>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>React</span>
+                  <code className={cn("text-xs px-2 py-0.5 rounded", isLight ? "bg-gray-100 text-gray-700" : "bg-[#151d33] text-[#00e5ff]")}>19.0</code>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-xs", isLight ? "text-gray-500" : "text-[#7a8ba8]")}>{t("الإخراج", "Output")}</span>
+                  <code className={cn("text-xs px-2 py-0.5 rounded", isLight ? "bg-gray-100 text-gray-700" : "bg-[#151d33] text-[#00ff66]")}>Static SSG</code>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Enabled Features Card */}
+            <motion.div
+              variants={fadeUp}
+              className={cn(
+                "group p-5 sm:p-6 rounded-xl card-hover transition-all md:col-span-2",
+                isLight
+                  ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md"
+                  : "glass-card-dark"
+              )}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", isLight ? "bg-green-50 text-green-600" : "bg-[#00ff66]/10 text-[#00ff66]")}>
+                  <Zap className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className={cn("font-bold text-sm", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                    {t("الميزات المفعّلة", "Enabled Features")}
+                  </h3>
+                  <span className={cn("text-xs", isLight ? "text-gray-400" : "text-[#3d506e]")}>14 {t("ميزة مفعّلة", "features active")}</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                {[
+                  { icon: <Globe className="h-3 w-3" />, label: t("ثنائي اللغة", "Bilingual"), color: "#00e5ff" },
+                  { icon: <Bot className="h-3 w-3" />, label: t("دردشة AI", "AI Chat"), color: "#00ff66" },
+                  { icon: <ShieldCheck className="h-3 w-3" />, label: t("تقرير أمان", "Security"), color: "#00ff66" },
+                  { icon: <BookOpen className="h-3 w-3" />, label: t("مدونة", "Blog"), color: "#ffab00" },
+                  { icon: <Database className="h-3 w-3" />, label: t("مكتبة موارد", "Resources"), color: "#00e5ff" },
+                  { icon: <Terminal className="h-3 w-3" />, label: "PWA", color: "#b44dff" },
+                  { icon: <Search className="h-3 w-3" />, label: t("بحث ⌘K", "Search ⌘K"), color: "#00ff66" },
+                  { icon: <Smartphone className="h-3 w-3" />, label: t("متجاوب", "Responsive"), color: "#ffab00" },
+                ].map((feat) => (
+                  <div key={feat.label} className={cn("flex items-center gap-2 px-3 py-2 rounded-lg", isLight ? "bg-gray-50" : "bg-[#151d33]/50")}>
+                    <span style={{ color: feat.color }}>{feat.icon}</span>
+                    <span className={cn("text-xs", isLight ? "text-gray-600" : "text-[#c5cdd8]")}>{feat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Future Roadmap Card */}
+            <motion.div
+              variants={fadeUp}
+              onClick={() => handleSectionClick("project-info")}
+              className={cn(
+                "group p-5 sm:p-6 rounded-xl card-hover transition-all cursor-pointer",
+                isLight
+                  ? "bg-white border border-gray-200 hover:border-green-300 hover:shadow-md"
+                  : "glass-card-dark"
+              )}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", isLight ? "bg-green-50 text-green-600" : "bg-[#00ff66]/10 text-[#00ff66]")}>
+                  <Map className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className={cn("font-bold text-sm", isLight ? "text-gray-900" : "text-[#e8edf5]")}>
+                    {t("خارطة الطريق", "Roadmap")}
+                  </h3>
+                  <span className={cn("text-xs", isLight ? "text-gray-400" : "text-[#3d506e]")}>{t("4 مراحل", "4 Phases")}</span>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { label: t("CI/CD + Dark Mode", "CI/CD + Dark Mode"), color: "#ff3d5a", priority: "P1" },
+                  { label: t("أداء + أمان + SEO", "Perf + Security + SEO"), color: "#ffab00", priority: "P2" },
+                  { label: t("محتوى + CMS", "Content + CMS"), color: "#00e5ff", priority: "P3" },
+                  { label: t("لوحة تحكم + لغات", "Dashboard + i18n"), color: "#b44dff", priority: "P4" },
+                ].map((phase) => (
+                  <div key={phase.priority} className="flex items-center gap-3">
+                    <span className={cn("text-[10px] font-mono font-bold px-1.5 py-0.5 rounded", isLight ? "bg-gray-100 text-gray-600" : "bg-[#151d33]")} style={{ color: phase.color }}>
+                      {phase.priority}
+                    </span>
+                    <span className={cn("text-xs flex-1 truncate", isLight ? "text-gray-600" : "text-[#c5cdd8]")}>{phase.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-center">
+                <span className={cn("flex items-center gap-1 text-xs font-medium", isLight ? "text-green-600" : "text-[#00ff66]")}>
+                  {t("عرض التفاصيل الكاملة", "View full details")}
+                  <ArrowRight className={cn("h-3 w-3 transition-transform group-hover:translate-x-1", isRTL() && "rotate-180")} />
+                </span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>

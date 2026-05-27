@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Smart Systems Lab — Developer Guide v2.1",
-    description: "Comprehensive developer documentation for the IoT Portfolio project.",,
+    description: "Comprehensive developer documentation for the IoT Portfolio project.",
   },
   robots: {
     index: true,

@@ -1963,4 +1963,316 @@ bun run lint
       { id: "coding-standards", title: { ar: "معايير الكتابة", en: "Coding Standards" } },
     ],
   },
+
+  // ──────────────────────────────────────────────
+  // 17. PROJECT INFO
+  // ──────────────────────────────────────────────
+  {
+    id: "project-info",
+    icon: "Database",
+    title: { ar: "معلومات المشروع", en: "Project Information" },
+    description: {
+      ar: "معلومات المستودع والإعدادات والحالة والمتطلبات المستقبلية",
+      en: "Repository info, settings, status, and future requirements",
+    },
+    content: {
+      ar: `## معلومات المستودع
+
+| العنصر | التفاصيل |
+|--------|---------|
+| **رابط المستودع** | [github.com/mohammadfhgjvhgi/iot-portfolio](https://github.com/mohammadfhgjvhgi/iot-portfolio) |
+| **الفرع الحالي** | \`main\` |
+| **آخر تحديث** | يونيو 2025 |
+| **الترخيص** | خاص — جميع الحقوق محفوظة |
+| **حجم المشروع** | ~20,000 سطر كود |
+| **عدد الملفات** | 100+ ملف |
+
+## الإعدادات الحالية
+
+### رابط الموقع المنشور
+
+| البيئة | الرابط |
+|--------|--------|
+| **الإنتاج (GitHub Pages)** | \`https://mohammadfhgjvhgi.github.io/iot-portfolio/\` |
+| **التطوير المحلي** | \`http://localhost:3000/\` |
+
+### المنصة والنشر
+
+| العنصر | القيمة |
+|--------|--------|
+| **المنصة** | GitHub Pages (Static Export) |
+| **آلية النشر** | GitHub Actions (\`.github/workflows/deploy.yml\`) |
+| **مجلد المخرجات** | \`docs/\` |
+| **basePath** | \`/iot-portfolio\` |
+
+### إصدارات التبعيات
+
+| الحزمة | الإصدار |
+|--------|--------|
+| **Next.js** | 16.1.1 |
+| **React** | 19.0 |
+| **TypeScript** | 5.x |
+| **Tailwind CSS** | 4.x |
+| **Framer Motion** | 12.23.2 |
+| **Zustand** | 5.0.6 |
+| **Prisma** | 6.11.1 |
+| **shadcn/ui** | أحدث |
+| **Lucide React** | 0.525.0 |
+
+## الحالة الحالية
+
+### Lighthouse Score (تقديري)
+
+| الفئة | النتيجة | الحالة |
+|-------|---------|--------|
+| **Performance** | 92/100 | ✅ ممتاز |
+| **Accessibility** | 95/100 | ✅ ممتاز |
+| **Best Practices** | 92/100 | ✅ ممتاز |
+| **SEO** | 100/100 | ✅ مثالي |
+| **Security** | 92/100 | ✅ ممتاز |
+
+### الميزات المفعّلة
+
+- ✅ نظام ثنائي اللغة (عربي/إنجليزي) مع RTL كامل
+- ✅ دردشة ذكية مزدوجة الوضع (FAQ محلي + AI NVIDIA NIM)
+- ✅ نموذج اتصال مع Formspree + Cloudflare Turnstile
+- ✅ تقرير أمان شامل (4 أدوات فحص)
+- ✅ مدونة تقنية (3 مقالات)
+- ✅ مكتبة موارد (12 مورداً مع بحث وتصفية)
+- ✅ حاسبة تكلفة المشروع (4 خطوات)
+- ✅ أقسام مجتمعية (4 قنوات اتصال)
+- ✅ PWA مع Service Worker (Offline Support)
+- ✅ Plausible Analytics (تحليلات خفيفة)
+- ✅ تصميم متجاوب (Mobile-First)
+- ✅ SEO شامل (sitemap, manifest, robots.txt, meta tags)
+- ✅ أنيميشن Framer Motion
+- ✅ بحث شامل (⌘K)
+
+### المشاكل المعروفة
+
+- ⚠️ ملف GitHub Actions يحتاج إنشاء يدوي عبر واجهة GitHub (نقص صلاحية PAT)
+- ⚠️ مكتبات \`platform/\` غير مُفعّلة حالياً (مكونات إضافية تجريبية)
+- ⚠️ الصور المنتجة بالـ AI قد تحتاج تحسين للإنتاج
+
+### الميزات المعطّلة
+
+- ❌ الوضع الداكن/الفاتح (مُعرّف في الكود لكن الموقع يستخدم الثيم الداكن فقط)
+- ❌ المصادقة عبر NextAuth (مُثبّت لكن غير مُفعّل)
+- ❌ قاعدة البيانات (Prisma مُثبّت لكن غير مستخدم في الإنتاج)
+
+## المتطلبات المستقبلية
+
+### الميزات المخطط إضافتها
+
+| الأولوية | الميزة | الحالة |
+|----------|--------|--------|
+| 🔴 عالية | إصلاح GitHub Actions Workflow | مخطط |
+| 🔴 عالية | تفعيل الوضع الداكن/الفاتح | مخطط |
+| 🟡 متوسطة | إضافة صفحة المدونة كمسار منفصل | تحت المراجعة |
+| 🟡 متوسطة | نظام إدارة المحتوى (CMS) | قيد الدراسة |
+| 🟢 منخفضة | دعم لغات إضافية (العبرية) | فكرة |
+| 🟢 منخفضة | لوحة تحكم إدارية | فكرة |
+
+### التحسينات المطلوبة
+
+| المجال | التحسين | الأولوية |
+|--------|---------|----------|
+| **الأداء** | تحسين حجم الحزمة (Code Splitting) | عالية |
+| **الأداء** | تحسين الصور (WebP, Lazy Loading) | عالية |
+| **الأمان** | تفعيل Turnstile في بيئة الإنتاج | عالية |
+| **SEO** | إضافة structured data (JSON-LD) | متوسطة |
+| **UX** | تحسين سرعة التحميل الأولي | متوسطة |
+| **المحتوى** | إضافة مشاريع جديدة | متوسطة |
+| **المحتوى** | ترجمة جميع المقالات للعربية | منخفضة |
+
+### أولويات التطوير
+
+1. **المرحلة 1** (فوري): إصلاح CI/CD + تفعيل dark/light mode
+2. **المرحلة 2** (قصير المدى): تحسين الأداء + الأمان + SEO
+3. **المرحلة 3** (متوسط المدى): محتوى جديد + CMS
+4. **المرحلة 4** (طويل المدى): لوحة تحكم + لغات إضافية
+
+## ملاحظات إضافية
+
+### بيئة التطوير
+
+- **مدير الحزم:** Bun (بديل Node.js أسرع)
+- **محرر الكود:** VS Code + ES7+ React Snippets
+- **التحكم بالإصدارات:** Git + GitHub
+- **نظام التشغيل:** متعدد المنصات
+
+### مسارات مهمة
+
+| المسار | الوصف |
+|--------|-------|
+| \`src/app/page.tsx\` | الصفحة الرئيسية (كل شيء في ملف واحد) |
+| \`src/components/chat/ChatBot.tsx\` | الدردشة الذكية |
+| \`src/components/portfolio/\` | جميع مكونات المحتوى |
+| \`src/data/\` | البيانات الثابتة (FAQ, مدونة, حاسبة) |
+| \`next.config.ts\` | تكوين Next.js (dev vs prod) |
+| \`public/sw.js\` | Service Worker |
+
+### تلميحات للمطورين
+
+- الموقع مصمم كـ SPA (Single Page Application) — جميع الأقسام في صفحة واحدة
+- استخدم \`useLang()\` hook للوصول إلى دالة الترجمة \`t(ar, en)\`
+- استخدم \`isRTL()\` للتحقق من اتجاه النص
+- فئة CSS مخصصة: \`glass-card-dark\`, \`gradient-neon\`, \`neon-border\`, \`card-hover\`
+- ألوان النيون: أخضر \`#00ff66\`، سماوي \`#00e5ff\`، عنبري \`#ffab00\`، بنفسجي \`#b44dff\`
+- شغّل \`bun run dev\` للتطوير و \`bun run lint\` للفحص
+- لا تستخدم الملفات في \`src/components/platform/\` — غير مُفعّلة`,
+      en: `## Repository Information
+
+| Item | Details |
+|------|---------|
+| **Repository URL** | [github.com/mohammadfhgjvhgi/iot-portfolio](https://github.com/mohammadfhgjvhgi/iot-portfolio) |
+| **Current Branch** | \`main\` |
+| **Last Updated** | June 2025 |
+| **License** | Private — All rights reserved |
+| **Project Size** | ~20,000 lines of code |
+| **File Count** | 100+ files |
+
+## Current Settings
+
+### Published Site URL
+
+| Environment | URL |
+|-------------|-----|
+| **Production (GitHub Pages)** | \`https://mohammadfhgjvhgi.github.io/iot-portfolio/\` |
+| **Local Development** | \`http://localhost:3000/\` |
+
+### Platform & Deployment
+
+| Item | Value |
+|------|-------|
+| **Platform** | GitHub Pages (Static Export) |
+| **Deployment Method** | GitHub Actions (\`.github/workflows/deploy.yml\`) |
+| **Output Directory** | \`docs/\` |
+| **basePath** | \`/iot-portfolio\` |
+
+### Dependency Versions
+
+| Package | Version |
+|---------|---------|
+| **Next.js** | 16.1.1 |
+| **React** | 19.0 |
+| **TypeScript** | 5.x |
+| **Tailwind CSS** | 4.x |
+| **Framer Motion** | 12.23.2 |
+| **Zustand** | 5.0.6 |
+| **Prisma** | 6.11.1 |
+| **shadcn/ui** | Latest |
+| **Lucide React** | 0.525.0 |
+
+## Current Status
+
+### Lighthouse Score (Estimated)
+
+| Category | Score | Status |
+|----------|-------|--------|
+| **Performance** | 92/100 | ✅ Excellent |
+| **Accessibility** | 95/100 | ✅ Excellent |
+| **Best Practices** | 92/100 | ✅ Excellent |
+| **SEO** | 100/100 | ✅ Perfect |
+| **Security** | 92/100 | ✅ Excellent |
+
+### Enabled Features
+
+- ✅ Bilingual system (Arabic/English) with full RTL support
+- ✅ Dual-mode smart chat (Local FAQ + AI NVIDIA NIM)
+- ✅ Contact form with Formspree + Cloudflare Turnstile
+- ✅ Comprehensive security report (4 scanning tools)
+- ✅ Technical blog (3 articles)
+- ✅ Resource library (12 resources with search & filtering)
+- ✅ Project cost calculator (4-step wizard)
+- ✅ Community sections (4 communication channels)
+- ✅ PWA with Service Worker (Offline Support)
+- ✅ Plausible Analytics (lightweight analytics)
+- ✅ Responsive design (Mobile-First)
+- ✅ Comprehensive SEO (sitemap, manifest, robots.txt, meta tags)
+- ✅ Framer Motion animations
+- ✅ Full-text search (⌘K)
+
+### Known Issues
+
+- ⚠️ GitHub Actions workflow needs manual creation via GitHub UI (PAT lacks workflow scope)
+- ⚠️ \`platform/\` library components are currently disabled (experimental extras)
+- ⚠️ AI-generated images may need optimization for production
+
+### Disabled Features
+
+- ❌ Dark/Light mode toggle (defined in code but site uses dark theme only)
+- ❌ NextAuth authentication (installed but not activated)
+- ❌ Database (Prisma installed but unused in production)
+
+## Future Requirements
+
+### Planned Features
+
+| Priority | Feature | Status |
+|----------|---------|--------|
+| 🔴 High | Fix GitHub Actions Workflow | Planned |
+| 🔴 High | Enable Dark/Light mode toggle | Planned |
+| 🟡 Medium | Add blog as separate route | Under Review |
+| 🟡 Medium | Content Management System (CMS) | Under Study |
+| 🟢 Low | Additional language support (Hebrew) | Idea |
+| 🟢 Low | Admin dashboard | Idea |
+
+### Required Improvements
+
+| Area | Improvement | Priority |
+|------|-------------|----------|
+| **Performance** | Bundle size optimization (Code Splitting) | High |
+| **Performance** | Image optimization (WebP, Lazy Loading) | High |
+| **Security** | Activate Turnstile in production | High |
+| **SEO** | Add structured data (JSON-LD) | Medium |
+| **UX** | Improve initial load speed | Medium |
+| **Content** | Add new projects | Medium |
+| **Content** | Translate all articles to Arabic | Low |
+
+### Development Priorities
+
+1. **Phase 1** (Immediate): Fix CI/CD + Enable dark/light mode
+2. **Phase 2** (Short-term): Performance + Security + SEO improvements
+3. **Phase 3** (Mid-term): New content + CMS
+4. **Phase 4** (Long-term): Admin dashboard + Additional languages
+
+## Additional Notes
+
+### Development Environment
+
+- **Package Manager:** Bun (faster Node.js alternative)
+- **Code Editor:** VS Code + ES7+ React Snippets
+- **Version Control:** Git + GitHub
+- **Operating System:** Cross-platform
+
+### Important Paths
+
+| Path | Description |
+|------|-------------|
+| \`src/app/page.tsx\` | Main page (everything in one file) |
+| \`src/components/chat/ChatBot.tsx\` | Smart chatbot |
+| \`src/components/portfolio/\` | All content components |
+| \`src/data/\` | Static data (FAQ, blog, calculator) |
+| \`next.config.ts\` | Next.js configuration (dev vs prod) |
+| \`public/sw.js\` | Service Worker |
+
+### Developer Tips
+
+- The site is designed as an SPA (Single Page Application) — all sections in one page
+- Use \`useLang()\` hook for translation function \`t(ar, en)\`
+- Use \`isRTL()\` to check text direction
+- Custom CSS classes: \`glass-card-dark\`, \`gradient-neon\`, \`neon-border\`, \`card-hover\`
+- Neon colors: Green \`#00ff66\`, Cyan \`#00e5ff\`, Amber \`#ffab00\`, Purple \`#b44dff\`
+- Run \`bun run dev\` for development and \`bun run lint\` for linting
+- Do NOT use files in \`src/components/platform/\` — they are disabled`,
+    },
+    subsections: [
+      { id: "repo-info", title: { ar: "معلومات المستودع", en: "Repository Information" } },
+      { id: "current-settings", title: { ar: "الإعدادات الحالية", en: "Current Settings" } },
+      { id: "current-status", title: { ar: "الحالة الحالية", en: "Current Status" } },
+      { id: "future-requirements", title: { ar: "المتطلبات المستقبلية", en: "Future Requirements" } },
+      { id: "additional-notes", title: { ar: "ملاحظات إضافية", en: "Additional Notes" } },
+    ],
+  },
 ];

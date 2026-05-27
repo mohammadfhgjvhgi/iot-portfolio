@@ -611,3 +611,52 @@ Stage Summary:
 - Files modified: src/app/page.tsx, src/app/layout.tsx
 - Lint: 0 errors, 0 warnings
 - Dev server: GET / 200 OK
+---
+Task ID: 6
+Agent: fullstack-developer
+Task: Add project-info section to guide-sections.ts
+
+Work Log:
+- Read existing guide-sections.ts format (16 sections)
+- Added new "project-info" section with 5 subsections
+- Comprehensive bilingual content covering: repository info, settings, status, future requirements, additional notes
+- Includes: Lighthouse scores, enabled/disabled features, known issues, dependency versions, dev priorities
+- TypeScript compilation verified clean (tsc --noEmit)
+- Pre-existing lint error in layout.tsx:37 unrelated to this change
+
+Stage Summary:
+- New section id: "project-info" with icon "Database"
+- Total sections: 17 (was 16)
+- Content: ~200 lines of bilingual markdown per language
+- Lint: pre-existing error in layout.tsx unrelated; guide-sections.ts compiles clean
+
+---
+Task ID: 7
+Agent: Main Agent
+Task: Add Project Information section + Dashboard to Developer Guide
+
+Work Log:
+- Added new "project-info" section to guide-sections.ts (17th section) with 5 bilingual subsections:
+  1. Repository Information (GitHub URL, branch, license, size)
+  2. Current Settings (deployment platform, URLs, dependency versions)
+  3. Current Status (Lighthouse scores, 14 enabled features, 3 known issues, 3 disabled features)
+  4. Future Requirements (6 planned features, 7 improvements, 4 development phases)
+  5. Additional Notes (dev environment, file paths, developer tips)
+- Updated page.tsx Home View:
+  - Added "project-info" to quick links (9 total)
+  - Updated section count from 16 to 17
+  - Added comprehensive "Project Info Dashboard" section with 5 cards:
+    * Repository Info Card (branch, size, file count)
+    * Lighthouse Score Card (4 progress bars: Perf 92, A11y 95, BP 92, SEO 100)
+    * Deployment & Config Card (platform, Next.js 16.1.1, React 19.0, Static SSG)
+    * Enabled Features Card (8 feature badges in grid: Bilingual, AI Chat, Security, Blog, Resources, PWA, Search, Responsive)
+    * Roadmap Card (4 phases: P1 CI/CD+Dark, P2 Perf+Sec+SEO, P3 Content+CMS, P4 Dashboard+i18n)
+- Fixed layout.tsx lint error (double comma on line 37 in twitter metadata)
+
+Stage Summary:
+- New guide section: "project-info" with comprehensive bilingual content
+- Home View enhanced with interactive Project Info Dashboard (5 cards, 3 columns)
+- All cards use consistent glass-card-dark styling with neon accents
+- Clickable cards navigate to the full "project-info" docs section
+- Lint: 0 errors, 0 warnings
+- Dev server: HTTP 200
