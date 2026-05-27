@@ -1,4 +1,4 @@
 1:"$Sreact.fragment"
 2:I[39756,["/iot-portfolio/_next/static/chunks/8cdc26d06f6e45d9.js","/iot-portfolio/_next/static/chunks/e8536ba091ecccbb.js","/iot-portfolio/_next/static/chunks/0bd6498bda341889.js","/iot-portfolio/_next/static/chunks/4a8b002535dcfb98.js","/iot-portfolio/_next/static/chunks/d225e33a0b543e75.js","/iot-portfolio/_next/static/chunks/3cc93f5c20072dd4.js"],"default"]
 3:I[37457,["/iot-portfolio/_next/static/chunks/8cdc26d06f6e45d9.js","/iot-portfolio/_next/static/chunks/e8536ba091ecccbb.js","/iot-portfolio/_next/static/chunks/0bd6498bda341889.js","/iot-portfolio/_next/static/chunks/4a8b002535dcfb98.js","/iot-portfolio/_next/static/chunks/d225e33a0b543e75.js","/iot-portfolio/_next/static/chunks/3cc93f5c20072dd4.js"],"default"]
-0:{"buildId":"d0QTJdEvr8SSZtJFdg5so","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"Uu2XibBr0fd5ERk0W-Ddm","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
