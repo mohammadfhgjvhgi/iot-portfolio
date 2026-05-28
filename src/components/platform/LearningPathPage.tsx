@@ -471,9 +471,13 @@ const quizData: Record<string, QuizQ[]> = {
    Component
    ═══════════════════════════════════════════ */
 export default function LearningPathPage() {
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState<string | null>("m1");
   const [codeKey, setCodeKey] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => { setMounted(true); setCurrentUrl(window.location.href); }, []);
 
   /* ─── Quiz State ─── */
   const QUIZ_KEY = "mashari3_quiz_scores";
@@ -716,15 +720,17 @@ export default function LearningPathPage() {
 
                           {/* Share bar */}
                           <div className="flex items-center gap-1 mb-2">
-                            <button onClick={() => { navigator.clipboard.writeText(window.location.href); toast.success("تم نسخ الرابط!"); }} className="p-1 rounded text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors" title="نسخ الرابط">
+                            <button onClick={() => { if (navigator.clipboard && currentUrl) { navigator.clipboard.writeText(currentUrl); toast.success("تم نسخ الرابط!"); } }} className="p-1 rounded text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors" title="نسخ الرابط">
                               <Copy className="h-3 w-3" />
                             </button>
-                            <a href={`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(l.title + " — مشاريع إلكترونية")}`} target="_blank" rel="noopener noreferrer" className="p-1 rounded text-muted-foreground hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors" title="مشاركة على تليجرام">
+                            {mounted && currentUrl && <>
+                            <a href={`https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(l.title + " — مشاريع إلكترونية")}`} target="_blank" rel="noopener noreferrer" className="p-1 rounded text-muted-foreground hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors" title="مشاركة على تليجرام">
                               <Send className="h-3 w-3" />
                             </a>
-                            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" className="p-1 rounded text-muted-foreground hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors" title="مشاركة على فيسبوك">
+                            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`} target="_blank" rel="noopener noreferrer" className="p-1 rounded text-muted-foreground hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors" title="مشاركة على فيسبوك">
                               <Facebook className="h-3 w-3" />
                             </a>
+                            </>}
                           </div>
 
                           {/* Title & Description */}

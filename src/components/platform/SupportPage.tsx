@@ -165,19 +165,25 @@ export default function SupportPage() {
   const handleContactSubmit = async () => {
     if (!contactName || !contactEmail || !contactMessage) return;
     try {
-      await fetch("/api/contact", {
+      const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID || "xwpkvydl";
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           name: contactName,
           email: contactEmail,
           message: contactMessage,
+          _subject: `رسالة من المنصة التعليمية - ${contactName}`,
         }),
       });
-      setContactName("");
-      setContactEmail("");
-      setContactMessage("");
-      toast.success("تم إرسال رسالتك بنجاح! سنرد عليك في أقرب وقت.");
+      if (res.ok) {
+        setContactName("");
+        setContactEmail("");
+        setContactMessage("");
+        toast.success("تم إرسال رسالتك بنجاح! سنرد عليك في أقرب وقت.");
+      } else {
+        toast.error("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+      }
     } catch {
       toast.error("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
     }

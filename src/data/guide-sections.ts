@@ -253,10 +253,6 @@ iot-portfolio/
 | الرئيسية (الدليل) | \`/\` | \`src/app/page.tsx\` |
 | صفحة الوثائق | \`/docs/[slug]\` | \`src/app/docs/[slug]/page.tsx\` |
 | صفحة 404 | \`/404\` | \`src/app/not-found.tsx\` |
-| API - اتصال | \`/api/contact\` | \`src/app/api/contact/route.ts\` |
-| API - دردشة AI | \`/api/ai-chat\` | \`src/app/api/ai-chat/route.ts\` |
-| API - بحث | \`/api/search\` | \`src/app/api/search/route.ts\` |
-| API - نشرة | \`/api/newsletter\` | \`src/app/api/newsletter/route.ts\` |
 
 صفحات الدليل تُولّد تلقائياً عبر \`generateStaticParams\` من \`guideSections\` (17 صفحة).`,
       en: `## Directory Structure
@@ -394,10 +390,6 @@ The site uses Next.js App Router with multiple routes:
 | Home (Guide Landing) | \`/\` | \`src/app/page.tsx\` |
 | Docs Page | \`/docs/[slug]\` | \`src/app/docs/[slug]/page.tsx\` |
 | 404 Page | \`/404\` | \`src/app/not-found.tsx\` |
-| API - Contact | \`/api/contact\` | \`src/app/api/contact/route.ts\` |
-| API - AI Chat | \`/api/ai-chat\` | \`src/app/api/ai-chat/route.ts\` |
-| API - Search | \`/api/search\` | \`src/app/api/search/route.ts\` |
-| API - Newsletter | \`/api/newsletter\` | \`src/app/api/newsletter/route.ts\` |
 
 Guide pages are auto-generated via \`generateStaticParams\` from \`guideSections\` (17 pages).`,
     },

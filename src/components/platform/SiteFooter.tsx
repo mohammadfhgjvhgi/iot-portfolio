@@ -72,12 +72,16 @@ export default function SiteFooter({ onTabChange }: Props) {
               const em = f.get("email");
               if (em) {
                 try {
-                  const res = await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: String(em) }) });
-                  const data = await res.json();
+                  const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID || "xwpkvydl";
+                  const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", Accept: "application/json" },
+                    body: JSON.stringify({ email: String(em), _subject: "اشتراك جديد في النشرة البريدية" }),
+                  });
                   if (res.ok) {
                     toast.success("تم الاشتراك بنجاح!");
                   } else {
-                    toast.error(data.error || "حدث خطأ أثناء الاشتراك");
+                    toast.error("حدث خطأ أثناء الاشتراك");
                   }
                 } catch {
                   toast.error("حدث خطأ أثناء الاشتراك");

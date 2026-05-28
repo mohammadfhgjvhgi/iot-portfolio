@@ -458,10 +458,14 @@ const diffs = ["الكل", "مبتدئ", "متوسط", "متقدم"] as const;
 const boardOpts = ["الكل", "Arduino Uno", "ESP32"] as const;
 
 export default function ProjectsPage() {
+  const [mounted, setMounted] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
   const [diff, setDiff] = useState<string>("الكل");
   const [board, setBoard] = useState<string>("الكل");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  useEffect(() => { setMounted(true); setCurrentUrl(window.location.href); }, []);
 
   /* ─── Bookmarks State ─── */
   const BOOKMARKS_KEY = "mashari3_bookmarks";
@@ -549,15 +553,17 @@ export default function ProjectsPage() {
                         <button onClick={(e) => { e.stopPropagation(); toggleBookmark(`proj-${i}`); }} className={`p-1 rounded transition-colors ${bookmarks.includes(`proj-${i}`) ? "text-emerald-600 bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400" : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"}`} title={bookmarks.includes(`proj-${i}`) ? "إزالة المفضلة" : "إضافة للمفضلة"}>
                           <Bookmark className={`h-3 w-3 ${bookmarks.includes(`proj-${i}`) ? "fill-current" : ""}`} />
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(window.location.href); toast.success("تم نسخ الرابط!"); }} className="p-1 rounded text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors" title="نسخ الرابط">
+                        <button onClick={(e) => { e.stopPropagation(); if (navigator.clipboard && currentUrl) { navigator.clipboard.writeText(currentUrl); toast.success("تم نسخ الرابط!"); } }} className="p-1 rounded text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors" title="نسخ الرابط">
                           <Copy className="h-3 w-3" />
                         </button>
-                        <a href={`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(p.title + " — مشاريع إلكترونية")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1 rounded text-muted-foreground hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors" title="مشاركة على تليجرام">
+                        {mounted && currentUrl && <>
+                        <a href={`https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(p.title + " — مشاريع إلكترونية")}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1 rounded text-muted-foreground hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors" title="مشاركة على تليجرام">
                           <Send className="h-3 w-3" />
                         </a>
-                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1 rounded text-muted-foreground hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors" title="مشاركة على فيسبوك">
+                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="p-1 rounded text-muted-foreground hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors" title="مشاركة على فيسبوك">
                           <Facebook className="h-3 w-3" />
                         </a>
+                        </>}
                       </div>
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <h3 className="font-bold text-sm">{p.title}</h3>
