@@ -140,7 +140,8 @@ function Navbar({ activeSection }: { activeSection: string }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navItems = [
+  // Section links (scroll to sections within the page)
+  const sectionItems = [
     { id: "hero", label: t("الرئيسية", "Home") },
     { id: "start-here", label: t("ابدأ من هنا", "Start Here") },
     { id: "team", label: t("الفريق", "Team") },
@@ -150,6 +151,12 @@ function Navbar({ activeSection }: { activeSection: string }) {
     { id: "groups", label: t("المجتمعات", "Community") },
     { id: "faq", label: t("الأسئلة", "FAQ") },
     { id: "contact", label: t("تواصل", "Contact") },
+  ];
+
+  // External page links
+  const pageItems = [
+    { href: "/platform/", label: t("المنصة التعليمية", "Platform"), icon: <BookOpen className="h-3.5 w-3.5" /> },
+    { href: "/docs/overview/", label: t("دليل المطور", "Dev Guide"), icon: <FileText className="h-3.5 w-3.5" /> },
   ];
 
   const scrollTo = (id: string) => {
@@ -175,7 +182,7 @@ function Navbar({ activeSection }: { activeSection: string }) {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
+            {sectionItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
@@ -187,6 +194,18 @@ function Navbar({ activeSection }: { activeSection: string }) {
               >
                 {item.label}
               </button>
+            ))}
+            {/* Divider + Page Links */}
+            <div className="w-px h-5 bg-[#1e2d4d] mx-1" />
+            {pageItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-[#7a8ba8] hover:text-[#00ff66] hover:bg-white/5 transition-all flex items-center gap-1"
+              >
+                {item.icon}
+                {item.label}
+              </a>
             ))}
           </div>
 
@@ -223,7 +242,7 @@ function Navbar({ activeSection }: { activeSection: string }) {
             className="lg:hidden glass-dark border-t border-[#1e2d4d] overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1 max-h-[60vh] overflow-y-auto">
-              {navItems.map((item) => (
+              {sectionItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollTo(item.id)}
@@ -235,6 +254,19 @@ function Navbar({ activeSection }: { activeSection: string }) {
                 >
                   {item.label}
                 </button>
+              ))}
+              {/* Page links divider */}
+              <div className="h-px bg-[#1e2d4d] my-2" />
+              {pageItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2 w-full text-right px-3 py-2.5 rounded-lg text-sm font-medium text-[#7a8ba8] hover:text-[#00ff66] hover:bg-white/5 transition-all"
+                >
+                  {item.icon}
+                  {item.label}
+                </a>
               ))}
             </div>
           </motion.div>

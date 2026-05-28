@@ -81,3 +81,5 @@ restart-dev.sh
 # Docs build output (rebuilt by GitHub Actions)
 # Keep docs/ tracked for initial deployment, but ignore build artifacts
 # docs/ is NOT ignored because GitHub Pages needs it
+docs/_next/
+docs/dev/
