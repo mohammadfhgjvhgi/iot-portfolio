@@ -942,3 +942,27 @@ Stage Summary:
 - Prev/next navigation fixed using Link components
 - All features verified working on live site
 - Files modified: src/app/sitemap.ts, src/app/docs/[slug]/DocsClientPage.tsx, src/app/api/ (deleted)
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Create /platform/ routing structure and unified navigation
+
+Work Log:
+- Read and analyzed entire project structure and existing codebase
+- Created `/platform/layout.tsx` (server component with metadata)
+- Created `/platform/PlatformLayoutClient.tsx` (~650 lines) with header, sidebar, breadcrumbs, mobile sheet
+- Created 9 platform route pages: page, learning, projects, sensors, environments, starter-kits, calculator, support, about
+- Updated `SiteLayout.tsx` to conditionally hide header/footer for /platform/* and /docs/*
+- Rewrote `SiteHeader.tsx` with unified navigation (Home, Platform dropdown, Docs dropdown, mobile menu)
+- Rewrote `SiteFooter.tsx` with platform links, docs links, and external links
+- Updated homepage `Navbar` to include links to /platform/ and /docs/
+- Added `.gitignore` entries for docs build artifacts
+- Resolved git merge conflicts with remote
+- Force pushed to GitHub
+
+Stage Summary:
+- Platform routing structure fully operational (9 routes)
+- Unified navigation across all 3 sections (Home, Platform, Docs)
+- Each section has its own layout (homepage has built-in navbar, platform has sidebar, docs has sidebar)
+- All navigation includes bilingual support (ar/en) and dark/light theme
